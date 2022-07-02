@@ -1,0 +1,17 @@
+{
+  "title": "Товари",
+  "error": {
+    "empty": "Порожньо"
+  },
+  "placeholder": {
+    "title": "Назва"
+  },
+  "properties": {
+    "title": "Назва",
+    "brand": "Бренд",
+    "name": "Модель",
+    "type": "Тип",
+    "price": "Ціна",
+    "description": "Опис"
+  }
+}

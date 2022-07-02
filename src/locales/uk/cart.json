@@ -1,0 +1,8 @@
+{
+  "title": "Кошик",
+  "checkout": "Замовити",
+  "totalPrice": "Сума",
+  "placeholder": {
+    "empty": "Кошик порожній :-("
+  }
+}

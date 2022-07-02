@@ -1,0 +1,8 @@
+{
+  "title": "Cart",
+  "checkout": "Checkout",
+  "totalPrice": "Total",
+  "placeholder": {
+    "empty": "There is no items in your cart,\nyou should correct this ;)"
+  }
+}

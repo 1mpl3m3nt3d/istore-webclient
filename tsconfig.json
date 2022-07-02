@@ -1,0 +1,53 @@
+{
+  "compilerOptions": {
+    "target": "esnext",
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "noFallthroughCasesInSwitch": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "jsx": "react-jsx",
+    "incremental": true,
+    "alwaysStrict": true,
+    "baseUrl": "src",
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "types": [
+      "@testing-library/cypress",
+      "@testing-library/jest-dom",
+      "cypress",
+      "jest",
+      "node",
+      "react",
+      "reflect-metadata"
+    ],
+    "plugins": [
+      {
+        "name": "typescript-plugin-css-modules"
+      }
+    ]
+  },
+  "include": [
+    "**/react-app-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx"
+  ],
+  "exclude": [
+    "./.yarn",
+    "./cypress",
+    "./cypress.config.ts",
+    "./node_modules"
+  ]
+}

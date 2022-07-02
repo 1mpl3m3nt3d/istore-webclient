@@ -1,0 +1,95 @@
+{
+  "defaultSeverity": "warning",
+  "ignoreDisables": false,
+  "reportDescriptionlessDisables": true,
+  "reportInvalidScopeDisables": true,
+  "reportNeedlessDisables": true,
+  "ignoreFiles": [
+    "**/*.esproj"
+  ],
+  "ignorePaths": [
+    "**/build",
+    "**/builds",
+    "**/node_modules",
+    "**/.yarn"
+  ],
+  "extends": [
+    "stylelint-config-sass-guidelines",
+    "stylelint-config-html",
+    "stylelint-config-recommended",
+    "stylelint-config-standard",
+    "stylelint-config-recommended-scss",
+    "stylelint-config-standard-scss",
+    "stylelint-config-xo",
+    "stylelint-config-xo-scss",
+    "stylelint-config-xo-space",
+    "stylelint-config-prettier",
+    "stylelint-config-prettier-scss",
+    "stylelint-prettier/recommended"
+  ],
+  "plugins": [
+    "stylelint-csstree-validator",
+    "stylelint-order",
+    "stylelint-scss",
+    "stylelint-prettier"
+  ],
+  "rules": {
+    "alpha-value-notation": "number",
+    "csstree/validator": true,
+    "indentation": 4,
+    "string-quotes": "single",
+    "prettier/prettier": true
+  },
+  "overrides": [
+    {
+      "files": [
+        "*.html",
+        "**/*.html"
+      ],
+      "customSyntax": "postcss-html"
+    },
+    {
+      "files": [
+        "*.less",
+        "**/*.less"
+      ],
+      "customSyntax": "postcss-less"
+    },
+    {
+      "files": [
+        "*.md",
+        "**/*.md"
+      ],
+      "customSyntax": "postcss-markdown"
+    },
+    {
+      "files": [
+        "*.sass",
+        "**/*.sass"
+      ],
+      "customSyntax": "postcss-sass"
+    },
+    {
+      "files": [
+        "*.scss",
+        "**/*.scss"
+      ],
+      "customSyntax": "postcss-scss"
+    },
+    {
+      "files": [
+        "**/components/**/*.css",
+        "**/containers/**/*.css",
+        "**/pages/**/*.css",
+        "**/stores/**/*.css"
+      ],
+      "rules": {
+        "alpha-value-notation": "number",
+        "csstree/validator": true,
+        "indentation": 4,
+        "string-quotes": "single",
+        "prettier/prettier": true
+      }
+    }
+  ]
+}

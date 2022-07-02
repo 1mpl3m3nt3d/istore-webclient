@@ -1,0 +1,16 @@
+**/.chrome/
+**/.git/
+**/.npm/
+**/.vs/
+**/.vs-debug/
+**/.vs-test/
+**/.vscode/
+**/.yarn/
+**/build/
+**/builds/
+**/dist/
+**/lib/
+**/libs/
+**/node_modules/
+**/package-lock.json
+**/yarn.lock

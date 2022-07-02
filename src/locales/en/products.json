@@ -1,0 +1,17 @@
+{
+  "title": "Products",
+  "error": {
+    "empty": "Empty"
+  },
+  "placeholder": {
+    "title": "Title"
+  },
+  "properties": {
+    "title": "Title",
+    "brand": "Brand",
+    "name": "Model",
+    "type": "Type",
+    "price": "Price",
+    "description": "Description"
+  }
+}

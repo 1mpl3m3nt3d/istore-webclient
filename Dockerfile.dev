@@ -1,0 +1,20 @@
+FROM node:alpine AS development
+ENV NODE_ENV production
+WORKDIR /app
+COPY package.json .
+RUN corepack enable
+RUN yarn set version berry
+RUN yarn config set --home enableTelemetry false
+RUN yarn config set enableTelemetry false
+RUN yarn config set nodeLinker pnp
+RUN yarn config set pnpMode strict
+RUN yarn plugin import typescript
+RUN yarn plugin import interactive-tools
+RUN yarn install
+RUN yarn up
+RUN yarn dlx @yarnpkg/sdks vscode
+RUN yarn
+COPY . .
+CMD [ "yarn", "start" ]
+
+LABEL "project"="iStore_Web.Client"
