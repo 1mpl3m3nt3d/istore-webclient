@@ -1,5 +1,4 @@
 import 'reflect-metadata';
-import '../../locales/config';
 
 import React, { ChangeEvent, useEffect } from 'react';
 

@@ -1,22 +1,24 @@
-import * as React from 'react';
-import CssBaseline from '@mui/material/CssBaseline';
+/* eslint-disable i18next/no-literal-string */
+
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
 import Container from '@mui/material/Container';
-import Toolbar from '@mui/material/Toolbar';
+import CssBaseline from '@mui/material/CssBaseline';
+import Link from '@mui/material/Link';
 import Paper from '@mui/material/Paper';
-import Stepper from '@mui/material/Stepper';
 import Step from '@mui/material/Step';
 import StepLabel from '@mui/material/StepLabel';
-import Button from '@mui/material/Button';
-import Link from '@mui/material/Link';
-import Typography from '@mui/material/Typography';
+import Stepper from '@mui/material/Stepper';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import Toolbar from '@mui/material/Toolbar';
+import Typography from '@mui/material/Typography';
+import * as React from 'react';
 import AddressForm from './AddressForm';
 import PaymentForm from './PaymentForm';
 import Review from './Review';
 
-function Copyright() {
+function Copyright(): JSX.Element {
   return (
     <Typography variant="body2" color="text.secondary" align="center">
       {'Copyright © '}
@@ -31,7 +33,7 @@ function Copyright() {
 
 const steps = ['Shipping address', 'Payment details', 'Review your order'];
 
-function getStepContent(step: number) {
+function getStepContent(step: number): JSX.Element {
   switch (step) {
     case 0:
       return <AddressForm />;
@@ -46,14 +48,14 @@ function getStepContent(step: number) {
 
 const theme = createTheme();
 
-export default function Checkout() {
+export default function Checkout(): JSX.Element {
   const [activeStep, setActiveStep] = React.useState(0);
 
-  const handleNext = () => {
+  const handleNext = (): void => {
     setActiveStep(activeStep + 1);
   };
 
-  const handleBack = () => {
+  const handleBack = (): void => {
     setActiveStep(activeStep - 1);
   };
 
@@ -76,7 +78,10 @@ export default function Checkout() {
         </Toolbar>
       </AppBar>
       <Container component="main" maxWidth="sm" sx={{ mb: 4 }}>
-        <Paper variant="outlined" sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>
+        <Paper
+          variant="outlined"
+          sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}
+        >
           <Typography component="h1" variant="h4" align="center">
             Checkout
           </Typography>

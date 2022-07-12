@@ -1,10 +1,7 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 
-import { Box } from '@mui/material';
-
-import { IoCTypes, useInjection } from '../../ioc';
-import { AuthStore } from '../../stores';
-import { LoadingSpinner } from '../LoadingSpinner';
+import { IoCTypes, useInjection } from 'ioc';
+import { AuthStore } from 'stores';
 
 function SigninSilentCallback(): JSX.Element {
   const authStore = useInjection<AuthStore>(IoCTypes.authStore);
@@ -19,11 +16,7 @@ function SigninSilentCallback(): JSX.Element {
     });
   }, [authStore]);
 
-  return (
-    <Box className="absoluteCentered">
-      <LoadingSpinner />
-    </Box>
-  );
+  return <></>;
 }
 
 export default SigninSilentCallback;

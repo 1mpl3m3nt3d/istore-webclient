@@ -1,11 +1,13 @@
-import * as React from 'react';
-import Typography from '@mui/material/Typography';
+/* eslint-disable i18next/no-literal-string */
+
+import Checkbox from '@mui/material/Checkbox';
+import FormControlLabel from '@mui/material/FormControlLabel';
 import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
+import Typography from '@mui/material/Typography';
+import * as React from 'react';
 
-export default function PaymentForm() {
+export default function PaymentForm(): JSX.Element {
   return (
     <React.Fragment>
       <Typography variant="h6" gutterBottom>

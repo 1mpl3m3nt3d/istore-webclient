@@ -1,5 +1,4 @@
 import 'reflect-metadata';
-import '../locales/config';
 
 import React, { Suspense } from 'react';
 
@@ -9,26 +8,32 @@ import { AuthorizedOutlet } from 'routes';
 
 import { Box } from '@mui/material';
 
-import { LoadingSpinner } from '../components/LoadingSpinner';
+import { LoadingSpinner } from 'components/LoadingSpinner';
 import {
   SigninRedirect,
   SigninRedirectCallback,
   SigninSilentCallback,
   SignoutRedirect,
   SignoutRedirectCallback,
-} from '../components/OidcAuthorization';
-import { Layout } from '../containers/Layout';
+} from 'components/OidcAuthorization';
+import { Layout } from 'containers/Layout';
 
-const Cart = React.lazy(async () => import('../containers/Cart/Cart'));
-const Product = React.lazy(async () => import('../containers/Product/Product'));
-const Products = React.lazy(
-  async () => import('../containers/Products/Products')
-);
+const Cart = React.lazy(async () => import('containers/Cart/Cart'));
+const Product = React.lazy(async () => import('containers/Product/Product'));
+const Products = React.lazy(async () => import('containers/Products/Products'));
 
 const AppRoutes = observer(() => (
   <Suspense
     fallback={
-      <Box className="absoluteCentered">
+      <Box
+        sx={{
+          position: 'absolute',
+          top: '50%',
+          left: '50%',
+          marginRight: '-50%',
+          transform: 'translate(-50%, -50%)',
+        }}
+      >
         <LoadingSpinner />
       </Box>
     }

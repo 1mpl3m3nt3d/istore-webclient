@@ -7,9 +7,9 @@ import type {
   PaginatedItemsRequest,
   PaginatedItemsResponse,
   ProductDto,
-} from '../dtos';
-import { IoCTypes } from '../ioc';
-import type { Product } from '../models';
+} from 'dtos';
+import { IoCTypes } from 'ioc';
+import type { Product } from 'models';
 import type { HttpService } from './HttpService';
 import { ContentType, MethodType } from './HttpService';
 

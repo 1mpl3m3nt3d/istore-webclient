@@ -1,7 +1,4 @@
 import 'reflect-metadata';
-import '../../locales/config';
-
-import React from 'react';
 
 import { observer } from 'mobx-react';
 import { useTranslation } from 'react-i18next';
@@ -9,10 +6,14 @@ import { useNavigate } from 'react-router-dom';
 
 import { Button, Stack } from '@mui/material';
 
-import { IoCTypes, useInjection } from '../../ioc';
-import { CartStore } from '../../stores';
+import { IoCTypes, useInjection } from 'ioc';
+import { CartStore } from 'stores';
 
-const CheckoutButton = observer(() => {
+interface Properties {
+  totalPrice: number;
+}
+
+const CheckoutButton = observer((properties: Properties) => {
   const cartStore = useInjection<CartStore>(IoCTypes.cartStore);
   const navigate = useNavigate();
   const { t } = useTranslation(['cart']);
@@ -26,7 +27,8 @@ const CheckoutButton = observer(() => {
           navigate('/products', { replace: false });
         }}
       >
-        {t('checkout')}
+        {`${t('checkout')} • ${properties.totalPrice}
+        ${t('currency', { ns: 'consts' })}`}
       </Button>
     </Stack>
   );

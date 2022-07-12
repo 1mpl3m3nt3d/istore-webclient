@@ -1,41 +1,66 @@
-import 'reflect-metadata';
-import '../../locales/config';
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
 
-import React from 'react';
+import 'reflect-metadata';
 
 import { observer } from 'mobx-react';
 
-import { Paper, Stack } from '@mui/material';
+import { Link, Paper, Stack, Typography } from '@mui/material';
+import { LanguageChangerButton } from 'components/LanguageChangerButton';
+import { ThemeChangerButton } from 'components/ThemeChangerButton';
 
-import { LanguageChangerButton } from '../LanguageChangerButton';
+const Copyright = (): JSX.Element => {
+  return (
+    <Typography variant="body2" color="text.secondary">
+      {'Copyright © '}
+      <Link color="inherit" href={process.env.PUBLIC_URL}>
+        {document.title}
+      </Link>{' '}
+      {new Date().getFullYear()}
+      {'.'}
+    </Typography>
+  );
+};
 
 const Footer = observer(() => {
   return (
-    <>
-      <Paper
-        sx={{
-          display: 'grid',
-          height: 'inherit',
-          justifyContent: 'center',
-          justifyItems: 'center',
-          alignContent: 'center',
-          alignItems: 'center',
-        }}
-      >
+    <Paper
+      elevation={1}
+      sx={{
+        borderRadius: '0px',
+        display: 'grid',
+        justifyContent: 'center',
+        justifyItems: 'center',
+        alignContent: 'center',
+        alignItems: 'center',
+        py: 1,
+        px: 1,
+        mt: 'auto',
+      }}
+    >
+      <Stack direction="column">
         <Stack
           direction="row"
           spacing={{ xs: 1, sm: 2, md: 4 }}
           justifyContent="center"
           justifyItems="center"
-          justifySelf="center"
           alignContent="center"
           alignItems="center"
-          alignSelf="center"
         >
-          <LanguageChangerButton height={45} width={145} />
+          <LanguageChangerButton height={40} width={40} borderRadius={90} />
+          <ThemeChangerButton />
         </Stack>
-      </Paper>
-    </>
+        <Stack
+          mt={1}
+          spacing={{ xs: 1, sm: 2, md: 4 }}
+          justifyContent="center"
+          justifyItems="center"
+          alignContent="center"
+          alignItems="center"
+        >
+          <Copyright />
+        </Stack>
+      </Stack>
+    </Paper>
   );
 });
 

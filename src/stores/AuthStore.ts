@@ -2,17 +2,17 @@ import 'reflect-metadata';
 
 import { inject, injectable } from 'inversify';
 import { makeAutoObservable } from 'mobx';
-import { User } from 'oidc-client';
+import { User } from 'oidc-client-ts';
 
-import { IoCTypes } from '../ioc';
-import type { AuthenticationService } from '../services/AuthenticationService';
+import { IoCTypes } from 'ioc';
+import type { AuthenticationService } from 'services/AuthenticationService';
 
 @injectable()
 export default class AuthStore {
   @inject(IoCTypes.authenticationService)
   private readonly authenticationService!: AuthenticationService;
 
-  user: User | undefined = undefined;
+  user: User | null = null;
 
   constructor() {
     makeAutoObservable(this);
@@ -47,7 +47,7 @@ export default class AuthStore {
     }
   };
 
-  public setUser = (user: User | undefined): void => {
+  public setUser = (user: User | null): void => {
     this.user = user;
   };
 

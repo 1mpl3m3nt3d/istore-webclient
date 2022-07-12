@@ -3,9 +3,9 @@ import 'reflect-metadata';
 import { inject, injectable } from 'inversify';
 import { makeAutoObservable } from 'mobx';
 
-import { IoCTypes } from '../../ioc';
-import type { Product } from '../../models';
-import type { ProductsService } from '../../services';
+import { IoCTypes } from 'ioc';
+import type { Product } from 'models';
+import type { ProductsService } from 'services';
 
 @injectable()
 export default class ProductsStore {

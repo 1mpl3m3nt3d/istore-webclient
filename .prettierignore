@@ -12,15 +12,5 @@
 **/lib/
 **/libs/
 **/node_modules/
-**/.eslintrc.json
-**/.ncurc.json
-**/.npmrc.json
-**/.prettierrc.json
-**/.stylelintrc.json
-**/import-sorter.json
-**/package.json
-**/package.dev.json
-**/package.prod.json
-**/package-lock.json
-**/tsconfig.json
+**/*.json
 **/yarn.lock

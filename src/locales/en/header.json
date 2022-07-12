@@ -4,6 +4,6 @@
   "home": "Home",
   "products": "Products",
   "profile": "Profile",
-  "signin": "Sign In",
-  "signout": "Sign Out"
+  "login": "Login",
+  "logout": "Logout"
 }

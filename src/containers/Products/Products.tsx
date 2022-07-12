@@ -1,7 +1,6 @@
 import 'reflect-metadata';
-import '../../locales/config';
 
-import React, { ChangeEvent, useEffect } from 'react';
+import { ChangeEvent, useEffect } from 'react';
 
 import { observer } from 'mobx-react';
 import { useTranslation } from 'react-i18next';
@@ -9,11 +8,11 @@ import { useLocation, useNavigate } from 'react-router-dom';
 
 import { Box, Grid } from '@mui/material';
 
-import { LoadingSpinner } from '../../components/LoadingSpinner';
-import { Pagination } from '../../components/Pagination';
-import { ProductCard } from '../../components/ProductCard';
-import { IoCTypes, useInjection } from '../../ioc';
-import { ProductsStore } from '../../stores';
+import { LoadingSpinner } from 'components/LoadingSpinner';
+import { Pagination } from 'components/Pagination';
+import { ProductCard } from 'components/ProductCard';
+import { IoCTypes, useInjection } from 'ioc';
+import { ProductsStore } from 'stores';
 
 const Products = observer(() => {
   const store = useInjection<ProductsStore>(IoCTypes.productsStore);
@@ -34,7 +33,7 @@ const Products = observer(() => {
   return (
     <Grid container justifyContent="center">
       {store.isLoading ? (
-        <Box className="absoluteCentered">
+        <Box>
           <LoadingSpinner />
         </Box>
       ) : (

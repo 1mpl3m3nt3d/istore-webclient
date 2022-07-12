@@ -1,10 +1,7 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 
-import { Box } from '@mui/material';
-
-import { IoCTypes, useInjection } from '../../ioc';
-import { AuthStore } from '../../stores';
-import { LoadingSpinner } from '../LoadingSpinner';
+import { IoCTypes, useInjection } from 'ioc';
+import { AuthStore } from 'stores';
 
 function SigninRedirect(): JSX.Element {
   const authStore = useInjection<AuthStore>(IoCTypes.authStore);
@@ -19,11 +16,7 @@ function SigninRedirect(): JSX.Element {
     });
   }, [authStore, authStore.user]);
 
-  return (
-    <Box className="absoluteCentered">
-      <LoadingSpinner />
-    </Box>
-  );
+  return <></>;
 }
 
 export default SigninRedirect;

@@ -1,7 +1,4 @@
 import 'reflect-metadata';
-import '../../locales/config';
-
-// import React from 'react';
 
 import { CartCard } from 'components/CartCard';
 import { CheckoutButton } from 'components/CheckoutButton';
@@ -9,10 +6,10 @@ import { LoadingSpinner } from 'components/LoadingSpinner';
 import { observer } from 'mobx-react';
 import { useTranslation } from 'react-i18next';
 
-import { Box, Grid, Typography } from '@mui/material';
+import { Box, Grid, Stack, Typography } from '@mui/material';
 
-import { IoCTypes, useInjection } from '../../ioc';
-import { CartStore } from '../../stores';
+import { IoCTypes, useInjection } from 'ioc';
+import { CartStore } from 'stores';
 
 const Cart = observer(() => {
   const cartStore = useInjection<CartStore>(IoCTypes.cartStore);
@@ -21,7 +18,7 @@ const Cart = observer(() => {
   return (
     <Grid container justifyContent="center">
       {cartStore.isLoading ? (
-        <Box className="absoluteCentered">
+        <Box>
           <LoadingSpinner />
         </Box>
       ) : (
@@ -38,30 +35,29 @@ const Cart = observer(() => {
             key={Math.random() * 12_345}
             container
             justifyContent="center"
-            width="fit-content"
             mb={4}
           >
             {cartStore.cart.items.length > 0 ? (
-              <>
+              <Stack direction="column">
                 {cartStore.cart.items.map((cartItem) => (
                   <Grid
                     key={Math.random() * 12_345}
                     item
                     justifyContent="center"
-                    m={4}
+                    m={1}
                   >
                     <CartCard cartItem={cartItem} />
                   </Grid>
                 ))}
                 <Grid
                   key={Math.random() * 12_345}
-                  container
+                  item
                   justifyContent="center"
                   m={2}
                 >
-                  <CheckoutButton />
+                  <CheckoutButton totalPrice={cartStore.cart.totalPrice} />
                 </Grid>
-              </>
+              </Stack>
             ) : (
               <Grid
                 key={Math.random() * 12_345}
@@ -70,7 +66,7 @@ const Cart = observer(() => {
                 textAlign="center"
                 m={2}
               >
-                <Typography className="i18n">
+                <Typography whiteSpace="pre-line">
                   {t('placeholder.empty')}
                 </Typography>
               </Grid>

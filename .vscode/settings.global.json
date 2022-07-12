@@ -73,7 +73,7 @@
   "eslint.alwaysShowStatus": false,
   "eslint.codeActionsOnSave.mode": "all",
   "eslint.enable": true,
-  "eslint.format.enable": false,
+  "eslint.format.enable": true,
   "eslint.nodePath": "",
   "eslint.probe": [
     "javascript",
@@ -192,13 +192,13 @@
   "html.suggest.html5": true,
   "javascript.autoClosingTags": true,
   "javascript.format.enable": true,
-  "javascript.inlayHints.enumMemberValues.enabled": true,
-  "javascript.inlayHints.functionLikeReturnTypes.enabled": true,
-  "javascript.inlayHints.parameterNames.enabled": "all",
+  "javascript.inlayHints.enumMemberValues.enabled": false,
+  "javascript.inlayHints.functionLikeReturnTypes.enabled": false,
+  "javascript.inlayHints.parameterNames.enabled": "none",
   "javascript.inlayHints.parameterNames.suppressWhenArgumentMatchesName": true,
-  "javascript.inlayHints.parameterTypes.enabled": true,
-  "javascript.inlayHints.propertyDeclarationTypes.enabled": true,
-  "javascript.inlayHints.variableTypes.enabled": true,
+  "javascript.inlayHints.parameterTypes.enabled": false,
+  "javascript.inlayHints.propertyDeclarationTypes.enabled": false,
+  "javascript.inlayHints.variableTypes.enabled": false,
   "javascript.inlayHints.variableTypes.suppressWhenTypeMatchesName": true,
   "javascript.suggest.autoImports": true,
   "javascript.suggest.enabled": true,
@@ -298,13 +298,13 @@
   "typescript.disableAutomaticTypeAcquisition": false,
   "typescript.enablePromptUseWorkspaceTsdk": true,
   "typescript.format.enable": true,
-  "typescript.inlayHints.enumMemberValues.enabled": true,
-  "typescript.inlayHints.functionLikeReturnTypes.enabled": true,
-  "typescript.inlayHints.parameterNames.enabled": "all",
+  "typescript.inlayHints.enumMemberValues.enabled": false,
+  "typescript.inlayHints.functionLikeReturnTypes.enabled": false,
+  "typescript.inlayHints.parameterNames.enabled": "none",
   "typescript.inlayHints.parameterNames.suppressWhenArgumentMatchesName": true,
-  "typescript.inlayHints.parameterTypes.enabled": true,
-  "typescript.inlayHints.propertyDeclarationTypes.enabled": true,
-  "typescript.inlayHints.variableTypes.enabled": true,
+  "typescript.inlayHints.parameterTypes.enabled": false,
+  "typescript.inlayHints.propertyDeclarationTypes.enabled": false,
+  "typescript.inlayHints.variableTypes.enabled": false,
   "typescript.inlayHints.variableTypes.suppressWhenTypeMatchesName": true,
   "typescript.suggest.autoImports": true,
   "typescript.suggest.enabled": true,
@@ -343,6 +343,10 @@
   "yaml.validate": true,
   "yaml.yamlVersion": "1.2",
   "[css]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.suggest.insertMode": "replace"
+  },
+  "[html]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode",
     "editor.suggest.insertMode": "replace"
   },
@@ -395,11 +399,11 @@
     "files.trimTrailingWhitespace": false
   },
   "[scss]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.defaultFormatter": "vscode.css-language-features",
     "editor.suggest.insertMode": "replace"
   },
   "[styled-css]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.defaultFormatter": "vscode.css-language-features",
     "editor.suggest.insertMode": "replace"
   },
   "[typescript]": {

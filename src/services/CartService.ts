@@ -2,8 +2,8 @@ import { CartDto } from 'dtos';
 import { inject, injectable } from 'inversify';
 import { HttpService } from 'services';
 
-import { IoCTypes } from '../ioc';
-import { AuthStore } from '../stores';
+import { IoCTypes } from 'ioc';
+import { AuthStore } from 'stores';
 import { ApiHeader, ApiResponse, ContentType, MethodType } from './HttpService';
 
 export interface CartService {

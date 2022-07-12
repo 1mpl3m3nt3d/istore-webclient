@@ -1,6 +1,5 @@
 import 'reflect-metadata';
-import './locales/config';
-import './styles.scss';
+import 'styles.scss';
 
 import React from 'react';
 
@@ -8,10 +7,10 @@ import { Provider as IoCProvider } from 'inversify-react';
 import { configure as configureMobX } from 'mobx';
 import { createRoot } from 'react-dom/client';
 
-import { App } from './containers/App';
-import { IoCContainer } from './ioc';
-import reportWebVitals from './reportWebVitals';
-import * as serviceWorkerRegistration from './serviceWorkerRegistration';
+import { App } from 'containers/App';
+import { IoCContainer } from 'ioc';
+import reportWebVitals from 'reportWebVitals';
+import * as serviceWorkerRegistration from 'serviceWorkerRegistration';
 
 configureMobX({
   enforceActions: 'never',

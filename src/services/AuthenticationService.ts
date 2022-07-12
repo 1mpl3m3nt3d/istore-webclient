@@ -1,30 +1,21 @@
 import 'reflect-metadata';
 
 import { injectable } from 'inversify';
-import {
-  Log,
-  SigninRequest,
-  SignoutRequest,
-  SignoutResponse,
-  User,
-  UserManager,
-} from 'oidc-client';
+import { Log, SignoutResponse, User, UserManager } from 'oidc-client-ts';
 
-import { OidcConfig } from '../utils';
+import { OidcConfig } from 'utils';
 
 export interface AuthenticationService {
   clearStaleState: () => Promise<void>;
-  createSigninRequest: () => Promise<SigninRequest>;
-  createSignoutRequest: () => Promise<SignoutRequest>;
   getAuthenticationStatus: () => boolean;
-  getUser: () => Promise<User | undefined>;
+  getUser: () => Promise<User | null>;
   parseJwt: (token: string) => unknown;
   signinPopup: () => Promise<User | undefined>;
-  signinPopupCallback: () => Promise<User | undefined>;
+  signinPopupCallback: () => Promise<void>;
   signinRedirect: () => Promise<void>;
   signinRedirectCallback: () => Promise<User | undefined>;
-  signinSilent: () => Promise<User | undefined>;
-  signinSilentCallback: () => Promise<User | undefined>;
+  signinSilent: () => Promise<User | null>;
+  signinSilentCallback: () => Promise<void>;
   signoutPopup: () => Promise<void>;
   signoutPopupCallback: () => Promise<void>;
   signoutRedirect: () => Promise<void>;
@@ -41,22 +32,14 @@ export default class DefaultAuthenticationService
 
   constructor() {
     this.userManager = new UserManager(OidcConfig);
-    Log.logger = console;
-    Log.level = Log.WARN;
+    Log.setLogger(console);
+    Log.setLevel(Log.WARN);
   }
 
   public clearStaleState = async (): Promise<void> => {
     await this.userManager.clearStaleState().catch((error) => {
       console.log(error);
     });
-  };
-
-  public createSigninRequest = (): Promise<SigninRequest> => {
-    return this.userManager.createSigninRequest();
-  };
-
-  public createSignoutRequest = (): Promise<SignoutRequest> => {
-    return this.userManager.createSignoutRequest();
   };
 
   public getAuthenticationStatus = (): boolean => {
@@ -71,8 +54,8 @@ export default class DefaultAuthenticationService
     return !!oidcUser && !!oidcUser.id_token;
   };
 
-  public getUser = async (): Promise<User | undefined> => {
-    return (await this.userManager.getUser()) ?? undefined;
+  public getUser = async (): Promise<User | null> => {
+    return await this.userManager.getUser();
   };
 
   public parseJwt = (token: string): unknown => {
@@ -86,8 +69,8 @@ export default class DefaultAuthenticationService
     return (await this.userManager.signinPopup()) ?? undefined;
   };
 
-  public signinPopupCallback = async (): Promise<User | undefined> => {
-    return (await this.userManager.signinPopupCallback()) ?? undefined;
+  public signinPopupCallback = async (): Promise<void> => {
+    return await this.userManager.signinPopupCallback();
   };
 
   public signinRedirect = async (): Promise<void> => {
@@ -100,12 +83,12 @@ export default class DefaultAuthenticationService
     return (await this.userManager.signinRedirectCallback()) ?? undefined;
   };
 
-  public signinSilent = async (): Promise<User | undefined> => {
-    return (await this.userManager.signinSilent()) ?? undefined;
+  public signinSilent = async (): Promise<User | null> => {
+    return await this.userManager.signinSilent();
   };
 
-  public signinSilentCallback = async (): Promise<User | undefined> => {
-    return (await this.userManager.signinSilentCallback()) ?? undefined;
+  public signinSilentCallback = async (): Promise<void> => {
+    return await this.userManager.signinSilentCallback();
   };
 
   public signoutPopup = async (): Promise<void> => {
@@ -123,7 +106,7 @@ export default class DefaultAuthenticationService
   public signoutRedirect = async (): Promise<void> => {
     await this.userManager
       .signoutRedirect({
-        id_token_hint: localStorage.getItem('id_token'),
+        id_token_hint: localStorage.getItem('id_token') ?? undefined,
       })
       .catch((error) => {
         console.log(error);

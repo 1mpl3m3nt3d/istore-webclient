@@ -2,6 +2,6 @@
 
 import IoCTypes from './ioc.types';
 
-export { default as IoCContainer } from './ioc.container';
 export { useInjection } from 'inversify-react';
+export { default as IoCContainer } from './ioc.container';
 export { IoCTypes };

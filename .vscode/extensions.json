@@ -1,7 +1,6 @@
 {
   "recommendations": [
     "aaron-bond.better-comments",
-    "abusaidm.html-snippets",
     "alefragnani.Bookmarks",
     "alefragnani.project-manager",
     "aliariff.vscode-erb-beautify",
@@ -41,6 +40,7 @@
     "GrapeCity.gc-excelviewer",
     "groksrc.ruby",
     "Gruntfuggly.todo-tree",
+    "jtr.vscode-position",
     "hoovercj.ruby-linter",
     "humao.rest-client",
     "IronGeek.vscode-env",

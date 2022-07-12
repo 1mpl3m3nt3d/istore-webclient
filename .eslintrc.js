@@ -1,5 +1,6 @@
 /* eslint-disable unicorn/no-abusive-eslint-disable */
-/* eslint-disable */
+/* eslint-disable unicorn/prefer-module */
+/* eslint-disable unicorn/prefer-spread */
 
 require('babel-preset-react-app/prod');
 require('@rushstack/eslint-patch/modern-module-resolution');
@@ -18,9 +19,20 @@ module.exports = {
     node: true,
   },
   settings: {
+    'import/cache': {
+      lifetime: 'Infinity',
+    },
+    'import/core-modules': [],
+    'import/extensions': ['.js', '.jsx', 'ts', 'tsx'],
+    'import/external-module-folders': [],
+    'import/ignore': [],
+    'import/internal-regex': ['^@scope/'],
+    'import/parsers': {
+      '@typescript-eslint/parser': ['.ts', '.tsx'],
+    },
     'import/resolver': {
       node: {
-        extensions: ['.js', '.json', '.jsx', '.ts', '.tsx'],
+        extensions: ['.js', '.jsx', '.ts', '.tsx'],
         moduleDirectory: [
           'node_modules',
           'src',
@@ -138,7 +150,34 @@ module.exports = {
       },
     ],
     'import/no-webpack-loader-syntax': 'warn',
-    'import/order': 'off',
+    'import/order': [
+      'off',
+      {
+        'groups': [
+          'builtin',
+          'external',
+          'internal',
+          'unknown',
+          'parent',
+          'sibling',
+          'index',
+          'object',
+          'type',
+        ],
+        'pathGroups': [
+          {
+            pattern: 'react',
+            patternOptions: { nocomment: true },
+            group: 'builtin',
+            position: 'before',
+          },
+        ],
+        'pathGroupsExcludedImportTypes': ['react'],
+        'newlines-between': 'always',
+        'alphabetize': { order: 'asc', caseInsensitive: true },
+        'warnOnUnassignedImports': true,
+      },
+    ],
     'import/prefer-default-export': 'off',
     'indent': ['off', 2],
     'json/*': ['warn', { allowComments: false }],
@@ -569,6 +608,7 @@ module.exports = {
         '@typescript-eslint/no-unsafe-return': 'off',
         '@typescript-eslint/restrict-template-expressions': 'off',
         '@typescript-eslint/triple-slash-reference': 'off',
+        'prefer-const': 'warn',
         'prettier/prettier': 'warn',
       },
     },

@@ -1,16 +1,12 @@
 /* eslint-disable unicorn/no-null */
 
 import 'reflect-metadata';
-import '../../locales/config';
-
-import React from 'react';
 
 import { observer } from 'mobx-react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 
 import {
-  Avatar,
   Card,
   CardActions,
   CardContent,
@@ -20,7 +16,7 @@ import {
   Typography,
 } from '@mui/material';
 
-import { Product } from '../../models';
+import { Product } from 'models';
 import { BuyButtonProduct } from '../BuyButton';
 
 interface Properties {
@@ -46,51 +42,48 @@ const ProductDetails = observer((properties: Properties) => {
   } = properties.product;
 
   return (
-    <Stack direction="column">
-      <Stack>
-        <Card
+    <Stack
+      className="productDetails"
+      sx={{
+        display: 'grid',
+        height: 'fit-content',
+        width: 'fit-content',
+        maxWidth: '800px',
+        justifyContent: 'center',
+        justifyItems: 'center',
+        alignContent: 'center',
+        alignItems: 'center',
+        textAlign: 'center',
+        padding: 0,
+        margin: 0,
+        marginBottom: 4,
+      }}
+    >
+      <Card sx={{ padding: 1 }}>
+        <Stack
           sx={{
-            height: 'fit-content',
-            maxHeight: 1200,
-            width: 'fit-content',
-            maxWidth: 700,
             display: 'grid',
             justifyContent: 'center',
+            justifyItems: 'center',
             alignContent: 'center',
+            alignItems: 'center',
             textAlign: 'center',
           }}
         >
-          <CardContent
-            sx={{
-              padding: 0.5,
-              margin: 0.5,
-            }}
-          >
-            <Stack
-              direction="row"
-              justifyContent="center"
-              alignContent="space-between"
-              spacing={6}
-              marginY={3}
-            >
-              <Stack justifyContent="center" alignContent="center">
-                <Avatar
-                  className="avatar"
-                  src={`${process.env.PUBLIC_URL}/logo512.png`}
-                />
-              </Stack>
-              <Stack
-                direction="column"
-                justifyContent="center"
-                alignContent="center"
-                height={80}
-              >
-                <Typography variant="h4">{catalogBrand.brand}</Typography>
-                <Typography variant="h3">{name}</Typography>
-              </Stack>
-            </Stack>
-          </CardContent>
           <CardMedia
+            sx={{
+              display: 'grid',
+              justifyContent: 'center',
+              justifyItems: 'center',
+              alignContent: 'center',
+              alignItems: 'center',
+              textAlign: 'center',
+              width: 'auto',
+              height: 'auto',
+              maxHeight: '50vh',
+              maxWidth: '70vw',
+              objectFit: 'contain',
+            }}
             component="img"
             image={pictureUrl}
             alt={`${catalogBrand.brand} ${name}`}
@@ -98,58 +91,65 @@ const ProductDetails = observer((properties: Properties) => {
               navigate(`/products/${id}`, { replace: false });
             }}
           />
-          <CardContent
-            sx={{ padding: 0.5, margin: 0.5, marginX: 2, textAlign: 'left' }}
-          >
-            <Stack direction="row" justifyContent="space-between">
-              <Typography>{t('properties.type')}:</Typography>
-              <Typography>{catalogType.type}</Typography>
-            </Stack>
-          </CardContent>
-          <CardContent
-            sx={{ padding: 0.5, margin: 0.5, marginX: 2, textAlign: 'left' }}
-          >
-            <Stack direction="row" justifyContent="space-between">
-              <Typography>{t('properties.brand')}:</Typography>
-              <Typography>{catalogBrand.brand}</Typography>
-            </Stack>
-          </CardContent>
-          <CardContent
-            sx={{ padding: 0.5, margin: 0.5, marginX: 2, textAlign: 'left' }}
-          >
-            <Stack direction="row" justifyContent="space-between">
-              <Typography>{t('properties.name')}:</Typography>
-              <Typography>{name}</Typography>
-            </Stack>
-          </CardContent>
-          <CardContent sx={{ padding: 0.5, margin: 0.5, marginX: 2 }}>
-            <Stack direction="row" justifyContent="space-between">
-              <Typography>{t('properties.price')}:</Typography>
-              <Typography>
-                {price} {t('consts:currency')}
-              </Typography>
-            </Stack>
-          </CardContent>
-          <CardContent>
-            <TextField
-              color="info"
-              fullWidth
-              multiline
-              focused
-              InputProps={{
-                readOnly: true,
-              }}
-              id="outlined-multiline-static"
-              label={t('properties.description')}
-              rows={0}
-              value={description}
-            />
-          </CardContent>
-          <CardActions sx={{ justifyContent: 'center', padding: 1, margin: 1 }}>
+        </Stack>
+        <CardContent
+          sx={{ padding: 0.5, margin: 0.5, marginX: 2, textAlign: 'left' }}
+        >
+          <Stack direction="row" justifyContent="space-between">
+            <Typography textAlign="left" marginRight={6}>
+              <strong>{t('properties.type')}:</strong>
+            </Typography>
+            <Typography textAlign="right">{catalogType.type}</Typography>
+          </Stack>
+          <Stack direction="row" justifyContent="space-between">
+            <Typography textAlign="left" marginRight={6}>
+              <strong>{t('properties.brand')}:</strong>
+            </Typography>
+            <Typography textAlign="right">{catalogBrand.brand}</Typography>
+          </Stack>
+          <Stack direction="row" justifyContent="space-between">
+            <Typography textAlign="left" marginRight={6}>
+              <strong>{t('properties.name')}:</strong>
+            </Typography>
+            <Typography textAlign="right">{name}</Typography>
+          </Stack>
+          <Stack direction="row" justifyContent="space-between">
+            <Typography textAlign="left" marginRight={6}>
+              <strong>{t('properties.price')}:</strong>
+            </Typography>
+            <Typography textAlign="right">
+              {price} {t('consts:currency')}
+            </Typography>
+          </Stack>
+        </CardContent>
+        <CardContent
+          sx={{ marginTop: 2, padding: 1, paddingBottom: '8px !important' }}
+        >
+          <TextField
+            color="info"
+            fullWidth
+            multiline
+            focused
+            sx={{ fontSize: '1.0rem' }}
+            InputProps={{
+              sx: { fontSize: '1.0rem' },
+              readOnly: true,
+            }}
+            InputLabelProps={{
+              sx: { fontSize: '1.1rem', lineHeight: '1.4rem' },
+            }}
+            id="outlined-multiline-static"
+            label={t('properties.description')}
+            rows={0}
+            value={description}
+          />
+        </CardContent>
+        <CardActions sx={{ justifyContent: 'center', padding: 0, margin: 1 }}>
+          <Stack>
             <BuyButtonProduct productId={id} />
-          </CardActions>
-        </Card>
-      </Stack>
+          </Stack>
+        </CardActions>
+      </Card>
     </Stack>
   );
 });

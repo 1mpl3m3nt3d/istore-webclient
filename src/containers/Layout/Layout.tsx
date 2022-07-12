@@ -1,7 +1,6 @@
 import 'reflect-metadata';
-import 'locales/config';
 
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 
 import { Footer } from 'components/Footer';
 import { Header } from 'components/Header';
@@ -10,8 +9,8 @@ import { Outlet } from 'react-router-dom';
 
 import { Box } from '@mui/material';
 
-import { IoCTypes, useInjection } from '../../ioc';
-import { AuthStore, CartStore } from '../../stores';
+import { IoCTypes, useInjection } from 'ioc';
+import { AuthStore, CartStore } from 'stores';
 
 const Layout = observer(() => {
   const authStore = useInjection<AuthStore>(IoCTypes.authStore);
@@ -39,17 +38,37 @@ const Layout = observer(() => {
     getCart().catch((error) => {
       console.log(error);
     });
-  }, [authStore.user, cartStore]);
+  }, [cartStore]);
 
   return (
-    <Box className="layout">
-      <Box className="header">
+    <Box
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        minHeight: '100vh',
+      }}
+    >
+      <Box
+        position="relative"
+        top={0}
+        left={0}
+        right={0}
+        width="100%"
+        mb="auto"
+      >
         <Header />
       </Box>
-      <Box className="outlet">
+      <Box position="relative">
         <Outlet />
       </Box>
-      <Box className="footer">
+      <Box
+        position="relative"
+        bottom={0}
+        left={0}
+        right={0}
+        width="100%"
+        mt="auto"
+      >
         <Footer />
       </Box>
     </Box>

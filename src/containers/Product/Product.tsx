@@ -1,7 +1,6 @@
 import 'reflect-metadata';
-import '../../locales/config';
 
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 
 import { observer } from 'mobx-react';
 import { useTranslation } from 'react-i18next';
@@ -9,10 +8,10 @@ import { useNavigate, useParams } from 'react-router-dom';
 
 import { Box, Grid } from '@mui/material';
 
-import { LoadingSpinner } from '../../components/LoadingSpinner';
-import { ProductDetails } from '../../components/ProductDetails';
-import { IoCTypes, useInjection } from '../../ioc';
-import { ProductsStore } from '../../stores';
+import { LoadingSpinner } from 'components/LoadingSpinner';
+import { ProductDetails } from 'components/ProductDetails';
+import { IoCTypes, useInjection } from 'ioc';
+import { ProductsStore } from 'stores';
 
 const Product = observer(() => {
   const store = useInjection<ProductsStore>(IoCTypes.productsStore);
@@ -37,7 +36,7 @@ const Product = observer(() => {
   return (
     <Grid container justifyContent="center">
       {store.isLoading ? (
-        <Box className="absoluteCentered">
+        <Box>
           <LoadingSpinner />
         </Box>
       ) : (
@@ -46,17 +45,12 @@ const Product = observer(() => {
             key={Math.random() * 12_345}
             container
             justifyContent="center"
-            mt={4}
+            margin={4}
           >
             <h1>{t('title')}</h1>
           </Grid>
-          <Grid
-            key={Math.random() * 12_345}
-            container
-            justifyContent="center"
-            mb={4}
-          >
-            <Grid item mt={4}>
+          <Grid key={Math.random() * 12_345} container justifyContent="center">
+            <Grid item margin={0}>
               <ProductDetails product={store.product} />
             </Grid>
           </Grid>
