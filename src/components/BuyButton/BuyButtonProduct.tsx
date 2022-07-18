@@ -2,8 +2,6 @@
 
 import 'reflect-metadata';
 
-import { observer } from 'mobx-react';
-
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import {
   Button,
@@ -13,6 +11,7 @@ import {
   Tooltip,
   Zoom,
 } from '@mui/material';
+import { observer } from 'mobx-react';
 
 import { IoCTypes, useInjection } from 'ioc';
 import { CartStore } from 'stores';
@@ -31,7 +30,7 @@ const BuyButtonProduct = observer((properties: Properties) => {
         <Tooltip
           title="Add to cart"
           placement="bottom"
-          enterDelay={1000}
+          enterDelay={600}
           leaveDelay={200}
           TransitionComponent={Zoom}
           TransitionProps={{ timeout: 300 }}

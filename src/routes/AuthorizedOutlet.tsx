@@ -1,13 +1,10 @@
 import 'reflect-metadata';
 
-import { useEffect } from 'react';
-
-import { LoadingSpinner } from 'components/LoadingSpinner';
 import { observer } from 'mobx-react';
+import { useEffect } from 'react';
 import { Outlet } from 'react-router-dom';
 
-import { Box } from '@mui/material';
-
+import { LoadingSpinner } from 'components/LoadingSpinner';
 import { IoCTypes, useInjection } from 'ioc';
 import { AuthStore } from 'stores';
 
@@ -28,13 +25,7 @@ const AuthorizedOutlet = observer(() => {
     });
   }, [authStore]);
 
-  return authStore.user ? (
-    <Outlet />
-  ) : (
-    <Box>
-      <LoadingSpinner />
-    </Box>
-  );
+  return authStore.user ? <Outlet /> : <LoadingSpinner />;
 });
 
 export default AuthorizedOutlet;

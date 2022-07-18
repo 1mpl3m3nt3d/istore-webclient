@@ -1,6 +1,5 @@
-import { ReactElement } from 'react';
-
 import { Button, CircularProgress } from '@mui/material';
+import { ReactElement } from 'react';
 
 interface Properties {
   isLoading: boolean;

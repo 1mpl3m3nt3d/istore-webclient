@@ -2,9 +2,8 @@
 
 import 'reflect-metadata';
 
-import { observer } from 'mobx-react';
-
 import { Button, ButtonGroup } from '@mui/material';
+import { observer } from 'mobx-react';
 
 import { IoCTypes, useInjection } from 'ioc';
 import { CartStore } from 'stores';

@@ -1,3 +1,5 @@
+import 'reflect-metadata';
+
 import { inject, injectable } from 'inversify';
 import { makeAutoObservable } from 'mobx';
 
@@ -5,7 +7,7 @@ import { CartDto } from 'dtos';
 import { IoCTypes } from 'ioc';
 import { Cart, CartItem } from 'models';
 import type { CartService } from 'services';
-import { AuthStore, ProductsStore } from '.';
+import { AuthStore, ProductsStore } from 'stores';
 
 @injectable()
 export default class CartStore {

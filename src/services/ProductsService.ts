@@ -10,8 +10,8 @@ import type {
 } from 'dtos';
 import { IoCTypes } from 'ioc';
 import type { Product } from 'models';
-import type { HttpService } from './HttpService';
-import { ContentType, MethodType } from './HttpService';
+import type { HttpService } from 'services/HttpService';
+import { ContentType, MethodType } from 'services/HttpService';
 
 export interface ProductsService {
   getById(id: number): Promise<Product>;

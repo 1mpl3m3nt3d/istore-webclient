@@ -1,6 +1,7 @@
-import { ReactElement } from 'react';
+import 'reflect-metadata';
 
 import { Typography } from '@mui/material';
+import { ReactElement } from 'react';
 
 interface Properties {
   error?: string | undefined;

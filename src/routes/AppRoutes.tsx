@@ -1,12 +1,9 @@
 import 'reflect-metadata';
 
-import React, { Suspense } from 'react';
-
-import { observer } from 'mobx-react';
-import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
-import { AuthorizedOutlet } from 'routes';
-
 import { Box } from '@mui/material';
+import { observer } from 'mobx-react';
+import { lazy, Suspense } from 'react';
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 
 import { LoadingSpinner } from 'components/LoadingSpinner';
 import {
@@ -17,24 +14,34 @@ import {
   SignoutRedirectCallback,
 } from 'components/OidcAuthorization';
 import { Layout } from 'containers/Layout';
+import { AuthorizedOutlet } from 'routes';
 
-const Cart = React.lazy(async () => import('containers/Cart/Cart'));
-const Product = React.lazy(async () => import('containers/Product/Product'));
-const Products = React.lazy(async () => import('containers/Products/Products'));
+const Cart = lazy(async () => import('containers/Cart/Cart'));
+const Product = lazy(async () => import('containers/Product/Product'));
+const Products = lazy(async () => import('containers/Products/Products'));
 
 const AppRoutes = observer(() => (
   <Suspense
     fallback={
       <Box
-        sx={{
-          position: 'absolute',
-          top: '50%',
-          left: '50%',
-          marginRight: '-50%',
-          transform: 'translate(-50%, -50%)',
-        }}
+        id="suspenseFallback"
+        className="suspenseFallback"
+        display="flex"
+        flexDirection="column"
+        minWidth="100%"
+        minHeight="100vh"
       >
-        <LoadingSpinner />
+        <Box
+          position="relative"
+          top={0}
+          left={0}
+          right={0}
+          bottom={0}
+          minWidth="100%"
+          margin="auto"
+        >
+          <LoadingSpinner />
+        </Box>
       </Box>
     }
   >

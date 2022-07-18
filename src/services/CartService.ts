@@ -1,10 +1,17 @@
-import { CartDto } from 'dtos';
-import { inject, injectable } from 'inversify';
-import { HttpService } from 'services';
+import 'reflect-metadata';
 
+import { inject, injectable } from 'inversify';
+
+import { CartDto } from 'dtos';
 import { IoCTypes } from 'ioc';
+import { HttpService } from 'services';
+import {
+  ApiHeader,
+  ApiResponse,
+  ContentType,
+  MethodType,
+} from 'services/HttpService';
 import { AuthStore } from 'stores';
-import { ApiHeader, ApiResponse, ContentType, MethodType } from './HttpService';
 
 export interface CartService {
   getCart(): Promise<ApiResponse<CartDto>>;

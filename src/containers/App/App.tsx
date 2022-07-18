@@ -1,8 +1,9 @@
 import 'reflect-metadata';
 
 import { CssBaseline } from '@mui/material';
-import { ThemeChanger } from 'components/ThemeChanger';
 import { observer } from 'mobx-react';
+
+import { ThemeChanger } from 'components/ThemeChanger';
 import { AppRoutes } from 'routes';
 
 const App = observer(() => {

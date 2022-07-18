@@ -1,14 +1,11 @@
 import 'reflect-metadata';
 
-import i18n from 'locales/config';
-
+import Button from '@mui/material/Button';
+import { useTheme } from '@mui/material/styles';
+import { observer } from 'mobx-react';
 import { useState } from 'react';
 
-import { observer } from 'mobx-react';
-
-import Button from '@mui/material/Button';
-
-import { useTheme } from '@mui/material/styles';
+import i18n from 'locales/config';
 
 interface Properties {
   height?: number;

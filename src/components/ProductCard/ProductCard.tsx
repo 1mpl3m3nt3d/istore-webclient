@@ -2,16 +2,9 @@
 
 import 'reflect-metadata';
 
-import { useState } from 'react';
-
-import { observer } from 'mobx-react';
-import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
-
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import InfoIcon from '@mui/icons-material/Info';
 import {
-  Avatar,
   Button,
   Card,
   CardActions,
@@ -25,9 +18,13 @@ import {
   Typography,
   Zoom,
 } from '@mui/material';
+import { observer } from 'mobx-react';
+import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 
+import { BuyButtonProduct } from 'components/BuyButton';
 import { Product } from 'models';
-import { BuyButtonProduct } from '../BuyButton';
 
 interface Properties {
   product: Product | undefined;
@@ -59,7 +56,7 @@ const ProductCard = observer((properties: Properties) => {
   return (
     <Card
       className="productCard"
-      sx={{ width: 350, maxWidth: 350, padding: 1 }}
+      sx={{ width: 320, maxWidth: 320, padding: 1 }}
     >
       <Stack
         sx={{
@@ -74,22 +71,25 @@ const ProductCard = observer((properties: Properties) => {
         <CardContent sx={{ padding: 1, paddingBottom: '8px !important' }}>
           <Stack
             direction="row"
+            display="flex"
+            flexDirection="row"
+            textAlign="center"
             justifyContent="space-between"
+            justifyItems="center"
+            justifySelf="center"
             alignContent="center"
+            alignItems="center"
+            alignSelf="center"
           >
             <Stack
-              sx={{
-                margin: 1,
-              }}
-              justifyContent="center"
-              alignContent="center"
-            >
-              <Avatar src={`${process.env.PUBLIC_URL}/logo512.png`} />
-            </Stack>
-            <Stack
               direction="column"
+              textAlign="left"
               justifyContent="center"
+              justifyItems="center"
+              justifySelf="center"
               alignContent="center"
+              alignItems="start"
+              alignSelf="center"
             >
               <Typography
                 sx={{
@@ -105,7 +105,7 @@ const ProductCard = observer((properties: Properties) => {
                 <Tooltip
                   title={catalogBrand.brand}
                   placement="top"
-                  enterDelay={1000}
+                  enterDelay={600}
                   leaveDelay={200}
                   TransitionComponent={Zoom}
                   TransitionProps={{ timeout: 300 }}
@@ -127,7 +127,7 @@ const ProductCard = observer((properties: Properties) => {
                 <Tooltip
                   title={name}
                   placement="bottom"
-                  enterDelay={1000}
+                  enterDelay={600}
                   leaveDelay={200}
                   TransitionComponent={Zoom}
                   TransitionProps={{ timeout: 300 }}
@@ -136,11 +136,19 @@ const ProductCard = observer((properties: Properties) => {
                 </Tooltip>
               </Typography>
             </Stack>
-            <Stack justifyContent="center" alignContent="center">
+            <Stack
+              textAlign="center"
+              justifyContent="center"
+              justifyItems="center"
+              justifySelf="center"
+              alignContent="center"
+              alignItems="center"
+              alignSelf="center"
+            >
               <Tooltip
                 title="Details"
                 placement="top"
-                enterDelay={1000}
+                enterDelay={600}
                 leaveDelay={200}
                 TransitionComponent={Zoom}
                 TransitionProps={{ timeout: 300 }}
@@ -201,7 +209,7 @@ const ProductCard = observer((properties: Properties) => {
             <Tooltip
               title={catalogType.type}
               placement="top"
-              enterDelay={1000}
+              enterDelay={600}
               leaveDelay={200}
               TransitionComponent={Zoom}
               TransitionProps={{ timeout: 300 }}
@@ -229,7 +237,7 @@ const ProductCard = observer((properties: Properties) => {
             <Tooltip
               title={`${price} ${t('consts:currency')}`}
               placement="bottom"
-              enterDelay={1000}
+              enterDelay={600}
               leaveDelay={200}
               TransitionComponent={Zoom}
               TransitionProps={{ timeout: 300 }}
@@ -257,7 +265,7 @@ const ProductCard = observer((properties: Properties) => {
         <Tooltip
           title="Description"
           placement="bottom"
-          enterDelay={1000}
+          enterDelay={600}
           leaveDelay={200}
           TransitionComponent={Zoom}
           TransitionProps={{ timeout: 300 }}

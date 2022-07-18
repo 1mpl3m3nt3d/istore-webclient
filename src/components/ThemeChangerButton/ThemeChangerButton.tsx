@@ -1,11 +1,11 @@
 import 'reflect-metadata';
 
-import { observer } from 'mobx-react';
-
 import { Switch } from '@mui/material';
 import { styled, useTheme } from '@mui/material/styles';
+import { observer } from 'mobx-react';
+import { useContext } from 'react';
+
 import { ColorModeContext } from 'components/ThemeChanger';
-import * as React from 'react';
 
 const MaterialUISwitch = styled(Switch)(({ theme }) => ({
   'width': 62,
@@ -56,7 +56,7 @@ const MaterialUISwitch = styled(Switch)(({ theme }) => ({
 
 const ThemeChangerButton = observer(() => {
   const theme = useTheme();
-  const colorMode = React.useContext(ColorModeContext);
+  const colorMode = useContext(ColorModeContext);
 
   return (
     <MaterialUISwitch

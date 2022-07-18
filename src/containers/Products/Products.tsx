@@ -1,12 +1,9 @@
 import 'reflect-metadata';
 
-import { ChangeEvent, useEffect } from 'react';
-
+import { Grid } from '@mui/material';
 import { observer } from 'mobx-react';
-import { useTranslation } from 'react-i18next';
+import { ChangeEvent, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-
-import { Box, Grid } from '@mui/material';
 
 import { LoadingSpinner } from 'components/LoadingSpinner';
 import { Pagination } from 'components/Pagination';
@@ -16,7 +13,6 @@ import { ProductsStore } from 'stores';
 
 const Products = observer(() => {
   const store = useInjection<ProductsStore>(IoCTypes.productsStore);
-  const { t } = useTranslation(['products']);
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -31,43 +27,45 @@ const Products = observer(() => {
   }, [store, store.currentPage, location]);
 
   return (
-    <Grid container justifyContent="center">
+    <>
       {store.isLoading ? (
-        <Box>
-          <LoadingSpinner />
-        </Box>
+        <LoadingSpinner />
       ) : (
-        <>
-          <Grid
-            key={Math.random() * 12_345}
-            container
-            justifyContent="center"
-            mt={4}
-          >
-            <h1>{t('title')}</h1>
-          </Grid>
+        <Grid
+          key={Math.random() * 12_345}
+          container
+          justifyContent="center"
+          marginY={4}
+          marginX={0.5}
+        >
           <Grid key={Math.random() * 12_345} container justifyContent="center">
             {store.products?.map((product) => (
-              <Grid key={Math.random() * 12_345} item mt={4} ml={2} mr={2}>
+              <Grid
+                key={Math.random() * 12_345}
+                item
+                marginBottom={4}
+                ml={2}
+                mr={2}
+              >
                 <ProductCard product={{ ...product }} />
               </Grid>
             ))}
           </Grid>
-          <Grid container justifyContent="center" mb={4} mt={4}>
+          <Grid container justifyContent="center">
             <Pagination
               totalCount={store.totalPages}
               currentPage={store.currentPage}
               onChange={(event: ChangeEvent<unknown>, value: number): void => {
                 store.changePage(value);
                 value !== 1
-                  ? navigate(`/products?_page=${value}`, { replace: true })
-                  : navigate('/products', { replace: true });
+                  ? navigate(`/products?page=${value}`, { replace: false })
+                  : navigate('/products', { replace: false });
               }}
             />
           </Grid>
-        </>
+        </Grid>
       )}
-    </Grid>
+    </>
   );
 });
 

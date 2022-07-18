@@ -1,5 +1,6 @@
 import { Container } from 'inversify';
 
+import { IoCTypes } from 'ioc';
 import type { AuthenticationService } from 'services/AuthenticationService';
 import DefaultAuthenticationService from 'services/AuthenticationService';
 import type { CartService } from 'services/CartService';
@@ -9,7 +10,6 @@ import DefaultHttpService from 'services/HttpService';
 import type { ProductsService } from 'services/ProductsService';
 import DefaultProductsService from 'services/ProductsService';
 import { AuthStore, CartStore, ProductsStore } from 'stores';
-import { IoCTypes } from '.';
 
 const IoCContainer = new Container();
 

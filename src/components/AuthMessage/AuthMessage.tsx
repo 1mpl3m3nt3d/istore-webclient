@@ -1,6 +1,5 @@
-import { ReactElement } from 'react';
-
 import { Typography } from '@mui/material';
+import { ReactElement } from 'react';
 
 interface Properties {
   message?: string | undefined;

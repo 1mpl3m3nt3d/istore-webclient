@@ -2,9 +2,9 @@
 
 import 'reflect-metadata';
 
+import { Link, Paper, Stack, Typography } from '@mui/material';
 import { observer } from 'mobx-react';
 
-import { Link, Paper, Stack, Typography } from '@mui/material';
 import { LanguageChangerButton } from 'components/LanguageChangerButton';
 import { ThemeChangerButton } from 'components/ThemeChangerButton';
 

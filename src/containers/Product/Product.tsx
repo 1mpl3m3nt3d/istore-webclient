@@ -1,12 +1,9 @@
 import 'reflect-metadata';
 
-import { useEffect } from 'react';
-
+import { Grid } from '@mui/material';
 import { observer } from 'mobx-react';
-import { useTranslation } from 'react-i18next';
+import { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-
-import { Box, Grid } from '@mui/material';
 
 import { LoadingSpinner } from 'components/LoadingSpinner';
 import { ProductDetails } from 'components/ProductDetails';
@@ -17,7 +14,6 @@ const Product = observer(() => {
   const store = useInjection<ProductsStore>(IoCTypes.productsStore);
   const navigate = useNavigate();
   const { id } = useParams();
-  const { t } = useTranslation(['product']);
 
   useEffect(() => {
     const getProduct = async (): Promise<void> => {
@@ -34,29 +30,25 @@ const Product = observer(() => {
   }, [store, id, navigate]);
 
   return (
-    <Grid container justifyContent="center">
+    <>
       {store.isLoading ? (
-        <Box>
-          <LoadingSpinner />
-        </Box>
+        <LoadingSpinner />
       ) : (
-        <>
-          <Grid
-            key={Math.random() * 12_345}
-            container
-            justifyContent="center"
-            margin={4}
-          >
-            <h1>{t('title')}</h1>
-          </Grid>
+        <Grid
+          key={Math.random() * 12_345}
+          container
+          justifyContent="center"
+          marginY={4}
+          marginX={1}
+        >
           <Grid key={Math.random() * 12_345} container justifyContent="center">
             <Grid item margin={0}>
               <ProductDetails product={store.product} />
             </Grid>
           </Grid>
-        </>
+        </Grid>
       )}
-    </Grid>
+    </>
   );
 });
 

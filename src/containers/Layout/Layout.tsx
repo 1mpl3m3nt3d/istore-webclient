@@ -1,14 +1,12 @@
 import 'reflect-metadata';
 
+import { Box } from '@mui/material';
+import { observer } from 'mobx-react';
 import { useEffect } from 'react';
+import { Outlet } from 'react-router-dom';
 
 import { Footer } from 'components/Footer';
 import { Header } from 'components/Header';
-import { observer } from 'mobx-react';
-import { Outlet } from 'react-router-dom';
-
-import { Box } from '@mui/material';
-
 import { IoCTypes, useInjection } from 'ioc';
 import { AuthStore, CartStore } from 'stores';
 
@@ -42,31 +40,44 @@ const Layout = observer(() => {
 
   return (
     <Box
-      sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        minHeight: '100vh',
-      }}
+      id="layout"
+      className="layout"
+      display="flex"
+      flexDirection="column"
+      minWidth="100%"
+      minHeight="100vh"
     >
       <Box
+        id="header"
+        className="header"
         position="relative"
         top={0}
         left={0}
         right={0}
-        width="100%"
-        mb="auto"
+        minWidth="100%"
       >
         <Header />
       </Box>
-      <Box position="relative">
+      <Box
+        id="main"
+        className="main"
+        display="flex"
+        position="relative"
+        left={0}
+        right={0}
+        minWidth="100%"
+        minHeight="70vh"
+      >
         <Outlet />
       </Box>
       <Box
+        id="footer"
+        className="footer"
         position="relative"
         bottom={0}
         left={0}
         right={0}
-        width="100%"
+        minWidth="100%"
         mt="auto"
       >
         <Footer />

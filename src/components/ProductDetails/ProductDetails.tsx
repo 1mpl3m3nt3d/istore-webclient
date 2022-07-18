@@ -2,10 +2,6 @@
 
 import 'reflect-metadata';
 
-import { observer } from 'mobx-react';
-import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
-
 import {
   Card,
   CardActions,
@@ -15,9 +11,12 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
+import { observer } from 'mobx-react';
+import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 
+import { BuyButtonProduct } from 'components/BuyButton';
 import { Product } from 'models';
-import { BuyButtonProduct } from '../BuyButton';
 
 interface Properties {
   product: Product | undefined;
@@ -56,7 +55,6 @@ const ProductDetails = observer((properties: Properties) => {
         textAlign: 'center',
         padding: 0,
         margin: 0,
-        marginBottom: 4,
       }}
     >
       <Card sx={{ padding: 1 }}>

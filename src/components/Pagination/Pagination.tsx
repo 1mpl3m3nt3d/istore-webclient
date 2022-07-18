@@ -1,10 +1,8 @@
 import 'reflect-metadata';
 
-import React, { ChangeEvent, useEffect } from 'react';
-
+import { Pagination as MUIPagination } from '@mui/material';
 import { observer } from 'mobx-react';
-
-import { Pagination as MPagination } from '@mui/material';
+import React, { ChangeEvent, useEffect } from 'react';
 
 interface Properties {
   totalCount: number;
@@ -25,8 +23,10 @@ const Pagination = observer(
       setPage(currentPage);
     }, [currentPage]);
 
-    return (
-      <MPagination count={totalCount} page={page} onChange={handleChange} />
+    return totalCount > 1 ? (
+      <MUIPagination count={totalCount} page={page} onChange={handleChange} />
+    ) : (
+      <></>
     );
   }
 );

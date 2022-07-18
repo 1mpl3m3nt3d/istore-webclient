@@ -1,10 +1,10 @@
 import 'reflect-metadata';
-import 'styles.scss';
 
-import React from 'react';
+import 'styles.scss';
 
 import { Provider as IoCProvider } from 'inversify-react';
 import { configure as configureMobX } from 'mobx';
+import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 
 import { App } from 'containers/App';
@@ -20,11 +20,11 @@ const container = document.querySelector('#root');
 const root = createRoot(container!);
 
 root.render(
-  <React.StrictMode>
+  <StrictMode>
     <IoCProvider container={IoCContainer}>
       <App />
     </IoCProvider>
-  </React.StrictMode>
+  </StrictMode>
 );
 
 // If you want your app to work offline and load faster, you can change
