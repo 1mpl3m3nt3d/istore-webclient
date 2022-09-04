@@ -1,15 +1,12 @@
 {
-  "upgrade": true,
-  "target": "latest",
-  "pre": 1,
   "filter": [
     "/^.*$/"
   ],
   "filterVersion": [
     "/^.*$/"
   ],
-  "reject": [
-    "@tanstack/react-table"
-  ],
-  "rejectVersion": []
+  "pre": 1,
+  "reject": [],
+  "rejectVersion": [],
+  "target": "latest"
 }

@@ -5,6 +5,7 @@ import { observer } from 'mobx-react';
 import { lazy, Suspense } from 'react';
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 
+import { Checkout } from 'components/Checkout';
 import { LoadingSpinner } from 'components/LoadingSpinner';
 import {
   SigninRedirect,
@@ -64,6 +65,7 @@ const AppRoutes = observer(() => (
           <Route path="/silentrenew" element={<SigninSilentCallback />} />
           <Route element={<AuthorizedOutlet />}>
             <Route path="/cart" element={<Cart />} />
+            <Route path="/checkout" element={<Checkout />} />
           </Route>
         </Route>
       </Routes>

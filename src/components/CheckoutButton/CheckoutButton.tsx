@@ -6,13 +6,14 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 
 import { IoCTypes, useInjection } from 'ioc';
-import { CartStore } from 'stores';
+import { CartStore, CheckoutStore } from 'stores';
 
 interface Properties {
   totalPrice: number;
 }
 
 const CheckoutButton = observer((properties: Properties) => {
+  const store = useInjection<CheckoutStore>(IoCTypes.checkoutStore);
   const cartStore = useInjection<CartStore>(IoCTypes.cartStore);
   const navigate = useNavigate();
   const { t } = useTranslation(['cart']);
@@ -21,9 +22,9 @@ const CheckoutButton = observer((properties: Properties) => {
     <Stack direction="column" justifyContent="center">
       <Button
         variant="contained"
-        onClick={async (): Promise<void> => {
-          await cartStore.deleteCart();
-          navigate('/products', { replace: false });
+        onClick={(): void => {
+          store.init();
+          navigate('/checkout', { replace: false });
         }}
       >
         {`${t('checkout')} • ${properties.totalPrice}

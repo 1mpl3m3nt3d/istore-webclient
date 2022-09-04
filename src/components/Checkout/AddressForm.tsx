@@ -1,15 +1,24 @@
 /* eslint-disable i18next/no-literal-string */
 
+import 'reflect-metadata';
+
 import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
-import * as React from 'react';
+import { useInjection } from 'inversify-react';
+import { observer } from 'mobx-react';
+import { Fragment } from 'react';
 
-export default function AddressForm(): JSX.Element {
+import { IoCTypes } from 'ioc';
+import { CheckoutStore } from 'stores';
+
+const AddressForm = observer((): JSX.Element => {
+  const store = useInjection<CheckoutStore>(IoCTypes.checkoutStore);
+
   return (
-    <React.Fragment>
+    <Fragment>
       <Typography variant="h6" gutterBottom>
         Shipping address
       </Typography>
@@ -23,6 +32,10 @@ export default function AddressForm(): JSX.Element {
             fullWidth
             autoComplete="given-name"
             variant="standard"
+            value={store.firstName}
+            onChange={(event): void =>
+              store.changeFirstName(event.target.value)
+            }
           />
         </Grid>
         <Grid item xs={12} sm={6}>
@@ -34,6 +47,8 @@ export default function AddressForm(): JSX.Element {
             fullWidth
             autoComplete="family-name"
             variant="standard"
+            value={store.lastName}
+            onChange={(event): void => store.changeLastName(event.target.value)}
           />
         </Grid>
         <Grid item xs={12}>
@@ -45,6 +60,8 @@ export default function AddressForm(): JSX.Element {
             fullWidth
             autoComplete="shipping address-line1"
             variant="standard"
+            value={store.address1}
+            onChange={(event): void => store.changeAddress1(event.target.value)}
           />
         </Grid>
         <Grid item xs={12}>
@@ -55,6 +72,8 @@ export default function AddressForm(): JSX.Element {
             fullWidth
             autoComplete="shipping address-line2"
             variant="standard"
+            value={store.address2}
+            onChange={(event): void => store.changeAddress2(event.target.value)}
           />
         </Grid>
         <Grid item xs={12} sm={6}>
@@ -66,6 +85,8 @@ export default function AddressForm(): JSX.Element {
             fullWidth
             autoComplete="shipping address-level2"
             variant="standard"
+            value={store.city}
+            onChange={(event): void => store.changeCity(event.target.value)}
           />
         </Grid>
         <Grid item xs={12} sm={6}>
@@ -75,6 +96,8 @@ export default function AddressForm(): JSX.Element {
             label="State/Province/Region"
             fullWidth
             variant="standard"
+            value={store.state}
+            onChange={(event): void => store.changeState(event.target.value)}
           />
         </Grid>
         <Grid item xs={12} sm={6}>
@@ -86,6 +109,8 @@ export default function AddressForm(): JSX.Element {
             fullWidth
             autoComplete="shipping postal-code"
             variant="standard"
+            value={store.zip}
+            onChange={(event): void => store.changeZip(event.target.value)}
           />
         </Grid>
         <Grid item xs={12} sm={6}>
@@ -97,6 +122,8 @@ export default function AddressForm(): JSX.Element {
             fullWidth
             autoComplete="shipping country"
             variant="standard"
+            value={store.country}
+            onChange={(event): void => store.changeCountry(event.target.value)}
           />
         </Grid>
         <Grid item xs={12}>
@@ -108,6 +135,8 @@ export default function AddressForm(): JSX.Element {
           />
         </Grid>
       </Grid>
-    </React.Fragment>
+    </Fragment>
   );
-}
+});
+
+export default AddressForm;

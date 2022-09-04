@@ -794,6 +794,7 @@
         "@typescript-eslint/no-empty-function": "warn",
         "@typescript-eslint/no-explicit-any": "warn",
         "@typescript-eslint/no-floating-promises": "warn",
+        "@typescript-eslint/no-inferrable-types": "warn",
         "@typescript-eslint/no-non-null-assertion": "off",
         "@typescript-eslint/no-unsafe-argument": "off",
         "@typescript-eslint/no-unsafe-assignment": "off",
@@ -801,6 +802,8 @@
         "@typescript-eslint/no-unsafe-return": "off",
         "@typescript-eslint/restrict-template-expressions": "off",
         "@typescript-eslint/triple-slash-reference": "off",
+        "no-octal": "warn",
+        "no-octal-escape": "warn",
         "prefer-const": "warn",
         "prettier/prettier": "warn"
       }

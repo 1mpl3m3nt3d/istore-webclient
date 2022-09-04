@@ -3,6 +3,7 @@ const IoCTypes = {
   authStore: Symbol('authStore'),
   cartService: Symbol('cartService'),
   cartStore: Symbol('cartStore'),
+  checkoutStore: Symbol('checkoutStore'),
   httpService: Symbol('httpService'),
   productsService: Symbol('productsService'),
   productsStore: Symbol('productsStore'),

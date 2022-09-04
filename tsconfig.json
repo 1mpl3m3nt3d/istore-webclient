@@ -1,29 +1,72 @@
 {
   "compilerOptions": {
-    "target": "esnext",
+    "allowJs": true,
+    "allowSyntheticDefaultImports": true,
+    "alwaysStrict": true,
+    "baseUrl": "src",
+    "emitDecoratorMetadata": true,
+    "esModuleInterop": true,
+    "experimentalDecorators": true,
+    "forceConsistentCasingInFileNames": true,
+    "incremental": true,
+    "isolatedModules": true,
+    "jsx": "preserve",
     "lib": [
       "dom",
       "dom.iterable",
       "esnext"
     ],
-    "allowJs": true,
-    "skipLibCheck": true,
-    "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
-    "strict": true,
-    "forceConsistentCasingInFileNames": true,
-    "noFallthroughCasesInSwitch": true,
     "module": "esnext",
     "moduleResolution": "node",
-    "resolveJsonModule": true,
-    "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react-jsx",
-    "incremental": true,
-    "alwaysStrict": true,
-    "baseUrl": "src",
-    "experimentalDecorators": true,
-    "emitDecoratorMetadata": true,
+    "noFallthroughCasesInSwitch": true,
+    "paths": {
+      "components/*": [
+        "components/*"
+      ],
+      "containers/*": [
+        "containers/*"
+      ],
+      "dtos/*": [
+        "dtos/*"
+      ],
+      "ioc/*": [
+        "ioc/*"
+      ],
+      "locales/*": [
+        "locales/*"
+      ],
+      "models/*": [
+        "models/*"
+      ],
+      "pages/*": [
+        "pages/*"
+      ],
+      "routes/*": [
+        "routes/*"
+      ],
+      "services/*": [
+        "services/*"
+      ],
+      "stores/*": [
+        "stores/*"
+      ],
+      "styles/*": [
+        "styles/*"
+      ],
+      "utils/*": [
+        "utils/*"
+      ]
+    },
+    "plugins": [
+      {
+        "name": "typescript-plugin-css-modules"
+      }
+    ],
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "target": "es5",
     "types": [
       "@testing-library/cypress",
       "@testing-library/jest-dom",
@@ -32,22 +75,22 @@
       "node",
       "react",
       "reflect-metadata"
-    ],
-    "plugins": [
-      {
-        "name": "typescript-plugin-css-modules"
-      }
     ]
   },
   "include": [
-    "**/react-app-env.d.ts",
+    "next-env.d.ts",
+    "react-app-env.d.ts",
+    "styled.d.ts",
+    "types.d.ts",
+    "**/*.d.ts",
     "**/*.ts",
     "**/*.tsx"
   ],
   "exclude": [
-    "./.yarn",
-    "./cypress",
-    "./cypress.config.ts",
-    "./node_modules"
-  ]
+    ".yarn",
+    "cypress",
+    "cypress.config.ts",
+    "node_modules",
+    "playwright.config.ts"
+    ]
 }

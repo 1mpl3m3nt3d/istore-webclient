@@ -1,18 +1,17 @@
 {
   "defaultSeverity": "warning",
   "ignoreDisables": false,
+  "ignoreFiles": [
+    "**/package*.json",
+    "**/yarn.lock"
+  ],
+  "ignorePaths": [
+    "**/.yarn",
+    "**/node_modules"
+  ],
   "reportDescriptionlessDisables": true,
   "reportInvalidScopeDisables": true,
   "reportNeedlessDisables": true,
-  "ignoreFiles": [
-    "**/*.esproj"
-  ],
-  "ignorePaths": [
-    "**/build",
-    "**/builds",
-    "**/node_modules",
-    "**/.yarn"
-  ],
   "extends": [
     "stylelint-config-sass-guidelines",
     "stylelint-config-html",
@@ -35,6 +34,7 @@
   ],
   "rules": {
     "alpha-value-notation": "number",
+    "color-named": null,
     "csstree/validator": true,
     "indentation": 2,
     "string-quotes": "single",
@@ -78,16 +78,28 @@
     },
     {
       "files": [
+        "*.styl",
+        "**/*.styl",
+        "*.stylus",
+        "**/*.stylus"
+      ],
+      "customSyntax": "postcss-styl"
+    },
+    {
+      "files": [
+        "*.sss",
+        "**/*.sss"
+      ],
+      "customSyntax": "sugarss"
+    },
+    {
+      "files": [
         "**/components/**/*.css",
         "**/containers/**/*.css",
         "**/pages/**/*.css",
         "**/stores/**/*.css"
       ],
       "rules": {
-        "alpha-value-notation": "number",
-        "csstree/validator": true,
-        "indentation": 4,
-        "string-quotes": "single",
         "prettier/prettier": true
       }
     }
