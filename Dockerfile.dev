@@ -1,17 +1,23 @@
 FROM node:alpine AS development
-ENV NODE_ENV production
+ENV NODE_ENV development
 WORKDIR /app
 COPY package.json .
 RUN corepack enable
+RUN npx --yes npm-check-updates@latest --target latest --pre 1 --upgrade --color --concurrency 8 --configFilePath . --configFileName .ncurc.json --cwd . --dep prod,dev,bundle,optional,peer --errorLevel 1
 RUN yarn set version berry
+RUN yarn plugin import typescript
+RUN yarn plugin import interactive-tools
 RUN yarn config set --home enableTelemetry false
 RUN yarn config set enableTelemetry false
 RUN yarn config set nodeLinker pnp
+RUN yarn config set packageExtensions --json "{ \"@mui/x-date-pickers@*\": { \"dependencies\": { \"react-dom\": \"*\" } }, \"chalk@*\": { \"dependencies\": { \"#ansi-styles\": \"npm:ansi-styles@*\", \"#supports-color\": \"npm:supports-color@*\" } }, \"material-ui-popup-state@*\": { \"dependencies\": { \"react-dom\": \"*\" } }, \"npm-check-updates@*\": { \"dependencies\": { \"ini\": \"*\" } }, \"stylelint-config-recommended-scss@*\": { \"dependencies\": { \"postcss\": \"*\" } }, \"stylelint-config-xo-scss@*\": { \"dependencies\": { \"postcss\": \"*\" } } }"
+RUN yarn config set pnpEnableEsmLoader true
+RUN yarn config set pnpEnableInlining true
+RUN yarn config set pnpFallbackMode dependencies-only
 RUN yarn config set pnpMode strict
-RUN yarn plugin import typescript
-RUN yarn plugin import interactive-tools
 RUN yarn install
 RUN yarn up
+RUN yarn
 RUN yarn dlx @yarnpkg/sdks vscode
 RUN yarn
 COPY . .
