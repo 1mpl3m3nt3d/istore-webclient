@@ -798,8 +798,8 @@ out
 .yarn/*
 .yarn/**
 .yarn/**/*
-.yarn/cache/
-.yarn/cache/**
+!.yarn/cache/
+!.yarn/cache/**
 !.yarn/patches/
 !.yarn/patches/**
 !.yarn/plugins/
@@ -808,8 +808,8 @@ out
 !.yarn/releases/**
 !.yarn/sdks/
 !.yarn/sdks/**
-.yarn/unplugged/
-.yarn/unplugged/**
+!.yarn/unplugged/
+!.yarn/unplugged/**
 !.yarn/versions/
 !.yarn/versions/**
 .yarn/build-state.yml

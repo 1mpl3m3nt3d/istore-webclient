@@ -7,7 +7,7 @@ const fs = require('node:fs');
 
 const app = express();
 
-const PORT = '/tmp/nginx.socket'; // process.env.PORT || 8080
+const PORT = process.env.PORT; // 8080 || '/tmp/nginx.socket'
 
 const whitelist = new Set([
   process.env.REACT_APP_BASE_API_URL,
@@ -77,11 +77,11 @@ const server = app.listen(PORT, (error) => {
 
   console.log(
     `
-    >>>
+    >>> -------------------------
     >>> Server is Running...
     >>> Address: [${address}]
     >>> Port: [${port}]
-    >>>
+    >>> -------------------------
     `
   );
 });
