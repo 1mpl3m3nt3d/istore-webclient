@@ -1,4 +1,5 @@
 #corepack enable
+#corepack prepare yarn@stable --activate
 #corepack prepare yarn@3.2.3 --activate
 #yarn set version berry
 #yarn plugin import typescript
