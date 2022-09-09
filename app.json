@@ -1,0 +1,21 @@
+{
+  "name": "istore-webclient",
+  "description": "iStore",
+  "scripts": {
+  },
+  "env": {
+  },
+  "formation": {
+    "web": {
+      "quantity": 1
+    }
+  },
+  "addons": [
+  ],
+  "buildpacks": [
+    {
+      "url": "heroku/nodejs",
+      "url": "https://github.com/heroku/heroku-buildpack-nginx"
+    }
+  ]
+}

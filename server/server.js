@@ -1,13 +1,15 @@
 /* eslint-disable unicorn/prefer-module */
 
-const express = require('express');
+const cluster = require('cluster');
 const cors = require('cors');
-const path = require('node:path');
+const express = require('express');
 const fs = require('node:fs');
+const os = require('os');
+const path = require('node:path');
 
-const app = express();
-
-const PORT = process.env.PORT; // 8080 || '/tmp/nginx.socket'
+const numCPUs = os.cpus().length;
+const isDev = process.env.NODE_ENV !== 'production';
+const PORT = process.env.PORT || 8080;
 
 const whitelist = new Set([
   process.env.REACT_APP_BASE_API_URL,
@@ -17,74 +19,93 @@ const whitelist = new Set([
   process.env.PUBLIC_URL,
 ]);
 
-app.use(
-  cors({
-    origin: function (origin, callback) {
-      // allow requests with no origin
-      if (!origin) {
-        return callback(null, true);
-      }
+// multi-process to utilize all CPU cores
+if (!isDev && cluster.isMaster) {
+  console.error(`Node cluster master ${process.pid} is running`);
 
-      if (!whitelist.has(origin)) {
-        const message =
-          "The CORS policy for this origin doesn't " +
-          'allow access from the particular origin.';
-
-        return callback(new Error(message), false);
-      }
-
-      return callback(null, true);
-    },
-  })
-);
-
-app.use(express.static(path.join(__dirname, '..', 'build')));
-
-app.get('/', function (req, res) {
-  res.sendFile(path.join(__dirname, '..', 'build', 'index.html'));
-});
-app.get('/cart', function (req, res) {
-  res.sendFile(path.join(__dirname, '..', 'build', 'index.html'));
-});
-app.get('/cart/*', function (req, res) {
-  res.sendFile(path.join(__dirname, '..', 'build', 'index.html'));
-});
-app.get('/product', function (req, res) {
-  res.sendFile(path.join(__dirname, '..', 'build', 'index.html'));
-});
-app.get('/product/*', function (req, res) {
-  res.sendFile(path.join(__dirname, '..', 'build', 'index.html'));
-});
-app.get('/products', function (req, res) {
-  res.sendFile(path.join(__dirname, '..', 'build', 'index.html'));
-});
-app.get('/products/*', function (req, res) {
-  res.sendFile(path.join(__dirname, '..', 'build', 'index.html'));
-});
-app.get('/*', function (req, res) {
-  res.sendFile(path.join(__dirname, '..', 'build', 'index.html'));
-});
-
-const server = app.listen(PORT, (error) => {
-  if (error) {
-    throw error;
+  // fork workers
+  for (let i = 0; i < numCPUs; i++) {
+    cluster.fork();
   }
 
-  fs.openSync('/tmp/app-initialized', 'w');
+  cluster.on('exit', (worker, code, signal) => {
+    console.error(`Node cluster worker ${worker.process.pid} exited: code ${code}, signal ${signal}`);
+  });
 
-  const address = server.address().address;
-  const port = server.address().port;
+} else {
+  const app = express();
 
-  console.log(
-    `
-    >>> -------------------------
-    >>> Server is Running...
-    >>> Address: [${address}]
-    >>> Port: [${port}]
-    >>> -------------------------
-    `
+  app.use(
+    cors({
+      origin: function (origin, callback) {
+        // allow requests with no origin
+        if (!origin) {
+          return callback(null, true);
+        }
+
+        if (!whitelist.has(origin)) {
+          const message =
+            "The CORS policy for this origin doesn't " +
+            'allow access from the particular origin.';
+
+          return callback(new Error(message), false);
+        }
+
+        return callback(null, true);
+      },
+    })
   );
-});
+
+  app.use(express.static(path.join(__dirname, '..', 'build')));
+
+  app.get('/', function (req, res) {
+    res.sendFile(path.join(__dirname, '..', 'build', 'index.html'));
+  });
+  app.get('/cart', function (req, res) {
+    res.sendFile(path.join(__dirname, '..', 'build', 'index.html'));
+  });
+  app.get('/cart/*', function (req, res) {
+    res.sendFile(path.join(__dirname, '..', 'build', 'index.html'));
+  });
+  app.get('/product', function (req, res) {
+    res.sendFile(path.join(__dirname, '..', 'build', 'index.html'));
+  });
+  app.get('/product/*', function (req, res) {
+    res.sendFile(path.join(__dirname, '..', 'build', 'index.html'));
+  });
+  app.get('/products', function (req, res) {
+    res.sendFile(path.join(__dirname, '..', 'build', 'index.html'));
+  });
+  app.get('/products/*', function (req, res) {
+    res.sendFile(path.join(__dirname, '..', 'build', 'index.html'));
+  });
+  app.get('/*', function (req, res) {
+    res.sendFile(path.join(__dirname, '..', 'build', 'index.html'));
+  });
+
+  const server = app.listen(PORT, (error) => {
+    if (error) {
+      throw error;
+    }
+
+    if (PORT === '/tmp/nginx.socket') {
+      fs.openSync('/tmp/app-initialized', 'w');
+    }
+
+    const address = server.address().address;
+    const port = server.address().port;
+
+    console.error(
+      `
+      >>> -------------------------
+      >>> Server is Running...
+      >>> Address: [${address}]
+      >>> Port: [${port}]
+      >>> -------------------------
+      `
+    );
+  });
+}
 
 /*
 app.enable('trust proxy');

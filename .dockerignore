@@ -1,10 +1,62 @@
 ##
+## Additions to gitignore values
+##
+
+**/.[Bb]ackup
+**/.[Bb]ackups
+**/.dockerignore
+**/.editorconfig
+**/.git
+**/.gitattributes
+**/.gitignore
+**/[Bb]ackup
+**/[Bb]ackups
+**/[Cc]hange[Ll]og*
+**/[Cc]harts
+**/[Ll]icense*
+**/[Rr]ead.[Mm][Ee]
+**/[Rr]ead[Mm][Ee]*
+**/*.appx
+**/*.appxbundle
+**/*.appxupload
+**/*.backup
+**/*.bak
+**/*.bat
+**/*.cab
+**/*.cmd
+**/*.com
+**/*.dbmdl
+**/*.diagcab
+**/*.dll
+**/*.exe
+**/*.jfm
+**/*.lib
+**/*.msi
+**/*.msix
+**/*.msixbundle
+**/*.msixupload
+**/*.msm
+**/*.msp
+**/*.ori
+**/*.orig
+**/*.original
+**/*.patch
+**/*.samp
+**/*.sample
+**/*[Dd]ocker-[Cc]ompose*
+**/*[Dd]ocker[Ff]ile*
+**/*DOCKER-COMPOSE*
+**/*DOCKERFILE*
+**/CHANGELOG*
+**/LICENSE*
+**/READ.ME
+**/README*
+
+##
 ## Ignore various os-specific temporary and executable files
 ##
 
 **/._*
-**/.[Bb]ackup
-**/.[Bb]ackups
 **/.[Cc]ache
 **/.[Cc]aches
 **/.[Ll]og
@@ -20,15 +72,10 @@
 **/.AppleDouble
 **/.com.apple.timemachine.donotpresent
 **/.directory
-**/.dockerignore
 **/.DocumentRevisions-V100
 **/.DS_Store
-**/.editorconfig
 **/.fseventsd
 **/.fuse_hidden*
-**/.git
-**/.gitattributes
-**/.gitignore
 **/.idea
 **/.LSOverride
 **/.nfs*
@@ -42,19 +89,12 @@
 **/.VolumeIcon.icns
 **/.vs
 **/.vscode
-**/[Bb]ackup
-**/[Bb]ackups
 **/[Cc]ache
 **/[Cc]aches
-**/[Cc]hange[Ll]og*
-**/[Cc]harts
 **/[Dd]esktop.ini
 **/[Ii]con
-**/[Ll]icense*
 **/[Ll]og
 **/[Ll]ogs
-**/[Rr]ead.[Mm][Ee]
-**/[Rr]ead[Mm][Ee]*
 **/[Rr]eport
 **/[Rr]eports
 **/[Ss]ecrets.[Dd]ev.yaml
@@ -66,60 +106,25 @@
 **/[Vv]alues.[Dd]ev.yaml
 **/*.[Dd]ot[Ss]ettings*
 **/*.*proj.user
-**/*.appx
-**/*.appxbundle
-**/*.appxupload
-**/*.backup
-**/*.bak
-**/*.bat
-**/*.cab
 **/*.cache
-**/*.cmd
-**/*.com
-**/*.dbmdl
-**/*.diagcab
-**/*.dll
-**/*.exe
-**/*.jfm
-**/*.lib
 **/*.lnk
 **/*.log
 **/*.logs
-**/*.msi
-**/*.msix
-**/*.msixbundle
-**/*.msixupload
-**/*.msm
-**/*.msp
-**/*.ori
-**/*.orig
-**/*.original
-**/*.patch
 **/*.report
 **/*.reports
-**/*.samp
-**/*.sample
 **/*.stackdump
 **/*.swap
 **/*.temp
 **/*.tmp
-**/*[Dd]ocker-[Cc]ompose*
-**/*[Dd]ocker[Ff]ile*
 **/*~*
-**/*DOCKER-COMPOSE*
-**/*DOCKERFILE*
 **/~$*
 **/$[Rr]ecycle.[Bb]in
 **/$RECYCLE.BIN
 **/azds.yaml
-**/CHANGELOG*
 **/ehthumbs_vista.db
 **/ehthumbs.db
-**/LICENSE*
 **/Network Trash Folder
 **/Network\ Trash\ Folder
-**/READ.ME
-**/README*
 **/tempkey.jwk
 **/Temporary Items
 **/Temporary\ Items
@@ -597,9 +602,7 @@ MigrationBackup/
 FodyWeavers.xsd
 
 # VS Code files for those working on multiple tools
-.vscode/*
 .vscode/**
-.vscode/**/*
 !.vscode/settings.json
 !.vscode/tasks.json
 !.vscode/launch.json
@@ -719,20 +722,25 @@ web_modules/
 .yarn-integrity
 
 # dotenv environment variable files
-.env*.local
 .env.*.local
 .env.ci.local
 .env.dev.local
 .env.development.local
+!.env.docker.local
 .env.prod.local
 .env.production.local
 .env.stage.local
 .env.staging.local
 .env.test.local
+.env.local.*
 .env.local
+#.env.*.docker
 #.env.ci
 #.env.dev
 #.env.development
+#.env.docker.*
+#.env.docker.dev
+#.env.docker.prod
 #.env.prod
 #.env.production
 #.env.stage
@@ -794,10 +802,13 @@ out
 .DS_Store
 *.pem
 
-# yarn v2
-.yarn/*
+# lock files
+!package-lock.json
+!yarn.lock
+
+# yarn files
 .yarn/**
-.yarn/**/*
+
 !.yarn/cache/
 !.yarn/cache/**
 !.yarn/patches/
@@ -812,21 +823,14 @@ out
 !.yarn/unplugged/**
 !.yarn/versions/
 !.yarn/versions/**
+
 .yarn/build-state.yml
 .yarn/install-state.gz
 
-# yarn .pnp*
-.pnp
 .pnp*
 .pnp.*
+.pnp.cjs
+.pnp.loader.mjs
 
-# yarn yarnrc.yml
-#.yarnrc
-#.yarnrc*
+.yarnrc*
 !.yarnrc.yml
-
-# yarn yarn.lock
-!yarn.lock
-
-# npm package-lock.json
-!package-lock.json

@@ -22,13 +22,19 @@
 **/.DS_Store
 **/.fseventsd
 **/.fuse_hidden*
+**/.idea
 **/.LSOverride
 **/.nfs*
+**/.project
+**/.settings
 **/.Spotlight-V100
 **/.TemporaryItems
+**/.toolstarget
 **/.Trash-*
 **/.Trashes
 **/.VolumeIcon.icns
+**/.vs
+**/.vscode
 **/[Cc]ache
 **/[Cc]aches
 **/[Dd]esktop.ini
@@ -37,11 +43,15 @@
 **/[Ll]ogs
 **/[Rr]eport
 **/[Rr]eports
+**/[Ss]ecrets.[Dd]ev.yaml
 **/[Ss]wap
 **/[Tt]emp
 **/[Tt]humbs.db
 **/[Tt]humbs.db:encryptable
 **/[Tt]mp
+**/[Vv]alues.[Dd]ev.yaml
+**/*.[Dd]ot[Ss]ettings*
+**/*.*proj.user
 **/*.cache
 **/*.lnk
 **/*.log
@@ -56,10 +66,12 @@
 **/~$*
 **/$[Rr]ecycle.[Bb]in
 **/$RECYCLE.BIN
+**/azds.yaml
 **/ehthumbs_vista.db
 **/ehthumbs.db
 **/Network Trash Folder
 **/Network\ Trash\ Folder
+**/tempkey.jwk
 **/Temporary Items
 **/Temporary\ Items
 
@@ -536,9 +548,7 @@ MigrationBackup/
 FodyWeavers.xsd
 
 # VS Code files for those working on multiple tools
-.vscode/*
 .vscode/**
-.vscode/**/*
 !.vscode/settings.json
 !.vscode/tasks.json
 !.vscode/launch.json
@@ -658,20 +668,25 @@ web_modules/
 .yarn-integrity
 
 # dotenv environment variable files
-.env*.local
 .env.*.local
 .env.ci.local
 .env.dev.local
 .env.development.local
+.env.docker.local
 .env.prod.local
 .env.production.local
 .env.stage.local
 .env.staging.local
 .env.test.local
+.env.local.*
 .env.local
+#.env.*.docker
 #.env.ci
 #.env.dev
 #.env.development
+#.env.docker.*
+#.env.docker.dev
+#.env.docker.prod
 #.env.prod
 #.env.production
 #.env.stage
@@ -733,39 +748,35 @@ out
 .DS_Store
 *.pem
 
-# yarn v2
-.yarn/*
+# lock files
+!package-lock.json
+!yarn.lock
+
+# yarn files
 .yarn/**
-.yarn/**/*
+
 .yarn/cache/
 .yarn/cache/**
-!.yarn/patches/
-!.yarn/patches/**
-!.yarn/plugins/
-!.yarn/plugins/**
-!.yarn/releases/
-!.yarn/releases/**
-!.yarn/sdks/
-!.yarn/sdks/**
+.yarn/patches/
+.yarn/patches/**
+.yarn/plugins/
+.yarn/plugins/**
+.yarn/releases/
+.yarn/releases/**
+.yarn/sdks/
+.yarn/sdks/**
 .yarn/unplugged/
 .yarn/unplugged/**
-!.yarn/versions/
-!.yarn/versions/**
+.yarn/versions/
+.yarn/versions/**
+
 .yarn/build-state.yml
 .yarn/install-state.gz
 
-# yarn .pnp*
-.pnp
 .pnp*
 .pnp.*
+.pnp.cjs
+.pnp.loader.mjs
 
-# yarn yarnrc.yml
-#.yarnrc
-#.yarnrc*
+.yarnrc*
 !.yarnrc.yml
-
-# yarn yarn.lock
-!yarn.lock
-
-# npm package-lock.json
-!package-lock.json

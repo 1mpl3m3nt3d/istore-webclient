@@ -4,15 +4,16 @@
   "private": true,
   "sideEffects": true,
   "engines": {
-    "node": ">=16.17.0",
-    "npm": ">=8.15.0"
+    "node": ">=18.9.0",
+    "npm": ">=8.19.1"
   },
   "homepage": ".",
   "workspaces": [
     "."
   ],
   "cacheDirectories": [
-    ".yarn/cache"
+    ".yarn/cache",
+    "node_modules"
   ],
   "packageManager": "yarn@3.2.3",
   "scripts": {
