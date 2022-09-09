@@ -93,7 +93,7 @@ if (!isDev && cluster.isMaster) {
       throw error;
     }
 
-    touch('/tmp/app-initialized');
+    //touch('/tmp/app-initialized');
 
     const serverAddress = server.address().address;
     const serverPort = server.address().port;
@@ -105,7 +105,6 @@ if (!isDev && cluster.isMaster) {
       >>> Worker:           [ ${process.pid} ]
       >>> Server Address:   [ ${serverAddress} ]
       >>> Server Port:      [ ${serverPort} ]
-      >>> Environment Port: [ ${PORT} ]
       >>> -------------------------
       `
     );
