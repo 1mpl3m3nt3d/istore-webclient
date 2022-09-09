@@ -19,7 +19,7 @@ const whitelist = new Set([
   process.env.PUBLIC_URL,
 ]);
 
-const touch = async (file: string) {
+const touch = async (file: string): void => {
   await fs.ensureFile(file);
   const now = new Date();
   await fs.utimes(file, now, now);
