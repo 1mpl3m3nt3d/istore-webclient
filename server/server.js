@@ -29,6 +29,10 @@ const touch = async (file) => {
 if (!isDev && cluster.isMaster) {
   console.error(`Node cluster master ${process.pid} is running`);
 
+    if (PORT === '/tmp/nginx.socket') {
+      touch('/tmp/app-initialized');
+    }
+
   // fork workers
   for (let i = 0; i < numCPUs; i++) {
     cluster.fork();
@@ -37,7 +41,6 @@ if (!isDev && cluster.isMaster) {
   cluster.on('exit', (worker, code, signal) => {
     console.error(`Node cluster worker ${worker.process.pid} exited: code ${code}, signal ${signal}`);
   });
-
 } else {
   const app = express();
 
@@ -98,16 +101,17 @@ if (!isDev && cluster.isMaster) {
       touch('/tmp/app-initialized');
     }
 
-    const address = server.address().address;
-    const port = server.address().port;
+    const serverAddress = server.address().address;
+    const serverPort = server.address().port;
 
     console.error(
       `
       >>> -------------------------
       >>> Server is Running ...
-      >>> Worker: [ ${process.pid} ]
-      >>> Address: [ ${address} ]
-      >>> Port: [ ${port} ]
+      >>> Worker:           [ ${process.pid} ]
+      >>> Server Address:   [ ${serverAddress} ]
+      >>> Server Port:      [ ${serverPort} ]
+      >>> Environment Port: [ ${PORT} ]
       >>> -------------------------
       `
     );
