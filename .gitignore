@@ -27,7 +27,6 @@
 **/.DS_Store
 **/.fseventsd
 **/.fuse_hidden*
-**/.idea
 **/.LSOverride
 **/.nfs*
 **/.project
@@ -39,7 +38,6 @@
 **/.Trashes
 **/.VolumeIcon.icns
 **/.vs
-**/.vscode
 **/.[Cc]ache
 **/.[Cc]aches
 **/.[Ll]og
@@ -779,4 +777,5 @@ out
 .pnp.loader.mjs
 
 .yarnrc*
+!.yarnrc.sample.yml
 !.yarnrc.yml
