@@ -25,19 +25,7 @@ const touch = async (file) => {
   await fs.utimes(file, now, now);
 }
 
-// multi-process to utilize all CPU cores
-if (!isDev && cluster.isMaster) {
-  console.error(`Node cluster master ${process.pid} is running`);
-
-  // fork workers
-  for (let i = 0; i < numCPUs; i++) {
-    cluster.fork();
-  }
-
-  cluster.on('exit', (worker, code, signal) => {
-    console.error(`Node cluster worker ${worker.process.pid} exited: code ${code}, signal ${signal}`);
-  });
-} else {
+const server = () => {
   const app = express();
 
   app.use(
@@ -88,15 +76,15 @@ if (!isDev && cluster.isMaster) {
     res.sendFile(path.join(__dirname, '..', 'build', 'index.html'));
   });
 
-  const server = app.listen(PORT, (error) => {
+  const listener = app.listen(PORT, (error) => {
     if (error) {
       throw error;
     }
 
-    //touch('/tmp/app-initialized');
+    touch('/tmp/app-initialized');
 
-    const serverAddress = server.address().address;
-    const serverPort = server.address().port;
+    const serverAddress = listener.address().address;
+    const serverPort = listener.address().port;
 
     console.error(
       `
@@ -110,6 +98,26 @@ if (!isDev && cluster.isMaster) {
     );
   });
 }
+
+server();
+
+/*
+// multi-process to utilize all CPU cores
+if (!isDev && cluster.isMaster) {
+  console.error(`Node cluster master ${process.pid} is running`);
+
+  // fork workers
+  for (let i = 0; i < numCPUs; i++) {
+    cluster.fork();
+  }
+
+  cluster.on('exit', (worker, code, signal) => {
+    console.error(`Node cluster worker ${worker.process.pid} exited: code ${code}, signal ${signal}`);
+  });
+} else {
+  server();
+}
+*/
 
 /*
 app.enable('trust proxy');
