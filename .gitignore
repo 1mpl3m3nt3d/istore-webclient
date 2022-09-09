@@ -757,8 +757,8 @@ out
 .yarn/cache/**
 .yarn/patches/
 .yarn/patches/**
-.yarn/plugins/
-.yarn/plugins/**
+!.yarn/plugins/
+!.yarn/plugins/**
 !.yarn/releases/
 !.yarn/releases/**
 .yarn/sdks/

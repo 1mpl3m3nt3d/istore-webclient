@@ -5,7 +5,8 @@
   "sideEffects": true,
   "engines": {
     "node": ">=18.9.0",
-    "npm": ">=8.19.1"
+    "npm": ">=8.19.1",
+    "yarn": ">=3.2.3"
   },
   "homepage": ".",
   "workspaces": [
@@ -45,9 +46,9 @@
     "test:e2e": "playwright test",
     "update:check": "npm-check-updates --color --concurrency 8 --configFilePath . --configFileName .ncurc.json --cwd . --dep prod,dev,bundle,optional,peer --errorLevel 1",
     "update:upgrade": "npm-check-updates --upgrade --color --concurrency 8 --configFilePath . --configFileName .ncurc.json --cwd . --dep prod,dev,bundle,optional,peer --errorLevel 1",
-    "heroku-prebuild": "./prepare.sh",
-    "heroku-postbuild": "",
-    "heroku-cleanup": "",
+    "heroku-prebuild": "yarn install ; yarn up",
+    "heroku-postbuild": "yarn install ; yarn up ; node scripts/build.js",
+    "heroku-cleanup": "yarn",
     "next:analyze": "source-map-explorer '.next/static/**/*.js'",
     "next:build": "next build",
     "next:build:analyze": "next:build && next:analyze",
