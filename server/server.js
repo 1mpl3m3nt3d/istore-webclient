@@ -88,7 +88,7 @@ if (!isDev && cluster.isMaster) {
       throw error;
     }
 
-    if (PORT === '/tmp/nginx.socket') {
+    while (PORT === '/tmp/nginx.socket') {
       fs.openSync('/tmp/app-initialized', 'w');
     }
 
