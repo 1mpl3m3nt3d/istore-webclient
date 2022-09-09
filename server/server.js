@@ -29,10 +29,6 @@ const touch = async (file) => {
 if (!isDev && cluster.isMaster) {
   console.error(`Node cluster master ${process.pid} is running`);
 
-    if (PORT === '/tmp/nginx.socket') {
-      touch('/tmp/app-initialized');
-    }
-
   // fork workers
   for (let i = 0; i < numCPUs; i++) {
     cluster.fork();
@@ -97,9 +93,7 @@ if (!isDev && cluster.isMaster) {
       throw error;
     }
 
-    if (PORT === '/tmp/nginx.socket') {
-      touch('/tmp/app-initialized');
-    }
+    touch('/tmp/app-initialized');
 
     const serverAddress = server.address().address;
     const serverPort = server.address().port;
