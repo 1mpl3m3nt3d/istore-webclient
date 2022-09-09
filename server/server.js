@@ -100,8 +100,9 @@ const server = () => {
   });
 }
 
-// server();
+server();
 
+/*
 // multi-process to utilize all CPU cores
 if (!isDev && cluster.isMaster) {
   console.error(`Node cluster master ${process.pid} is running`);
@@ -117,6 +118,7 @@ if (!isDev && cluster.isMaster) {
 } else {
   server();
 }
+*/
 
 /*
 app.enable('trust proxy');
