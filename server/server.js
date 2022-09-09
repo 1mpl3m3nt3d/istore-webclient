@@ -3,7 +3,7 @@
 const cluster = require('cluster');
 const cors = require('cors');
 const express = require('express');
-const fs = require('node:fs');
+const fs = require('fs-extra');
 const os = require('os');
 const path = require('node:path');
 
@@ -18,6 +18,12 @@ const whitelist = new Set([
   process.env.REACT_APP_IDENTITY_URL,
   process.env.PUBLIC_URL,
 ]);
+
+const touch = async (file: string) {
+  await fs.ensureFile(file);
+  const now = new Date();
+  await fs.utimes(file, now, now);
+}
 
 // multi-process to utilize all CPU cores
 if (!isDev && cluster.isMaster) {
@@ -89,7 +95,7 @@ if (!isDev && cluster.isMaster) {
     }
 
     if (PORT === '/tmp/nginx.socket') {
-      fs.openSync('/tmp/app-initialized', 'w');
+      touch('/tmp/app-initialized');
     }
 
     const address = server.address().address;
@@ -98,9 +104,10 @@ if (!isDev && cluster.isMaster) {
     console.error(
       `
       >>> -------------------------
-      >>> Server is Running...
-      >>> Address: [${address}]
-      >>> Port: [${port}]
+      >>> Server is Running ...
+      >>> Worker: [ ${process.pid} ]
+      >>> Address: [ ${address} ]
+      >>> Port: [ ${port} ]
       >>> -------------------------
       `
     );
