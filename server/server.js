@@ -9,7 +9,12 @@ const path = require('node:path');
 
 const numCPUs = os.cpus().length;
 const isDev = process.env.NODE_ENV !== 'production';
-const PORT = process.env.PORT || 8080;
+
+if (process.env.USE_NGINX === true) {
+  const PORT = '/tmp/nginx.socket' || process.env.PORT || 8080;
+} else {
+  const PORT = process.env.PORT || 8080;
+}
 
 const whitelist = new Set([
   process.env.REACT_APP_BASE_API_URL,
@@ -99,9 +104,8 @@ const server = () => {
   });
 }
 
-server();
+// server();
 
-/*
 // multi-process to utilize all CPU cores
 if (!isDev && cluster.isMaster) {
   console.error(`Node cluster master ${process.pid} is running`);
@@ -117,7 +121,6 @@ if (!isDev && cluster.isMaster) {
 } else {
   server();
 }
-*/
 
 /*
 app.enable('trust proxy');
