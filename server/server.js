@@ -10,11 +10,7 @@ const path = require('node:path');
 const numCPUs = os.cpus().length;
 const isDev = process.env.NODE_ENV !== 'production';
 
-if (process.env.USE_NGINX === true) {
-  const PORT = '/tmp/nginx.socket' || process.env.PORT || 8080;
-} else {
-  const PORT = process.env.PORT || 8080;
-}
+const PORT = process.env.USE_NGINX === true ? '/tmp/nginx.socket' || 8080 : process.env.PORT || 8080;
 
 const whitelist = new Set([
   process.env.REACT_APP_BASE_API_URL,
