@@ -92,5 +92,5 @@
     "cypress.config.ts",
     "node_modules",
     "playwright.config.ts"
-    ]
+  ]
 }

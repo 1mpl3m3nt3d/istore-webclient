@@ -93,7 +93,7 @@ const server = () => {
     console.error(
       `
       >>> -------------------------
-      >>> Server is Running ...
+      >>> Express Server is Running ...
       >>> Worker:           [ ${pid} ]
       >>> Process Port:     [ ${processPort} ]
       >>> Server Port:      [ ${PORT} ]
