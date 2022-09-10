@@ -21,6 +21,7 @@ export enum MethodType {
 export interface ApiHeader {
   contentType?: ContentType;
   authorization?: string | null;
+  accessControlAllowOrigin?: string | null;
 }
 
 export interface ApiResponse<T> {
@@ -163,6 +164,13 @@ export default class DefaultHttpService implements HttpService {
             headers.contentType === ContentType.Json
               ? this.headerValueContentTypeJson
               : this.headerValueContentTypeFormData,
+        };
+      }
+
+      if (headers.accessControlAllowOrigin) {
+        headersRequest = {
+          ...headersRequest,
+          'Access-Control-Allow-Origin': headers.accessControlAllowOrigin,
         };
       }
 

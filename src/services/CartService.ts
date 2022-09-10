@@ -27,11 +27,14 @@ export default class DefaultCartService implements CartService {
   @inject(IoCTypes.httpService)
   private readonly httpService!: HttpService;
 
-  private readonly basketRoute: string = `${process.env.REACT_APP_BASKET_API_URL}${process.env.REACT_APP_BASKET_CONTROLLER_ROUTE}`;
+  private readonly basketUrl: string = `${process.env.REACT_APP_BASKET_API_URL}`;
+
+  private readonly basketRoute: string = `${this.basketUrl}${process.env.REACT_APP_BASKET_CONTROLLER_ROUTE}`;
 
   private headers: ApiHeader = {
     contentType: undefined,
     authorization: undefined,
+    accessControlAllowOrigin: this.basketUrl,
   };
 
   public getAuthorizationHeaders(): void {

@@ -282,6 +282,8 @@
   "redhat.telemetry.enabled": false,
   "remote.autoForwardPorts": true,
   "remote.restoreForwardedPorts": true,
+  "scm.alwaysShowActions": true,
+  "scm.alwaysShowRepositories": true,
   "search.exclude": {
     "**/.yarn": true,
     "**/.pnp.*": true,
