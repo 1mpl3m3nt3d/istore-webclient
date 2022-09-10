@@ -17,7 +17,6 @@ module.exports = {
     es2020: true,
     es2021: true,
     es2022: true,
-    es5: true,
     es6: true,
     node: true,
   },
