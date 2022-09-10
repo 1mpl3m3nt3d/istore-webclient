@@ -1,3 +1,4 @@
+/* eslint-disable security/detect-non-literal-fs-filename */
 /* eslint-disable unicorn/prefer-module */
 
 const cluster = require('node:cluster');
@@ -11,7 +12,10 @@ const process = require('node:process');
 const numCPUs = os.cpus().length;
 const isDev = process.env.NODE_ENV !== 'production';
 
-const PORT = process.env.USE_NGINX === 'true' ? '/tmp/nginx.socket' || process.env.PORT || 8080 : process.env.PORT || 8080;
+const PORT =
+  process.env.USE_NGINX === 'true'
+    ? '/tmp/nginx.socket' || process.env.PORT || 8080
+    : process.env.PORT || 8080;
 
 const whitelist = new Set([
   process.env.REACT_APP_BASE_API_URL,
@@ -25,7 +29,7 @@ const touch = async (file) => {
   await fs.ensureFile(file);
   const now = new Date();
   await fs.utimes(file, now, now);
-}
+};
 
 const server = () => {
   const app = express();
@@ -103,7 +107,7 @@ const server = () => {
       `
     );
   });
-}
+};
 
 //server();
 
@@ -117,11 +121,15 @@ if (!isDev && cluster.isPrimary) {
   }
 
   cluster.on('listening', (worker, address) => {
-    console.error(`A worker node cluster is now connected to [ ${address.address}:${address.port} ]`);
+    console.error(
+      `A worker node cluster is now connected to [ ${address.address}:${address.port} ]`
+    );
   });
 
   cluster.on('exit', (worker, code, signal) => {
-    console.error(`Worker node cluster [ ${worker.process.pid} ] exited: code [ ${code} ], signal [ ${signal} ]`);
+    console.error(
+      `Worker node cluster [ ${worker.process.pid} ] exited: code [ ${code} ], signal [ ${signal} ]`
+    );
   });
 } else {
   server();
