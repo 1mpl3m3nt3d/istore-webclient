@@ -20,44 +20,7 @@
     "moduleResolution": "node",
     "noEmit": true,
     "noFallthroughCasesInSwitch": true,
-    "paths": {
-      "components/*": [
-        "components/*"
-      ],
-      "containers/*": [
-        "containers/*"
-      ],
-      "dtos/*": [
-        "dtos/*"
-      ],
-      "ioc/*": [
-        "ioc/*"
-      ],
-      "locales/*": [
-        "locales/*"
-      ],
-      "models/*": [
-        "models/*"
-      ],
-      "pages/*": [
-        "pages/*"
-      ],
-      "routes/*": [
-        "routes/*"
-      ],
-      "services/*": [
-        "services/*"
-      ],
-      "stores/*": [
-        "stores/*"
-      ],
-      "styles/*": [
-        "styles/*"
-      ],
-      "utils/*": [
-        "utils/*"
-      ]
-    },
+    "paths": {},
     "plugins": [
       {
         "name": "typescript-plugin-css-modules"
