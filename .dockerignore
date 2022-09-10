@@ -614,6 +614,7 @@ FodyWeavers.xsd
 
 # VS Code custom files
 !.vscode/*.code-snippets
+!.vscode/settings.global.json
 !.vscode/settings.*
 !.vscode/tasks.*
 !.vscode/launch.*
