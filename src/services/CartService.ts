@@ -34,13 +34,14 @@ export default class DefaultCartService implements CartService {
   private headers: ApiHeader = {
     contentType: undefined,
     authorization: undefined,
-    accessControlAllowOrigin: this.basketUrl,
+    accessControlAllowOrigin: undefined,
   };
 
   public getAuthorizationHeaders(): void {
     this.headers = {
       contentType: ContentType.Json,
       authorization: this.authStore.user?.access_token,
+      accessControlAllowOrigin: this.basketUrl,
     };
   }
 

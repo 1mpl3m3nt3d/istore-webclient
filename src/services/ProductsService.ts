@@ -12,6 +12,7 @@ import { IoCTypes } from 'ioc';
 import type { Product } from 'models';
 import type { ApiHeader, HttpService } from 'services/HttpService';
 import { ContentType, MethodType } from 'services/HttpService';
+import { AuthStore } from 'stores';
 
 export interface ProductsService {
   getById(id: number): Promise<Product>;
@@ -20,6 +21,9 @@ export interface ProductsService {
 
 @injectable()
 export default class DefaultProductsService implements ProductsService {
+  @inject(IoCTypes.authStore)
+  private readonly authStore!: AuthStore;
+
   @inject(IoCTypes.httpService)
   private readonly httpService!: HttpService;
 
@@ -28,8 +32,8 @@ export default class DefaultProductsService implements ProductsService {
   private readonly catalogRoute: string = `${this.catalogUrl}${process.env.REACT_APP_CATALOG_CONTROLLER_ROUTE}`;
 
   private headers: ApiHeader = {
-    contentType: undefined,
-    authorization: undefined,
+    contentType: ContentType.Json,
+    authorization: this.authStore.user?.access_token,
     accessControlAllowOrigin: this.catalogUrl,
   };
 
