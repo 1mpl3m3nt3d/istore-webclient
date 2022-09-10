@@ -1,16 +1,16 @@
 /* eslint-disable unicorn/prefer-module */
 
-const cluster = require('cluster');
+//const cluster = require('cluster');
 const cors = require('cors');
 const express = require('express');
 const fs = require('fs-extra');
-const os = require('os');
+//const os = require('os');
 const path = require('node:path');
 
-const numCPUs = os.cpus().length;
-const isDev = process.env.NODE_ENV !== 'production';
+//const numCPUs = os.cpus().length;
+//const isDev = process.env.NODE_ENV !== 'production';
 
-const PORT = process.env.USE_NGINX === true ? '/tmp/nginx.socket' || 8080 : process.env.PORT || 8080;
+const PORT = process.env.USE_NGINX === 'true' ? '/tmp/nginx.socket' || 8080 : process.env.PORT || 8080;
 
 const whitelist = new Set([
   process.env.REACT_APP_BASE_API_URL,
