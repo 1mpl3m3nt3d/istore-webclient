@@ -33,7 +33,7 @@ export default class DefaultProductsService implements ProductsService {
 
   private headers: ApiHeader = {
     contentType: ContentType.Json,
-    authorization: this.authStore.user?.access_token,
+    authorization: undefined,
     accessControlAllowOrigin: this.catalogUrl,
   };
 
