@@ -73,7 +73,7 @@ http {
 
   server {
     listen <%= ENV["PORT"] %>;
-    #listen [::]:<%= ENV["PORT"] %>;
+    listen [::]:<%= ENV["PORT"] %>;
 
     server_name _;
 
