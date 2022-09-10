@@ -555,11 +555,11 @@ FodyWeavers.xsd
 
 # VS Code custom files
 !.vscode/*.code-snippets
-!.vscode/settings.global.json
-!.vscode/settings.*
-!.vscode/tasks.*
-!.vscode/launch.*
 !.vscode/extensions.*
+!.vscode/launch.*
+!.vscode/settings.*
+!.vscode/settings.global.json
+!.vscode/tasks.*
 
 # Local History for Visual Studio Code
 .history/
@@ -667,31 +667,35 @@ web_modules/
 .yarn-integrity
 
 # dotenv environment variable files
+!.env
 .env.*.local
+!.env.ci
 .env.ci.local
+!.env.dev
 .env.dev.local
+!.env.development
 .env.development.local
-.env.docker.local
-.env.prod.local
-.env.production.local
-.env.stage.local
-.env.staging.local
-.env.test.local
-.env.local.*
 .env.local
-#.env.*.docker
-#.env.ci
-#.env.dev
-#.env.development
-#.env.docker.*
-#.env.docker.dev
-#.env.docker.prod
-#.env.prod
-#.env.production
-#.env.stage
-#.env.staging
-#.env.test
-#.env
+.env.local.*
+!.env.prod
+.env.prod.local
+!.env.production
+.env.production.local
+!.env.stage
+.env.stage.local
+!.env.staging
+.env.staging.local
+!.env.test
+.env.test.local
+
+!.env.*.docker
+!.env.dev.docker
+!.env.docker.*
+!.env.docker.dev
+.env.docker.local
+!.env.docker.prod
+.env.local.docker
+!.env.prod.docker
 
 # parcel-bundler cache (https://parceljs.org/)
 .cache
