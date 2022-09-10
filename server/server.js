@@ -117,8 +117,7 @@ if (!isDev && cluster.isPrimary) {
   }
 
   cluster.on('listening', (worker, address) => {
-    console.error(
-      `A worker node cluster is now connected to [ ${address.address}:${address.port} ]`);
+    console.error(`A worker node cluster is now connected to [ ${address.address}:${address.port} ]`);
   });
 
   cluster.on('exit', (worker, code, signal) => {
