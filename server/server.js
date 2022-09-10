@@ -1,11 +1,12 @@
 /* eslint-disable unicorn/prefer-module */
 
-const cluster = require('cluster');
+const cluster = require('node:cluster');
 const cors = require('cors');
 const express = require('express');
 const fs = require('fs-extra');
-const os = require('os');
+const os = require('node:os');
 const path = require('node:path');
+const process = require('node:process');
 
 const numCPUs = os.cpus().length;
 const isDev = process.env.NODE_ENV !== 'production';
@@ -84,16 +85,20 @@ const server = () => {
 
     touch('/tmp/app-initialized');
 
-    const serverAddress = listener.address().address;
-    const serverPort = listener.address().port;
+    const pid = process.pid;
+    const processPort = process.env.PORT;
+    const listenerAddress = listener.address().address;
+    const listenerPort = listener.address().port;
 
     console.error(
       `
       >>> -------------------------
       >>> Server is Running ...
-      >>> Worker:           [ ${process.pid} ]
-      >>> Server Address:   [ ${serverAddress} ]
-      >>> Server Port:      [ ${serverPort} ]
+      >>> Worker:           [ ${pid} ]
+      >>> Process Port:     [ ${processPort} ]
+      >>> Server Port:      [ ${PORT} ]
+      >>> Listener Address: [ ${listenerAddress} ]
+      >>> Listener Port:    [ ${listenerPort} ]
       >>> -------------------------
       `
     );
@@ -103,16 +108,21 @@ const server = () => {
 //server();
 
 // multi-process to utilize all CPU cores
-if (!isDev && cluster.isMaster) {
-  console.error(`Node cluster master ${process.pid} is running`);
+if (!isDev && cluster.isPrimary) {
+  console.error(`Primary node cluster [ ${process.pid} ] is running`);
 
   // fork workers
   for (let i = 0; i < numCPUs; i++) {
     cluster.fork();
   }
 
+  cluster.on('listening', (worker, address) => {
+    console.error(
+      `A worker node cluster is now connected to [ ${address.address}:${address.port} ]`);
+  });
+
   cluster.on('exit', (worker, code, signal) => {
-    console.error(`Node cluster worker ${worker.process.pid} exited: code ${code}, signal ${signal}`);
+    console.error(`Worker node cluster [ ${worker.process.pid} ] exited: code [ ${code} ], signal [ ${signal} ]`);
   });
 } else {
   server();
