@@ -6,6 +6,8 @@
 **/$[Rr]ecycle.[Bb]in
 **/*.*proj.user
 **/*.cache
+**/*.dbmdl
+**/*.jfm
 **/*.lnk
 **/*.log
 **/*.logs
@@ -16,11 +18,13 @@
 **/*.temp
 **/*.tmp
 **/*.[Dd]ot[Ss]ettings*
+**/*.[Dd]ot[Ss]ettings.[Uu]ser
 **/*~*
 **/.apdisk
 **/.AppleDB
 **/.AppleDesktop
 **/.AppleDouble
+**/.classpath
 **/.com.apple.timemachine.donotpresent
 **/.directory
 **/.DocumentRevisions-V100
@@ -53,24 +57,40 @@
 **/ehthumbs_vista.db
 **/Network Trash Folder
 **/Network\ Trash\ Folder
+**/node_modules
 **/tempkey.jwk
 **/Temporary Items
 **/Temporary\ Items
+**/[Bb]in
+**/[Bb]uild
 **/[Cc]ache
 **/[Cc]aches
+**/[Cc]hart
+**/[Cc]harts
 **/[Dd]esktop.ini
 **/[Ii]con
 **/[Ll]og
 **/[Ll]ogs
+**/[Oo]bj
 **/[Rr]eport
 **/[Rr]eports
+**/[Ss]ecrets.*.json
+**/[Ss]ecrets.*.yaml
+**/[Ss]ecrets.json
+**/[Ss]ecrets.yaml
+**/[Ss]ecrets.[Dd]ev.json
 **/[Ss]ecrets.[Dd]ev.yaml
+**/[Ss]ecrets.[Pp]rod.json
+**/[Ss]ecrets.[Pp]rod.yaml
 **/[Ss]wap
 **/[Tt]emp
 **/[Tt]humbs.db
 **/[Tt]humbs.db:encryptable
 **/[Tt]mp
+**/[Vv]alues.[Dd]ev.json
 **/[Vv]alues.[Dd]ev.yaml
+**/[Vv]alues.[Pp]rod.json
+**/[Vv]alues.[Pp]rod.yaml
 **/~$*
 
 ##
@@ -191,7 +211,7 @@ x86/
 [Aa][Rr][Mm]32/
 [Aa][Rr][Mm]64/
 bld/
-build/
+[Bb]uild/
 [Bb]in/
 [Oo]bj/
 [Ll]og/
@@ -555,6 +575,7 @@ FodyWeavers.xsd
 
 # VS Code custom files
 !.vscode/*.code-snippets
+!.vscode/*.schema.json
 !.vscode/extensions.*
 !.vscode/launch.*
 !.vscode/settings.*

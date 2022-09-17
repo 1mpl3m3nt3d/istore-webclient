@@ -13,8 +13,8 @@ const numCPUs = os.cpus().length;
 const isDev = process.env.NODE_ENV !== 'production';
 
 const PORT =
-  process.env.USE_NGINX === 'true'
-    ? '/tmp/nginx.socket' || process.env.PORT || 8080
+  process.env.REACT_APP_USE_NGINX_SOCKET === 'true'
+    ? process.env.REACT_APP_NGINX_SOCKET_PATH || process.env.PORT || 8080
     : process.env.PORT || 8080;
 
 const whitelist = new Set([
@@ -87,7 +87,11 @@ const server = () => {
       throw error;
     }
 
-    touch('/tmp/app-initialized');
+    const initFilePath = process.env.REACT_APP_NGINX_INIT_FILE_PATH;
+
+    if (initFilePath) {
+      touch(initFilePath);
+    }
 
     const pid = process.pid;
     const processPort = process.env.PORT;
@@ -96,14 +100,14 @@ const server = () => {
 
     console.error(
       `
-      >>> -------------------------
+      >>> ---------------------------------
       >>> Express Server is Running ...
       >>> Worker:           [ ${pid} ]
-      >>> Process Port:     [ ${processPort} ]
       >>> Server Port:      [ ${PORT} ]
-      >>> Listener Address: [ ${listenerAddress} ]
+      >>> Process Port:     [ ${processPort} ]
       >>> Listener Port:    [ ${listenerPort} ]
-      >>> -------------------------
+      >>> Listener Address: [ ${listenerAddress} ]
+      >>> ---------------------------------
       `
     );
   });
@@ -122,7 +126,7 @@ if (!isDev && cluster.isPrimary) {
 
   cluster.on('listening', (worker, address) => {
     console.error(
-      `A worker node cluster is now connected to [ ${address.address}:${address.port} ]`
+      `Worker node cluster is now connected to [ ${address.address}:${address.port} ]`
     );
   });
 
