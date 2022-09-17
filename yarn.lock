@@ -3484,7 +3484,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@remix-run/router@npm:1.0.0":
+"@remix-run/router@npm:*, @remix-run/router@npm:1.0.0":
   version: 1.0.0
   resolution: "@remix-run/router@npm:1.0.0"
   checksum: 2e7543c71432c49bc0e6cab287ce561c56bf33ad91f929cdbf4c9bd08636bc676f2bf6b048a95fc1f5c74c40600ab59ce248d1de34a1acb7c2e43f567b0e96b5
@@ -3620,9 +3620,9 @@ __metadata:
   linkType: hard
 
 "@sinclair/typebox@npm:^0.24.1":
-  version: 0.24.41
-  resolution: "@sinclair/typebox@npm:0.24.41"
-  checksum: eb9861ad7bc5a29d5a6be27732757210edfcfa73fca386e303b0363af31c7ad16ebad75cf0c3fdf6444663dda5884ba0de333fc7a8ab8680c1c01e1e91089c1d
+  version: 0.24.42
+  resolution: "@sinclair/typebox@npm:0.24.42"
+  checksum: 83a3083b71063ad270669308634f7c5b473272da71cbc405343b2ff774d641ec2be0993e0a61386f8ef3f8b786c173dc01921a5bc6627d95657eb98f19f1a4c4
   languageName: node
   linkType: hard
 
@@ -3949,9 +3949,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@testing-library/dom@npm:^8.1.0, @testing-library/dom@npm:^8.11.1, @testing-library/dom@npm:^8.17.1, @testing-library/dom@npm:^8.5.0":
-  version: 8.17.1
-  resolution: "@testing-library/dom@npm:8.17.1"
+"@testing-library/dom@npm:^8.1.0, @testing-library/dom@npm:^8.11.1, @testing-library/dom@npm:^8.18.0, @testing-library/dom@npm:^8.5.0":
+  version: 8.18.0
+  resolution: "@testing-library/dom@npm:8.18.0"
   dependencies:
     "@babel/code-frame": ^7.10.4
     "@babel/runtime": ^7.12.5
@@ -3961,7 +3961,7 @@ __metadata:
     dom-accessibility-api: ^0.5.9
     lz-string: ^1.4.4
     pretty-format: ^27.0.2
-  checksum: e4df091fcf84c9eac4a6ee4c76674c1d562bf98732f0ac8820972d7718ab10397b672b9f082aace3cacd1f610fc77de6e1b6094e67afe1df0443bf22eb9deab2
+  checksum: 24fd4fad91a5939a300f8a6c0c79d49dc7576823a2c0713d8ee67fea4f41e47e6a3122c04d45cc2844a25ed12bbe59a299d1e2055d53c707c8cad4d672767d13
   languageName: node
   linkType: hard
 
@@ -10111,9 +10111,9 @@ __metadata:
   linkType: hard
 
 "electron-to-chromium@npm:^1.4.251":
-  version: 1.4.253
-  resolution: "electron-to-chromium@npm:1.4.253"
-  checksum: 74a4a0f983ffa7c42b1d6847f96c7c333ab86bd2eb374a98ec58ff5ffd2ec9bc6295442bb83b7ba54aeff31a453915b7b0ccf9040863dafb72d8bc182ee1f69f
+  version: 1.4.254
+  resolution: "electron-to-chromium@npm:1.4.254"
+  checksum: 32f0ecb621db44d37fc93017f742a2b1da7302c778b4d6c0fa122cc662f9c50e6576d214048dcac5c9baf835340c954c624f09f2e02c6dea9049c4a839e862e2
   languageName: node
   linkType: hard
 
@@ -14631,7 +14631,7 @@ __metadata:
     "@stylelint/postcss-css-in-js": ^0.38.0
     "@svgr/webpack": ^6.3.1
     "@testing-library/cypress": ^8.0.3
-    "@testing-library/dom": ^8.17.1
+    "@testing-library/dom": ^8.18.0
     "@testing-library/jest-dom": ^5.16.5
     "@testing-library/react": ^13.4.0
     "@testing-library/react-hooks": ^8.0.1
@@ -14830,7 +14830,7 @@ __metadata:
     make-dir-cli: ^3.0.0
     matcher: ^5.0.0
     matcher-cli: ^2.0.0
-    material-react-table: ^1.0.7
+    material-react-table: ^1.0.9
     material-table: ^2.0.3
     material-ui-popup-state: ^4.0.2
     merge: ^2.1.1
@@ -16808,9 +16808,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"material-react-table@npm:^1.0.7":
-  version: 1.0.7
-  resolution: "material-react-table@npm:1.0.7"
+"material-react-table@npm:^1.0.9":
+  version: 1.0.9
+  resolution: "material-react-table@npm:1.0.9"
   dependencies:
     "@tanstack/match-sorter-utils": 8.1.1
     "@tanstack/react-table": 8.5.13
@@ -16821,7 +16821,7 @@ __metadata:
     "@mui/icons-material": ">=5"
     "@mui/material": ">=5"
     react: ">=16.8"
-  checksum: 951210b8717e02191b52be5f37ea815c3c28440afdbe77b33b683bba41dd6b8dd11b07b26e6b57688f00b8392106a04743d53141b404e27bfb21244791da2af6
+  checksum: d2c971dfc7e1a31fe946d2d8b6035d2fc5ee290d4c8c8af96394e038f2e52ad427b563be56d571b4f08baf2a7bc5152ebbf687030a4ae7699fa403340f1bbc82
   languageName: node
   linkType: hard
 
