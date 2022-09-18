@@ -9992,9 +9992,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"dotenv-vault@npm:^1.13.2":
-  version: 1.13.2
-  resolution: "dotenv-vault@npm:1.13.2"
+"dotenv-vault@npm:^1.13.3":
+  version: 1.13.3
+  resolution: "dotenv-vault@npm:1.13.3"
   dependencies:
     "@oclif/core": ^1
     "@oclif/plugin-help": ^5.1.12
@@ -10007,7 +10007,7 @@ __metadata:
     dotenv: ^16.0.2
   bin:
     dotenv-vault: bin/run
-  checksum: b4045dad98a18e0ec83ef9a8a5c40994f6365e8f400502cad3d2d74c303e1ec4ec2eeeab74492517240e83b0b73c8580128e7b573483779238ee6b1e3b38607a
+  checksum: 9196bcce7aaa0aa258fceaddac71b964f8cc1b0b59e05d6c373b79bdf5cf0c84844e9f53652e9008e146d6b1c8398c472e968459c63fe3d38a4b2c0789e012d4
   languageName: node
   linkType: hard
 
@@ -13388,12 +13388,21 @@ __metadata:
   languageName: node
   linkType: hard
 
-"i18next@npm:^21.0.1, i18next@npm:^21.9.1":
+"i18next@npm:^21.0.1":
   version: 21.9.1
   resolution: "i18next@npm:21.9.1"
   dependencies:
     "@babel/runtime": ^7.17.2
   checksum: 1bc59c61fbb27385841f76436c7dd60e9f42a3fb326797db44a65dd165c489420e549b5370e3de75b85f8d61239f4869fc9fbcf63deae5f40ee606bc04916e6d
+  languageName: node
+  linkType: hard
+
+"i18next@npm:^21.9.2":
+  version: 21.9.2
+  resolution: "i18next@npm:21.9.2"
+  dependencies:
+    "@babel/runtime": ^7.17.2
+  checksum: e53b3885fa85cab7fcd4f8667b7fc3d37b06f095494703994d49fa0e961ad1f495181621e569dc58e759ff12c63a9c7704c33592ba529b7689ea7f5304be0423
   languageName: node
   linkType: hard
 
@@ -14746,7 +14755,7 @@ __metadata:
     del-cli: ^5.0.0
     dotenv: ^16.0.2
     dotenv-expand: ^9.0.0
-    dotenv-vault: ^1.13.2
+    dotenv-vault: ^1.13.3
     dotenv-webpack: ^8.0.1
     env-cmd: ^10.1.0
     eslint: ^8.23.1
@@ -14800,7 +14809,7 @@ __metadata:
     http-proxy: ^1.18.1
     http-proxy-middleware: ^2.0.6
     husky: ^8.0.1
-    i18next: ^21.9.1
+    i18next: ^21.9.2
     i18next-browser-languagedetector: ^6.1.5
     i18next-chained-backend: ^3.1.0
     i18next-fs-backend: ^1.1.5
@@ -14830,7 +14839,7 @@ __metadata:
     make-dir-cli: ^3.0.0
     matcher: ^5.0.0
     matcher-cli: ^2.0.0
-    material-react-table: ^1.0.9
+    material-react-table: ^1.0.11
     material-table: ^2.0.3
     material-ui-popup-state: ^4.0.2
     merge: ^2.1.1
@@ -14903,7 +14912,7 @@ __metadata:
     react-dom: ^18.2.0
     react-i18next: ^11.18.6
     react-is: ^18.2.0
-    react-number-format: ^5.0.0-beta.4
+    react-number-format: ^5.0.0-beta.5
     react-oidc-context: ^2.2.0
     react-phone-number-input: ^3.2.11
     react-popper: ^2.3.0
@@ -16808,9 +16817,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"material-react-table@npm:^1.0.9":
-  version: 1.0.9
-  resolution: "material-react-table@npm:1.0.9"
+"material-react-table@npm:^1.0.11":
+  version: 1.0.11
+  resolution: "material-react-table@npm:1.0.11"
   dependencies:
     "@tanstack/match-sorter-utils": 8.1.1
     "@tanstack/react-table": 8.5.13
@@ -16821,7 +16830,7 @@ __metadata:
     "@mui/icons-material": ">=5"
     "@mui/material": ">=5"
     react: ">=16.8"
-  checksum: d2c971dfc7e1a31fe946d2d8b6035d2fc5ee290d4c8c8af96394e038f2e52ad427b563be56d571b4f08baf2a7bc5152ebbf687030a4ae7699fa403340f1bbc82
+  checksum: 1b45c73fd6bebfc2787b65e6293582c90a8c34a4dff4ce93834bc71d4aaf1cb536cf5b8319eea1474d35345365a8c1e310f27da04ba8cd05b76ffcb39f712519
   languageName: node
   linkType: hard
 
@@ -21008,15 +21017,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-number-format@npm:^5.0.0-beta.4":
-  version: 5.0.0-beta.4
-  resolution: "react-number-format@npm:5.0.0-beta.4"
+"react-number-format@npm:^5.0.0-beta.5":
+  version: 5.0.0-beta.5
+  resolution: "react-number-format@npm:5.0.0-beta.5"
   dependencies:
     prop-types: ^15.7.2
   peerDependencies:
     react: ^0.14 || ^15.0.0 || ^16.0.0 || ^17.0.0 || ^18.0.0 || ^18.0.0
     react-dom: ^0.14 || ^15.0.0 || ^16.0.0 || ^17.0.0 || ^18.0.0 || ^18.0.0
-  checksum: e8841e2f4ffd44af55a60e8ba35c85500c661bd5a512b89fb612cd7ed1b28e060460fb484ed7b710482a595f55ac7e71410f4e66d3904b13019dcbe477768139
+  checksum: 183b5a5373a430495032c0b9c04cd2bc3ce612b9346e018d881f8d93fb08a4cbbd965283d4022cb8a36e259d87527f5f6449b7549d4e5fbb42f8fb22d467dda2
   languageName: node
   linkType: hard
 

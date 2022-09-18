@@ -21,22 +21,16 @@ const Layout = observer(() => {
       if (!authStore.user) {
         await authStore.getUser();
       }
+
+      if (authStore.user) {
+        await cartStore.getCart();
+      }
     };
 
     getAuthenticationStatus().catch((error) => {
       console.log(error);
     });
-  }, [authStore]);
-
-  useEffect(() => {
-    const getCart = async (): Promise<void> => {
-      await cartStore.getCart();
-    };
-
-    getCart().catch((error) => {
-      console.log(error);
-    });
-  }, [cartStore]);
+  }, [authStore, cartStore]);
 
   return (
     <Box

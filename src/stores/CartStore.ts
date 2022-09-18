@@ -52,19 +52,24 @@ export default class CartStore {
     }
 
     try {
-      const index = this.cartItems?.findIndex((ci) => ci.id === id);
+      if (this.authStore.user) {
+        this.cartService.getAuthorizationHeaders();
 
-      if (index >= 0) {
-        this.cartItems[index].count += 1;
-        this.cartItems[index].totalPrice += this.cartItems[index].price;
-        this.cart.totalPrice += this.cartItems[index].price;
-      } else {
-        await this.pushItem(id);
+        const index = this.cartItems?.findIndex((ci) => ci.id === id);
+
+        if (index >= 0) {
+          this.cartItems[index].count += 1;
+          this.cartItems[index].totalPrice += this.cartItems[index].price;
+          this.cart.totalPrice += this.cartItems[index].price;
+        } else {
+          await this.pushItem(id);
+        }
+
+        this.cart.items = this.cartItems;
+        this.cart.totalCount += 1;
+
+        await this.updateCart();
       }
-
-      this.cart.items = this.cartItems;
-      this.cart.totalCount += 1;
-      await this.updateCart();
     } catch (error: unknown) {
       console.error(error);
     }
@@ -72,25 +77,30 @@ export default class CartStore {
 
   public removeItem = async (id: number): Promise<void> => {
     try {
-      const index = this.cartItems?.findIndex((ci) => ci.id === id);
+      if (this.authStore.user) {
+        this.cartService.getAuthorizationHeaders();
 
-      if (index >= 0) {
-        if (this.cartItems[index].count > 1) {
-          this.cartItems[index].count -= 1;
-          this.cartItems[index].totalPrice -= this.cartItems[index].price;
-          this.cart.totalPrice -= this.cartItems[index].price;
+        const index = this.cartItems?.findIndex((ci) => ci.id === id);
+
+        if (index >= 0) {
+          if (this.cartItems[index].count > 1) {
+            this.cartItems[index].count -= 1;
+            this.cartItems[index].totalPrice -= this.cartItems[index].price;
+            this.cart.totalPrice -= this.cartItems[index].price;
+          } else {
+            this.cart.totalPrice -= this.cartItems[index].price;
+            this.cartItems.splice(index, 1);
+          }
+
+          this.cart.items = this.cartItems;
+          this.cart.totalCount -= 1;
+
+          await this.updateCart();
         } else {
-          this.cart.totalPrice -= this.cartItems[index].price;
-          this.cartItems.splice(index, 1);
+          console.log(
+            `There is no item with [id: ${id}] in your cart to remove!`
+          );
         }
-
-        this.cart.items = this.cartItems;
-        this.cart.totalCount -= 1;
-        await this.updateCart();
-      } else {
-        console.log(
-          `There is no item with [id: ${id}] in your cart to remove!`
-        );
       }
     } catch (error: unknown) {
       console.error(error);
@@ -107,6 +117,7 @@ export default class CartStore {
     try {
       if (this.authStore.user) {
         this.cartService.getAuthorizationHeaders();
+
         const response = await this.cartService.getCart();
 
         if (response.data) {
@@ -138,10 +149,15 @@ export default class CartStore {
     }
 
     try {
-      this.cart.items = this.cartItems;
-      const cartString = JSON.stringify(this.cart);
-      this.cartDto.data = cartString;
-      await this.cartService.updateCart(this.cartDto);
+      if (this.authStore.user) {
+        this.cartService.getAuthorizationHeaders();
+
+        this.cart.items = this.cartItems;
+        const cartString = JSON.stringify(this.cart);
+        this.cartDto.data = cartString;
+
+        await this.cartService.updateCart(this.cartDto);
+      }
     } catch (error: unknown) {
       console.error(error);
     }
@@ -155,7 +171,11 @@ export default class CartStore {
     }
 
     try {
-      await this.cartService.deleteCart();
+      if (this.authStore.user) {
+        this.cartService.getAuthorizationHeaders();
+
+        await this.cartService.deleteCart();
+      }
     } catch (error: unknown) {
       console.error(error);
     }

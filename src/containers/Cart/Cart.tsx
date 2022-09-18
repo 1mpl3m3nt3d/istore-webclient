@@ -8,11 +8,22 @@ import { CartCard } from 'components/CartCard';
 import { CheckoutButton } from 'components/CheckoutButton';
 import { LoadingSpinner } from 'components/LoadingSpinner';
 import { IoCTypes, useInjection } from 'ioc';
+import { useEffect } from 'react';
 import { CartStore } from 'stores';
 
 const Cart = observer(() => {
   const cartStore = useInjection<CartStore>(IoCTypes.cartStore);
   const { t } = useTranslation(['cart']);
+
+  useEffect(() => {
+    const getCart = async (): Promise<void> => {
+      await cartStore.getCart();
+    };
+
+    getCart().catch((error) => {
+      console.log(error);
+    });
+  }, [cartStore]);
 
   return (
     <>
