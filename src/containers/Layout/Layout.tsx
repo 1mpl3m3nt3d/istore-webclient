@@ -18,6 +18,7 @@ const Layout = observer(() => {
     const getAuthenticationStatus = async (): Promise<void> => {
       if (!authStore.user) {
         await authStore.signinSilent();
+        await authStore.signinSilentCallback();
         await authStore.getUser();
       }
     };
