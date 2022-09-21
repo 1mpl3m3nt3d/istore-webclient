@@ -16,18 +16,23 @@ const Layout = observer(() => {
 
   useEffect(() => {
     const getAuthenticationStatus = async (): Promise<void> => {
-      await authStore.signinSilent();
-
       if (!authStore.user) {
+        await authStore.signinSilent();
         await authStore.getUser();
       }
+    };
 
+    const getCartStatus = async (): Promise<void> => {
       if (authStore.user) {
         await cartStore.getCart();
       }
     };
 
     getAuthenticationStatus().catch((error) => {
+      console.log(error);
+    });
+
+    getCartStatus().catch((error) => {
       console.log(error);
     });
   }, [authStore, cartStore]);
