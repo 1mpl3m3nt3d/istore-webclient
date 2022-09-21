@@ -16,27 +16,29 @@ const Layout = observer(() => {
 
   useEffect(() => {
     const getAuthenticationStatus = async (): Promise<void> => {
-      if (!authStore.user) {
-        await authStore.signinSilent();
-        await authStore.signinSilentCallback();
-        await authStore.getUser();
-      }
-    };
+      await authStore.signinSilent();
 
-    const getCartStatus = async (): Promise<void> => {
-      if (authStore.user) {
-        await cartStore.getCart();
+      if (!authStore.user) {
+        await authStore.getUser();
       }
     };
 
     getAuthenticationStatus().catch((error) => {
       console.log(error);
     });
+  }, [authStore]);
 
-    getCartStatus().catch((error) => {
+  useEffect(() => {
+    const getCart = async (): Promise<void> => {
+      if (authStore.user) {
+        await cartStore.getCart();
+      }
+    };
+
+    getCart().catch((error) => {
       console.log(error);
     });
-  }, [authStore, cartStore]);
+  }, [authStore.user, cartStore]);
 
   return (
     <Box
