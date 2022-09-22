@@ -20,7 +20,6 @@ const Layout = observer(() => {
       await authStore.signinSilent();
 
       if (!(authStore.user instanceof User)) {
-        await authStore.signinSilent();
         await authStore.getUser();
       }
     };
