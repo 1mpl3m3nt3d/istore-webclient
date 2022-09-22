@@ -3,8 +3,10 @@ import { UserManagerSettings, WebStorageStateStore } from 'oidc-client-ts';
 export const oidcConfig: UserManagerSettings = {
   authority: `${process.env.REACT_APP_IDENTITY_URL}`,
   automaticSilentRenew: true,
+  client_authentication: 'client_secret_post',
   client_id: `${process.env.REACT_APP_CLIENT_ID}`,
   client_secret: `${process.env.REACT_APP_CLIENT_SECRET}`,
+  filterProtocolClaims: true,
   includeIdTokenInSilentRenew: true,
   loadUserInfo: true,
   post_logout_redirect_uri: `${process.env.REACT_APP_POST_LOGOUT_REDIRECT_URL}`,
