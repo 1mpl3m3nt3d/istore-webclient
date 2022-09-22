@@ -2,15 +2,7 @@
 
 import 'reflect-metadata';
 
-import {
-  Card,
-  CardActions,
-  CardContent,
-  CardMedia,
-  Stack,
-  TextField,
-  Typography,
-} from '@mui/material';
+import { Card, CardActions, CardContent, CardMedia, Stack, TextField, Typography } from '@mui/material';
 import { observer } from 'mobx-react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
@@ -30,15 +22,7 @@ const ProductDetails = observer((properties: Properties) => {
     return null;
   }
 
-  const {
-    id,
-    name,
-    price,
-    description,
-    pictureUrl,
-    catalogBrand,
-    catalogType,
-  } = properties.product;
+  const { id, name, price, description, pictureUrl, catalogBrand, catalogType } = properties.product;
 
   return (
     <Stack
@@ -90,9 +74,7 @@ const ProductDetails = observer((properties: Properties) => {
             }}
           />
         </Stack>
-        <CardContent
-          sx={{ padding: 0.5, margin: 0.5, marginX: 2, textAlign: 'left' }}
-        >
+        <CardContent sx={{ padding: 0.5, margin: 0.5, marginX: 2, textAlign: 'left' }}>
           <Stack direction="row" justifyContent="space-between">
             <Typography textAlign="left" marginRight={6}>
               <strong>{t('properties.type')}:</strong>
@@ -120,9 +102,7 @@ const ProductDetails = observer((properties: Properties) => {
             </Typography>
           </Stack>
         </CardContent>
-        <CardContent
-          sx={{ marginTop: 2, padding: 1, paddingBottom: '8px !important' }}
-        >
+        <CardContent sx={{ marginTop: 2, padding: 1, paddingBottom: '8px !important' }}>
           <TextField
             color="info"
             fullWidth

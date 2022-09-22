@@ -43,21 +43,10 @@ const ProductCard = observer((properties: Properties) => {
     setExpanded(!expanded);
   };
 
-  const {
-    id,
-    name,
-    price,
-    description,
-    pictureUrl,
-    catalogBrand,
-    catalogType,
-  } = properties.product;
+  const { id, name, price, description, pictureUrl, catalogBrand, catalogType } = properties.product;
 
   return (
-    <Card
-      className="productCard"
-      sx={{ width: 320, maxWidth: 320, padding: 1 }}
-    >
+    <Card className="productCard" sx={{ width: 320, maxWidth: 320, padding: 1 }}>
       <Stack
         sx={{
           maxHeight: 60,

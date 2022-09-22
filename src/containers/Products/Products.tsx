@@ -3,7 +3,7 @@ import 'reflect-metadata';
 import { Grid } from '@mui/material';
 import { observer } from 'mobx-react';
 import { ChangeEvent, useEffect } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import { LoadingSpinner } from 'components/LoadingSpinner';
 import { Pagination } from 'components/Pagination';
@@ -14,7 +14,6 @@ import { ProductsStore } from 'stores';
 const Products = observer(() => {
   const store = useInjection<ProductsStore>(IoCTypes.productsStore);
   const navigate = useNavigate();
-  const location = useLocation();
 
   useEffect(() => {
     const getProducts = async (): Promise<void> => {
@@ -24,29 +23,17 @@ const Products = observer(() => {
     getProducts().catch((error) => {
       console.log(error);
     });
-  }, [store, store.currentPage, location]);
+  }, [store]);
 
   return (
     <>
       {store.isLoading ? (
         <LoadingSpinner />
       ) : (
-        <Grid
-          key={Math.random() * 12_345}
-          container
-          justifyContent="center"
-          marginY={4}
-          marginX={0.5}
-        >
+        <Grid key={Math.random() * 12_345} container justifyContent="center" marginY={4} marginX={0.5}>
           <Grid key={Math.random() * 12_345} container justifyContent="center">
             {store.products?.map((product) => (
-              <Grid
-                key={Math.random() * 12_345}
-                item
-                marginBottom={4}
-                ml={2}
-                mr={2}
-              >
+              <Grid key={Math.random() * 12_345} item marginBottom={4} ml={2} mr={2}>
                 <ProductCard product={{ ...product }} />
               </Grid>
             ))}

@@ -3,14 +3,7 @@
 import 'reflect-metadata';
 
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
-import {
-  Button,
-  ButtonGroup,
-  IconButton,
-  Stack,
-  Tooltip,
-  Zoom,
-} from '@mui/material';
+import { Button, ButtonGroup, IconButton, Stack, Tooltip, Zoom } from '@mui/material';
 import { observer } from 'mobx-react';
 
 import { IoCTypes, useInjection } from 'ioc';

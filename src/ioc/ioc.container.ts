@@ -17,32 +17,18 @@ IoCContainer.bind<AuthenticationService>(IoCTypes.authenticationService)
   .to(DefaultAuthenticationService)
   .inSingletonScope();
 
-IoCContainer.bind<HttpService>(IoCTypes.httpService)
-  .to(DefaultHttpService)
-  .inSingletonScope();
+IoCContainer.bind<HttpService>(IoCTypes.httpService).to(DefaultHttpService).inSingletonScope();
 
-IoCContainer.bind<CartService>(IoCTypes.cartService)
-  .to(DefaultCartService)
-  .inSingletonScope();
+IoCContainer.bind<CartService>(IoCTypes.cartService).to(DefaultCartService).inSingletonScope();
 
-IoCContainer.bind<ProductsService>(IoCTypes.productsService)
-  .to(DefaultProductsService)
-  .inSingletonScope();
+IoCContainer.bind<ProductsService>(IoCTypes.productsService).to(DefaultProductsService).inSingletonScope();
 
-IoCContainer.bind<AuthStore>(IoCTypes.authStore)
-  .to(AuthStore)
-  .inSingletonScope();
+IoCContainer.bind<AuthStore>(IoCTypes.authStore).to(AuthStore).inSingletonScope();
 
-IoCContainer.bind<CartStore>(IoCTypes.cartStore)
-  .to(CartStore)
-  .inSingletonScope();
+IoCContainer.bind<CartStore>(IoCTypes.cartStore).to(CartStore).inSingletonScope();
 
-IoCContainer.bind<CheckoutStore>(IoCTypes.checkoutStore)
-  .to(CheckoutStore)
-  .inSingletonScope();
+IoCContainer.bind<CheckoutStore>(IoCTypes.checkoutStore).to(CheckoutStore).inSingletonScope();
 
-IoCContainer.bind<ProductsStore>(IoCTypes.productsStore)
-  .to(ProductsStore)
-  .inTransientScope();
+IoCContainer.bind<ProductsStore>(IoCTypes.productsStore).to(ProductsStore).inTransientScope();
 
 export default IoCContainer;

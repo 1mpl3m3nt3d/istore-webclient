@@ -18,8 +18,7 @@ export default class AuthStore {
     makeAutoObservable(this);
   }
 
-  public getAuthenticationStatus = (): boolean =>
-    this.authenticationService.getAuthenticationStatus();
+  public getAuthenticationStatus = (): boolean => this.authenticationService.getAuthenticationStatus();
 
   public getUser = async (): Promise<void> => {
     const userResponse = await this.authenticationService.getUser();
@@ -37,10 +36,7 @@ export default class AuthStore {
   public saveLocation = (location?: string): void => {
     if (location) {
       localStorage.setItem('redirectUri', location);
-    } else if (
-      window.location.pathname !== '/signin' &&
-      window.location.pathname !== '/signout'
-    ) {
+    } else if (window.location.pathname !== '/signin' && window.location.pathname !== '/signout') {
       localStorage.setItem('redirectUri', window.location.pathname);
     } else {
       localStorage.setItem('redirectUri', '/');
@@ -67,9 +63,7 @@ export default class AuthStore {
 
   public signinSilent = async (): Promise<void> => {
     this.user = await this.authenticationService.signinSilent();
-    console.log(
-      `User with ID: ${this.user?.profile.sub} successfully signed in silently!`
-    );
+    console.log(`User with ID: ${this.user?.profile.sub} successfully signed in silently!`);
   };
 
   public signinSilentCallback = async (): Promise<void> => {

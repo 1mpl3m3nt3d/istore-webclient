@@ -43,9 +43,7 @@ const server = () => {
         }
 
         if (!whitelist.has(origin)) {
-          const message =
-            "The CORS policy for this origin doesn't " +
-            'allow access from the particular origin.';
+          const message = "The CORS policy for this origin doesn't " + 'allow access from the particular origin.';
 
           return callback(new Error(message), false);
         }
@@ -125,15 +123,11 @@ if (!isDev && cluster.isPrimary) {
   }
 
   cluster.on('listening', (worker, address) => {
-    console.error(
-      `Worker node cluster is now connected to [ ${address.address}:${address.port} ]`
-    );
+    console.error(`Worker node cluster is now connected to [ ${address.address}:${address.port} ]`);
   });
 
   cluster.on('exit', (worker, code, signal) => {
-    console.error(
-      `Worker node cluster [ ${worker.process.pid} ] exited: code [ ${code} ], signal [ ${signal} ]`
-    );
+    console.error(`Worker node cluster [ ${worker.process.pid} ] exited: code [ ${code} ], signal [ ${signal} ]`);
   });
 } else {
   server();

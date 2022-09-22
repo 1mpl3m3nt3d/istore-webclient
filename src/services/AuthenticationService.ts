@@ -25,9 +25,7 @@ export interface AuthenticationService {
 }
 
 @injectable()
-export default class DefaultAuthenticationService
-  implements AuthenticationService
-{
+export default class DefaultAuthenticationService implements AuthenticationService {
   private readonly userManager: UserManager;
 
   constructor() {

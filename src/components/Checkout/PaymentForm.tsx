@@ -75,9 +75,7 @@ const PaymentForm = observer((): JSX.Element => {
             variant="standard"
             inputMode="numeric"
             value={store.cvv}
-            onChange={(event): void =>
-              store.changeCvv(Number(event.target.value))
-            }
+            onChange={(event): void => store.changeCvv(Number(event.target.value))}
           />
         </Grid>
         <Grid item xs={12}>

@@ -19,14 +19,7 @@ const Review = observer((): JSX.Element => {
   const cartStore = useInjection<CartStore>(IoCTypes.cartStore);
 
   const products = cartStore.cart.items;
-  const addresses = [
-    store.zip,
-    store.country,
-    store.state,
-    store.city,
-    store.address1,
-    store.address2,
-  ];
+  const addresses = [store.zip, store.country, store.state, store.city, store.address1, store.address2];
   const payments = [
     { name: 'Card holder', detail: store.cardName },
     { name: 'Card number', detail: store.cardNumber },
@@ -41,10 +34,7 @@ const Review = observer((): JSX.Element => {
       <List disablePadding>
         {products.map((product) => (
           <ListItem key={product.name} sx={{ py: 1, px: 0 }}>
-            <ListItemText
-              primary={`${product.brand} ${product.name}`}
-              secondary={product.type}
-            />
+            <ListItemText primary={`${product.brand} ${product.name}`} secondary={product.type} />
             <Typography variant="body2">{product.price}</Typography>
           </ListItem>
         ))}
@@ -60,9 +50,7 @@ const Review = observer((): JSX.Element => {
           <Typography variant="h6" gutterBottom sx={{ mt: 2 }}>
             Shipping
           </Typography>
-          <Typography gutterBottom>
-            {`${store.firstName} ${store.lastName}`}
-          </Typography>
+          <Typography gutterBottom>{`${store.firstName} ${store.lastName}`}</Typography>
           <Typography gutterBottom>
             {addresses
               .filter((val, idx, arr) => {

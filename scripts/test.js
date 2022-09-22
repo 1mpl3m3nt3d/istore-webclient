@@ -39,11 +39,7 @@ function isInMercurialRepository() {
 }
 
 // Watch unless on CI or explicitly running all tests
-if (
-  !process.env.CI &&
-  !argv.includes('--watchAll') &&
-  !argv.includes('--watchAll=false')
-) {
+if (!process.env.CI && !argv.includes('--watchAll') && !argv.includes('--watchAll=false')) {
   // https://github.com/facebook/create-react-app/issues/5210
   const hasSourceControl = isInGitRepository() || isInMercurialRepository();
   argv.push(hasSourceControl ? '--watch' : '--watchAll');

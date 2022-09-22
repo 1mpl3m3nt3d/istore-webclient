@@ -32,15 +32,7 @@ const AppRoutes = observer(() => (
         minWidth="100%"
         minHeight="100vh"
       >
-        <Box
-          position="relative"
-          top={0}
-          left={0}
-          right={0}
-          bottom={0}
-          minWidth="100%"
-          margin="auto"
-        >
+        <Box position="relative" top={0} left={0} right={0} bottom={0} minWidth="100%" margin="auto">
           <LoadingSpinner />
         </Box>
       </Box>
@@ -53,15 +45,14 @@ const AppRoutes = observer(() => (
           <Route index element={<Products />} />
           <Route path="/products" element={<Products />} />
           <Route path="/products/:id" element={<Product />} />
+          <Route path="/login/callback" element={<SigninRedirectCallback />} />
+          <Route path="/logout/callback" element={<SignoutRedirectCallback />} />
           <Route path="/signin" element={<SigninRedirect />} />
           <Route path="/signin-oidc" element={<SigninRedirectCallback />} />
-          <Route path="/signin/callback" element={<SigninRedirectCallback />} />
-          <Route path="/signout-oidc" element={<SignoutRedirectCallback />} />
-          <Route
-            path="/signout/callback"
-            element={<SignoutRedirectCallback />}
-          />
+          <Route path="/signin/calback" element={<SigninRedirect />} />
           <Route path="/signout" element={<SignoutRedirect />} />
+          <Route path="/signout-oidc" element={<SignoutRedirectCallback />} />
+          <Route path="/signout/callback" element={<SignoutRedirectCallback />} />
           <Route path="/silentrenew" element={<SigninSilentCallback />} />
           <Route element={<AuthorizedOutlet />}>
             <Route path="/cart" element={<Cart />} />

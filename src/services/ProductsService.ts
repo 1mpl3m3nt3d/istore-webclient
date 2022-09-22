@@ -2,12 +2,7 @@ import 'reflect-metadata';
 
 import { inject, injectable } from 'inversify';
 
-import type {
-  PaginatedItemsDto,
-  PaginatedItemsRequest,
-  PaginatedItemsResponse,
-  ProductDto,
-} from 'dtos';
+import type { PaginatedItemsDto, PaginatedItemsRequest, PaginatedItemsResponse, ProductDto } from 'dtos';
 import { IoCTypes } from 'ioc';
 import type { Product } from 'models';
 import type { ApiHeader, HttpService } from 'services/HttpService';
@@ -47,9 +42,7 @@ export default class DefaultProductsService implements ProductsService {
     return result.data!;
   }
 
-  public async getItems(
-    request: PaginatedItemsRequest
-  ): Promise<PaginatedItemsResponse> {
+  public async getItems(request: PaginatedItemsRequest): Promise<PaginatedItemsResponse> {
     const result = await this.httpService.sendAsync<PaginatedItemsDto>(
       `${this.catalogRoute}/getcatalogitems/`,
       MethodType.POST,
@@ -58,9 +51,7 @@ export default class DefaultProductsService implements ProductsService {
     );
 
     const data = result.data!.data;
-    const total_pages = Math.ceil(
-      Number(result.data!.count) / Number(request.pageSize)
-    );
+    const total_pages = Math.ceil(Number(result.data!.count) / Number(request.pageSize));
 
     return { data, total_pages };
   }

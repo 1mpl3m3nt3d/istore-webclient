@@ -10,25 +10,19 @@ interface Properties {
   onChange: (event: ChangeEvent<unknown>, value: number) => void;
 }
 
-const Pagination = observer(
-  ({ totalCount, currentPage, onChange }: Properties) => {
-    const [page, setPage] = React.useState(currentPage);
+const Pagination = observer(({ totalCount, currentPage, onChange }: Properties) => {
+  const [page, setPage] = React.useState(currentPage);
 
-    const handleChange = (event: ChangeEvent<unknown>, value: number): void => {
-      setPage(value);
-      onChange(event, value);
-    };
+  const handleChange = (event: ChangeEvent<unknown>, value: number): void => {
+    setPage(value);
+    onChange(event, value);
+  };
 
-    useEffect(() => {
-      setPage(currentPage);
-    }, [currentPage]);
+  useEffect(() => {
+    setPage(currentPage);
+  }, [currentPage]);
 
-    return totalCount > 1 ? (
-      <MUIPagination count={totalCount} page={page} onChange={handleChange} />
-    ) : (
-      <></>
-    );
-  }
-);
+  return totalCount > 1 ? <MUIPagination count={totalCount} page={page} onChange={handleChange} /> : <></>;
+});
 
 export default Pagination;

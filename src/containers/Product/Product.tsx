@@ -34,13 +34,7 @@ const Product = observer(() => {
       {store.isLoading ? (
         <LoadingSpinner />
       ) : (
-        <Grid
-          key={Math.random() * 12_345}
-          container
-          justifyContent="center"
-          marginY={4}
-          marginX={1}
-        >
+        <Grid key={Math.random() * 12_345} container justifyContent="center" marginY={4} marginX={1}>
           <Grid key={Math.random() * 12_345} container justifyContent="center">
             <Grid item margin={0}>
               <ProductDetails product={store.product} />

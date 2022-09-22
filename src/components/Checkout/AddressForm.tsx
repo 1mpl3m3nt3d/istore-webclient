@@ -33,9 +33,7 @@ const AddressForm = observer((): JSX.Element => {
             autoComplete="given-name"
             variant="standard"
             value={store.firstName}
-            onChange={(event): void =>
-              store.changeFirstName(event.target.value)
-            }
+            onChange={(event): void => store.changeFirstName(event.target.value)}
           />
         </Grid>
         <Grid item xs={12} sm={6}>
@@ -128,9 +126,7 @@ const AddressForm = observer((): JSX.Element => {
         </Grid>
         <Grid item xs={12}>
           <FormControlLabel
-            control={
-              <Checkbox color="secondary" name="saveAddress" value="yes" />
-            }
+            control={<Checkbox color="secondary" name="saveAddress" value="yes" />}
             label="Use this address for payment details"
           />
         </Grid>

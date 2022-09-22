@@ -11,15 +11,7 @@ interface Properties {
   variant?: 'text' | 'outlined' | 'contained' | undefined;
 }
 
-function ButtonSpinner({
-  isLoading,
-  text,
-  disabled,
-  type,
-  onClick,
-  onChange,
-  variant,
-}: Properties): ReactElement {
+function ButtonSpinner({ isLoading, text, disabled, type, onClick, onChange, variant }: Properties): ReactElement {
   return (
     <Button
       variant={variant ? variant : 'outlined'}

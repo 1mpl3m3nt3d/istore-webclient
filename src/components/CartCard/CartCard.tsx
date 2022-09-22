@@ -17,8 +17,7 @@ interface Properties {
 const CartCard = observer((properties: Properties) => {
   const navigate = useNavigate();
   const { t } = useTranslation();
-  const { id, brand, type, name, picture, count, totalPrice } =
-    properties.cartItem;
+  const { id, brand, type, name, picture, count, totalPrice } = properties.cartItem;
 
   return (
     <Card
@@ -107,9 +106,7 @@ const CartCard = observer((properties: Properties) => {
                 <Typography>
                   <strong>{t('totalPrice', { ns: 'cart' })}:</strong>
                 </Typography>
-                <Typography>
-                  {`${totalPrice} ${t('currency', { ns: 'consts' })}`}
-                </Typography>
+                <Typography>{`${totalPrice} ${t('currency', { ns: 'consts' })}`}</Typography>
               </CardContent>
             </Stack>
           </Stack>

@@ -6,23 +6,8 @@ import DescriptionIcon from '@mui/icons-material/Description';
 import LoginIcon from '@mui/icons-material/Login';
 import LogoutIcon from '@mui/icons-material/Logout';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import {
-  Avatar,
-  Badge,
-  Button,
-  IconButton,
-  ListItemIcon,
-  Menu,
-  MenuItem,
-  Paper,
-  Stack,
-  Tooltip,
-} from '@mui/material';
-import {
-  bindMenu,
-  bindTrigger,
-  usePopupState,
-} from 'material-ui-popup-state/hooks';
+import { Avatar, Badge, Button, IconButton, ListItemIcon, Menu, MenuItem, Paper, Stack, Tooltip } from '@mui/material';
+import { bindMenu, bindTrigger, usePopupState } from 'material-ui-popup-state/hooks';
 import { observer } from 'mobx-react';
 import { Fragment } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -77,10 +62,7 @@ const Header = observer(() => {
         >
           {t('products')}
         </Button>
-        <Badge
-          color="secondary"
-          badgeContent={cartStore.cart?.totalCount ?? undefined}
-        >
+        <Badge color="secondary" badgeContent={cartStore.cart?.totalCount ?? undefined}>
           <Button
             sx={{ height: 45, width: 'auto' }}
             className="cartButton"
@@ -102,10 +84,7 @@ const Header = observer(() => {
                 navigate('/signin', { replace: false });
               }}
             >
-              <Avatar
-                variant="circular"
-                sx={{ width: 45, height: 45, bgcolor: 'darkcyan' }}
-              >
+              <Avatar variant="circular" sx={{ width: 45, height: 45, bgcolor: 'darkcyan' }}>
                 <LoginIcon />
               </Avatar>
             </IconButton>
@@ -115,10 +94,7 @@ const Header = observer(() => {
           <Fragment>
             <Tooltip title="Account settings">
               <IconButton {...bindTrigger(popupState)}>
-                <Avatar
-                  variant="circular"
-                  sx={{ width: 45, height: 45, bgcolor: 'darkcyan' }}
-                >
+                <Avatar variant="circular" sx={{ width: 45, height: 45, bgcolor: 'darkcyan' }}>
                   {authStore.user?.profile?.given_name?.slice(0, 1)}
                 </Avatar>
               </IconButton>

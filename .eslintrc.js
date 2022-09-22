@@ -26,12 +26,7 @@ module.exports = {
     },
     'import/core-modules': [],
     'import/extensions': ['.js', '.jsx', 'ts', 'tsx'],
-    'import/external-module-folders': [
-      'node_modules',
-      '.yarn',
-      '.yarn/cache',
-      '.yarn/unplugged',
-    ],
+    'import/external-module-folders': ['node_modules', '.yarn', '.yarn/cache', '.yarn/unplugged'],
     'import/ignore': ['.coffee$', '.(css|less|scss)$'],
     'import/internal-regex': [], //['^@scope/'],
     'import/parsers': {
@@ -41,12 +36,7 @@ module.exports = {
     'import/resolver': {
       [require.resolve('eslint-import-resolver-node')]: {
         extensions: ['.js', '.jsx', '.ts', '.tsx'],
-        moduleDirectory: [
-          'node_modules',
-          'src',
-          '.yarn/cache',
-          '.yarn/unplugged',
-        ],
+        moduleDirectory: ['node_modules', 'src', '.yarn/cache', '.yarn/unplugged'],
         paths: ['src'],
       },
       [require.resolve('eslint-import-resolver-typescript')]: {
@@ -85,10 +75,7 @@ module.exports = {
     sourceType: 'module',
     allowImportExportEverywhere: true,
     babelOptions: {
-      presets: [
-        ['babel-preset-react-app', false],
-        'babel-preset-react-app/prod',
-      ],
+      presets: [['babel-preset-react-app', false], 'babel-preset-react-app/prod'],
       caller: {
         // ESLint supports top level await when a parser for it is included. We enable the parser by default for Babel.
         supportsTopLevelAwait: true,
@@ -168,17 +155,7 @@ module.exports = {
     'import/order': [
       'off',
       {
-        'groups': [
-          'builtin',
-          'external',
-          'internal',
-          'unknown',
-          'parent',
-          'sibling',
-          'index',
-          'object',
-          'type',
-        ],
+        'groups': ['builtin', 'external', 'internal', 'unknown', 'parent', 'sibling', 'index', 'object', 'type'],
         'pathGroups': [
           {
             pattern: 'react',
@@ -246,9 +223,9 @@ module.exports = {
     'max-len': [
       'off',
       {
-        code: 80,
+        code: 120,
         tabWidth: 2,
-        comments: 80,
+        comments: 120,
         ignorePattern: '^\\s*var\\s.+=\\s*require\\s*\\(.*$',
         ignoreComments: true,
         ignoreTrailingComments: true,
@@ -263,10 +240,7 @@ module.exports = {
     'no-array-constructor': 'warn',
     'no-caller': 'warn',
     'no-cond-assign': ['warn', 'except-parens'],
-    'no-confusing-arrow': [
-      'off',
-      { allowParens: true, onlyOneSimpleParam: false },
-    ],
+    'no-confusing-arrow': ['off', { allowParens: true, onlyOneSimpleParam: false }],
     'no-console': 'off',
     'no-const-assign': 'warn',
     'no-control-regex': 'warn',
@@ -415,11 +389,7 @@ module.exports = {
     'promise/always-return': 'off',
     'promise/catch-or-return': 'warn',
     'promise/no-nesting': 'warn',
-    'quotes': [
-      'warn',
-      'single',
-      { avoidEscape: true, allowTemplateLiterals: false },
-    ],
+    'quotes': ['warn', 'single', { avoidEscape: true, allowTemplateLiterals: false }],
     'react/button-has-type': 'warn',
     'react/destructuring-assignment': 'off',
     'react/display-name': 'warn',
@@ -576,11 +546,7 @@ module.exports = {
         'no-useless-constructor': 'off',
         'prefer-const': 'warn',
         'prettier/prettier': 'warn',
-        'quotes': [
-          'off',
-          'single',
-          { avoidEscape: true, allowTemplateLiterals: false },
-        ],
+        'quotes': ['off', 'single', { avoidEscape: true, allowTemplateLiterals: false }],
         'require-await': 'off',
         '@typescript-eslint/consistent-type-assertions': 'warn',
         '@typescript-eslint/explicit-function-return-type': 'warn',
@@ -630,11 +596,7 @@ module.exports = {
           },
         ],
         '@typescript-eslint/no-useless-constructor': 'warn',
-        '@typescript-eslint/quotes': [
-          'warn',
-          'single',
-          { avoidEscape: true, allowTemplateLiterals: false },
-        ],
+        '@typescript-eslint/quotes': ['warn', 'single', { avoidEscape: true, allowTemplateLiterals: false }],
         '@typescript-eslint/require-await': 'warn',
         '@typescript-eslint/restrict-template-expressions': 'off',
         '@typescript-eslint/triple-slash-reference': 'off',
@@ -654,21 +616,13 @@ module.exports = {
       },
     },
     {
-      files: [
-        '**/__tests__/**/*.[jt]s?(x)',
-        '**/?(*.)+(spec|test).[jt]s?(x)',
-        '**/cypress/**/*.[jt]s?(x)',
-      ],
+      files: ['**/__tests__/**/*.[jt]s?(x)', '**/?(*.)+(spec|test).[jt]s?(x)', '**/cypress/**/*.[jt]s?(x)'],
       env: {
         'cypress/globals': true,
         'jest': true,
         'jest/globals': true,
       },
-      extends: [
-        'plugin:testing-library/react',
-        'plugin:cypress/recommended',
-        'plugin:chai-friendly/recommended',
-      ],
+      extends: ['plugin:testing-library/react', 'plugin:cypress/recommended', 'plugin:chai-friendly/recommended'],
       plugins: ['testing-library', 'cypress', 'chai-friendly'],
       rules: {
         'no-unused-expressions': 'off',

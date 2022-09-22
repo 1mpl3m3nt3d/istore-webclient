@@ -52,10 +52,7 @@ const Checkout = observer((): JSX.Element => {
 
   return (
     <Container component="main" maxWidth="sm">
-      <Paper
-        variant="outlined"
-        sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}
-      >
+      <Paper variant="outlined" sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>
         <Typography component="h1" variant="h4" align="center">
           Checkout
         </Typography>
@@ -73,9 +70,8 @@ const Checkout = observer((): JSX.Element => {
                 Thank you for your order
               </Typography>
               <Typography variant="subtitle1">
-                Your order number is #123456789. We have emailed your order
-                confirmation, and will send you an update when your order has
-                shipped.
+                Your order number is #123456789. We have emailed your order confirmation, and will send you an update
+                when your order has shipped.
               </Typography>
             </Fragment>
           ) : (

@@ -32,20 +32,14 @@ export interface ApiResponse<T> {
 }
 
 export interface HttpService {
-  sendAsync<T>(
-    route: string,
-    methodType: MethodType,
-    headers?: ApiHeader,
-    data?: any
-  ): Promise<ApiResponse<T>>;
+  sendAsync<T>(route: string, methodType: MethodType, headers?: ApiHeader, data?: any): Promise<ApiResponse<T>>;
 }
 
 @injectable()
 export default class DefaultHttpService implements HttpService {
   private readonly headerKeyContentType = 'Content-Type';
   private readonly headerValueContentTypeJson = 'application/json';
-  private readonly headerValueContentTypeFormData =
-    'application/x-www-form-urlencoded';
+  private readonly headerValueContentTypeFormData = 'application/x-www-form-urlencoded';
 
   private readonly headerValueMethodTypeDelete = 'DELETE';
   private readonly headerValueMethodTypeGet = 'GET';
@@ -93,9 +87,7 @@ export default class DefaultHttpService implements HttpService {
         const responseData = JSON.parse(responseText);
         result.data = responseData;
       } catch (error: unknown) {
-        console.log(
-          `Did not receive JSON, instead received:\n"${responseText}"\nDetails:\n${error}`
-        );
+        console.log(`Did not receive JSON, instead received:\n"${responseText}"\nDetails:\n${error}`);
       }
     }
 
@@ -132,10 +124,7 @@ export default class DefaultHttpService implements HttpService {
     }
   };
 
-  private getBody = (
-    data?: any,
-    headers?: ApiHeader
-  ): string | URLSearchParams | undefined => {
+  private getBody = (data?: any, headers?: ApiHeader): string | URLSearchParams | undefined => {
     if (data) {
       if (headers && headers.contentType === ContentType.Json) {
         return JSON.stringify(data);

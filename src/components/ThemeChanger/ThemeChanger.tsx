@@ -22,17 +22,12 @@ const ThemeChanger = observer(({ children }: Props) => {
     localStorage.setItem('colorModeSetup', colorModeSetup);
   }
 
-  const [mode, setMode] = useState<'light' | 'dark'>(
-    colorModeSetup === 'light' ? 'light' : 'dark'
-  );
+  const [mode, setMode] = useState<'light' | 'dark'>(colorModeSetup === 'light' ? 'light' : 'dark');
 
   const colorMode = useMemo(
     () => ({
       toggleColorMode: (): void => {
-        localStorage.setItem(
-          'colorModeSetup',
-          mode === 'light' ? 'dark' : 'light'
-        );
+        localStorage.setItem('colorModeSetup', mode === 'light' ? 'dark' : 'light');
         setMode((prevMode) => (prevMode === 'light' ? 'dark' : 'light'));
       },
     }),

@@ -299,7 +299,7 @@
   "prettier.jsxBracketSameLine": false,
   "prettier.jsxSingleQuote": false,
   "prettier.prettierPath": ".yarn/sdks/prettier/index.js",
-  "prettier.printWidth": 80,
+  "prettier.printWidth": 120,
   "prettier.proseWrap": "preserve",
   "prettier.quoteProps": "consistent",
   "prettier.requireConfig": false,

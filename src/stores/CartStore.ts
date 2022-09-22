@@ -97,9 +97,7 @@ export default class CartStore {
 
           await this.updateCart();
         } else {
-          console.log(
-            `There is no item with [id: ${id}] in your cart to remove!`
-          );
+          console.log(`There is no item with [id: ${id}] in your cart to remove!`);
         }
       }
     } catch (error: unknown) {

@@ -8,6 +8,7 @@ import { Outlet } from 'react-router-dom';
 import { Footer } from 'components/Footer';
 import { Header } from 'components/Header';
 import { IoCTypes, useInjection } from 'ioc';
+import { User } from 'oidc-client-ts';
 import { AuthStore, CartStore } from 'stores';
 
 const Layout = observer(() => {
@@ -18,7 +19,7 @@ const Layout = observer(() => {
     const getAuthenticationStatus = async (): Promise<void> => {
       await authStore.signinSilent();
 
-      if (!authStore.user) {
+      if (!(authStore.user instanceof User)) {
         await authStore.getUser();
       }
     };
@@ -30,7 +31,7 @@ const Layout = observer(() => {
 
   useEffect(() => {
     const getCart = async (): Promise<void> => {
-      if (authStore.user) {
+      if (authStore.user instanceof User) {
         await cartStore.getCart();
       }
     };
@@ -41,23 +42,8 @@ const Layout = observer(() => {
   }, [authStore.user, cartStore]);
 
   return (
-    <Box
-      id="layout"
-      className="layout"
-      display="flex"
-      flexDirection="column"
-      minWidth="100%"
-      minHeight="100vh"
-    >
-      <Box
-        id="header"
-        className="header"
-        position="relative"
-        top={0}
-        left={0}
-        right={0}
-        minWidth="100%"
-      >
+    <Box id="layout" className="layout" display="flex" flexDirection="column" minWidth="100%" minHeight="100vh">
+      <Box id="header" className="header" position="relative" top={0} left={0} right={0} minWidth="100%">
         <Header />
       </Box>
       <Box
@@ -72,16 +58,7 @@ const Layout = observer(() => {
       >
         <Outlet />
       </Box>
-      <Box
-        id="footer"
-        className="footer"
-        position="relative"
-        bottom={0}
-        left={0}
-        right={0}
-        minWidth="100%"
-        mt="auto"
-      >
+      <Box id="footer" className="footer" position="relative" bottom={0} left={0} right={0} minWidth="100%" mt="auto">
         <Footer />
       </Box>
     </Box>
