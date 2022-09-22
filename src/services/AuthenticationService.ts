@@ -30,9 +30,32 @@ export default class DefaultAuthenticationService implements AuthenticationServi
 
   constructor() {
     this.userManager = new UserManager(OidcConfig);
+    this.configUserManager();
     Log.setLogger(console);
     Log.setLevel(Log.WARN);
   }
+
+  public configUserManager = (): void => {
+    this.userManager.events.addSilentRenewError(function (err) {
+      console.log(`SilentRenew Error:\n${err.name}\n${err.message}\n${err.cause}`);
+    });
+
+    this.userManager.events.addUserSignedIn(function () {
+      console.log('User signed in!');
+    });
+
+    this.userManager.events.addUserSignedOut(function () {
+      console.log('User logged out!');
+    });
+
+    this.userManager.events.addUserLoaded(function (user) {
+      console.log(`User loaded:\n${user.profile.sub}`);
+    });
+
+    this.userManager.events.addUserUnloaded(function () {
+      console.log('User unloaded');
+    });
+  };
 
   public clearStaleState = async (): Promise<void> => {
     await this.userManager.clearStaleState().catch((error) => {

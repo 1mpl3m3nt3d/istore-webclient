@@ -22,7 +22,7 @@ export default class AuthStore {
 
   public getUser = async (): Promise<void> => {
     const userResponse = await this.authenticationService.getUser();
-    this.setUser(userResponse);
+    this.user = userResponse;
   };
 
   public removeRedirectLocation = (): void => {
@@ -41,10 +41,6 @@ export default class AuthStore {
     } else {
       localStorage.setItem('redirectUri', '/');
     }
-  };
-
-  public setUser = (user: User | null): void => {
-    this.user = user;
   };
 
   public signinRedirect = async (location?: string): Promise<void> => {
