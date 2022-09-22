@@ -10,6 +10,7 @@ export const oidcConfig: UserManagerSettings = {
   includeIdTokenInSilentRenew: true,
   loadUserInfo: true,
   post_logout_redirect_uri: `${process.env.REACT_APP_POST_LOGOUT_REDIRECT_URL}`,
+  prompt: 'login',
   redirect_uri: `${process.env.REACT_APP_REDIRECT_URL}`,
   response_type: `${process.env.REACT_APP_RESPONSE_TYPE}`,
   scope: `${process.env.REACT_APP_SCOPE}`,
