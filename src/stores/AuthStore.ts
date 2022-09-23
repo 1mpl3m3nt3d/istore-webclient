@@ -22,7 +22,10 @@ export default class AuthStore {
 
   public getUser = async (): Promise<void> => {
     const userResponse = await this.authenticationService.getUser();
-    this.user = userResponse;
+
+    if (userResponse instanceof User) {
+      this.user = userResponse;
+    }
   };
 
   public removeRedirectLocation = (): void => {
