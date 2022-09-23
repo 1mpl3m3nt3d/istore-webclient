@@ -105,7 +105,7 @@ export default class DefaultAuthenticationService implements AuthenticationServi
   };
 
   public signinSilent = async (): Promise<User | null> => {
-    return await this.userManager.signinSilent();
+    return await this.userManager.signinSilent({});
   };
 
   public signinSilentCallback = async (): Promise<void> => {

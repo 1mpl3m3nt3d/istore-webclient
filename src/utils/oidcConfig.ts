@@ -1,4 +1,7 @@
-import { UserManagerSettings, WebStorageStateStore } from 'oidc-client-ts';
+import { Log, UserManagerSettings, WebStorageStateStore } from 'oidc-client-ts';
+
+Log.setLogger(console);
+Log.setLevel(Log.INFO);
 
 export const oidcConfig: UserManagerSettings = {
   accessTokenExpiringNotificationTimeInSeconds: 60,
@@ -11,16 +14,17 @@ export const oidcConfig: UserManagerSettings = {
   includeIdTokenInSilentRenew: true,
   loadUserInfo: true,
   mergeClaims: false,
-  monitorAnonymousSession: true,
-  monitorSession: true,
+  monitorAnonymousSession: false,
+  monitorSession: false,
   post_logout_redirect_uri: `${process.env.REACT_APP_POST_LOGOUT_REDIRECT_URL}`,
-  prompt: 'login',
+  //prompt: 'login',
   redirect_uri: `${process.env.REACT_APP_REDIRECT_URL}`,
   redirectMethod: 'assign',
-  refreshTokenCredentials: 'same-origin',
+  refreshTokenCredentials: 'include',
   response_mode: 'query',
   response_type: `${process.env.REACT_APP_RESPONSE_TYPE}`,
   revokeTokensOnSignout: true,
+  revokeTokenTypes: ['access_token', 'refresh_token'],
   scope: `${process.env.REACT_APP_SCOPE}`,
   silent_redirect_uri: `${process.env.REACT_APP_SILENT_REDIRECT_URL}`,
   silentRequestTimeoutInSeconds: 15,
