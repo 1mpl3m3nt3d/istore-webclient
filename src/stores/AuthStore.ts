@@ -15,6 +15,7 @@ export default class AuthStore {
   user: User | null = null;
 
   constructor() {
+    this.user = null;
     makeAutoObservable(this);
   }
 

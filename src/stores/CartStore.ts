@@ -6,6 +6,7 @@ import { makeAutoObservable } from 'mobx';
 import { CartDto } from 'dtos';
 import { IoCTypes } from 'ioc';
 import { Cart, CartItem } from 'models';
+import { User } from 'oidc-client-ts';
 import type { CartService } from 'services';
 import { AuthStore, ProductsStore } from 'stores';
 
@@ -34,7 +35,7 @@ export default class CartStore {
 
   public getCount = (id: number): number => {
     try {
-      if (this.authStore.user) {
+      if (this.authStore.user instanceof User) {
         const index = this.cartItems?.findIndex((ci) => ci.id === id);
 
         return index >= 0 ? this.cartItems[index].count : 0;
@@ -47,12 +48,12 @@ export default class CartStore {
   };
 
   public addItem = async (id: number): Promise<void> => {
-    if (!this.authStore.user) {
+    if (!(this.authStore.user instanceof User)) {
       await this.authStore.signinRedirect();
     }
 
     try {
-      if (this.authStore.user) {
+      if (this.authStore.user instanceof User) {
         this.cartService.getAuthorizationHeaders();
 
         const index = this.cartItems?.findIndex((ci) => ci.id === id);
@@ -76,8 +77,12 @@ export default class CartStore {
   };
 
   public removeItem = async (id: number): Promise<void> => {
+    if (!(this.authStore.user instanceof User)) {
+      await this.authStore.getUser();
+    }
+
     try {
-      if (this.authStore.user) {
+      if (this.authStore.user instanceof User) {
         this.cartService.getAuthorizationHeaders();
 
         const index = this.cartItems?.findIndex((ci) => ci.id === id);
@@ -108,12 +113,8 @@ export default class CartStore {
   public getCart = async (): Promise<void> => {
     this.isLoading = true;
 
-    if (!this.authStore.user) {
-      await this.authStore.getUser();
-    }
-
     try {
-      if (this.authStore.user) {
+      if (this.authStore.user instanceof User) {
         this.cartService.getAuthorizationHeaders();
 
         const response = await this.cartService.getCart();
@@ -142,12 +143,12 @@ export default class CartStore {
   };
 
   public updateCart = async (): Promise<void> => {
-    if (!this.authStore.user) {
+    if (!(this.authStore.user instanceof User)) {
       await this.authStore.getUser();
     }
 
     try {
-      if (this.authStore.user) {
+      if (this.authStore.user instanceof User) {
         this.cartService.getAuthorizationHeaders();
 
         this.cart.items = this.cartItems;
@@ -164,12 +165,12 @@ export default class CartStore {
   };
 
   public deleteCart = async (): Promise<void> => {
-    if (!this.authStore.user) {
+    if (!(this.authStore.user instanceof User)) {
       await this.authStore.getUser();
     }
 
     try {
-      if (this.authStore.user) {
+      if (this.authStore.user instanceof User) {
         this.cartService.getAuthorizationHeaders();
 
         await this.cartService.deleteCart();

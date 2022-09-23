@@ -14,6 +14,7 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 
 import { IoCTypes, useInjection } from 'ioc';
+import { User } from 'oidc-client-ts';
 import { AuthStore, CartStore } from 'stores';
 
 const Header = observer(() => {
@@ -76,7 +77,7 @@ const Header = observer(() => {
             {t('cart')}
           </Button>
         </Badge>
-        {!authStore.user && (
+        {!(authStore.user instanceof User) && (
           <Tooltip title={t('login')}>
             <IconButton
               className="signinButton"
@@ -90,7 +91,7 @@ const Header = observer(() => {
             </IconButton>
           </Tooltip>
         )}
-        {Boolean(authStore.user) && (
+        {authStore.user instanceof User && (
           <Fragment>
             <Tooltip title="Account settings">
               <IconButton {...bindTrigger(popupState)}>

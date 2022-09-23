@@ -8,6 +8,7 @@ import { Outlet } from 'react-router-dom';
 import { Footer } from 'components/Footer';
 import { Header } from 'components/Header';
 import { IoCTypes, useInjection } from 'ioc';
+import { User } from 'oidc-client-ts';
 import { AuthStore, CartStore } from 'stores';
 
 const Layout = observer(() => {
@@ -16,9 +17,8 @@ const Layout = observer(() => {
 
   useEffect(() => {
     const getAuthenticationStatus = async (): Promise<void> => {
-      if (!authStore.user) {
-        await authStore.getUser();
-      }
+      await authStore.signinSilent();
+      await authStore.getUser();
     };
 
     getAuthenticationStatus().catch((error) => {
@@ -28,7 +28,7 @@ const Layout = observer(() => {
 
   useEffect(() => {
     const getCart = async (): Promise<void> => {
-      if (authStore.user) {
+      if (authStore.user instanceof User) {
         await cartStore.getCart();
       }
     };
