@@ -17,13 +17,15 @@ const Layout = observer(() => {
 
   useEffect(() => {
     const getAuthenticationStatus = async (): Promise<void> => {
-      await authStore.getUser();
+      if (!(authStore.user instanceof User)) {
+        await authStore.getUser();
+      }
     };
 
     getAuthenticationStatus().catch((error) => {
       console.log(error);
     });
-  }, [authStore]);
+  }, [authStore, authStore.user]);
 
   useEffect(() => {
     const getCart = async (): Promise<void> => {

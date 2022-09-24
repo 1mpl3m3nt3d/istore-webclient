@@ -81,5 +81,6 @@ export default class AuthStore {
     localStorage.clear();
     this.replaceLocation();
     this.removeRedirectLocation();
+    this.user = null;
   };
 }
