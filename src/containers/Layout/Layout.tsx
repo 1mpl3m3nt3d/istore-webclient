@@ -17,6 +17,8 @@ const Layout = observer(() => {
 
   useEffect(() => {
     const getAuthenticationStatus = async (): Promise<void> => {
+      await authStore.signinSilent();
+
       if (!(authStore.user instanceof User)) {
         await authStore.getUser();
       }

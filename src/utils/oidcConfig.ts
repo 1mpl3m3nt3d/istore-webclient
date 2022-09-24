@@ -27,7 +27,7 @@ export const oidcConfig: UserManagerSettings = {
   staleStateAgeInSeconds: 300,
   stateStore: new WebStorageStateStore({ store: window.localStorage }),
   stopCheckSessionOnError: true,
-  userStore: new WebStorageStateStore({ store: window.sessionStorage }),
+  userStore: new WebStorageStateStore({ store: window.localStorage }),
   validateSubOnSilentRenew: true,
 };
 
