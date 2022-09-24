@@ -16,18 +16,22 @@ const Layout = observer(() => {
   const cartStore = useInjection<CartStore>(IoCTypes.cartStore);
 
   useEffect(() => {
-    const getAuthenticationStatus = async (): Promise<void> => {
-      await authStore.signinSilent();
+    const getAuthenticationStatus = (): void => {
+      authStore.signinSilent().catch((error) => {
+        console.log(error);
+      });
 
       if (!(authStore.user instanceof User)) {
-        await authStore.getUser();
+        authStore.getUser().catch((error) => {
+          console.log(error);
+        });
       }
     };
 
     getAuthenticationStatus().catch((error) => {
       console.log(error);
     });
-  }, [authStore, authStore.user]);
+  }, [authStore]);
 
   useEffect(() => {
     const getCart = async (): Promise<void> => {
