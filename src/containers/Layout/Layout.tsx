@@ -17,20 +17,18 @@ const Layout = observer(() => {
 
   useEffect(() => {
     const getAuthenticationStatus = (): void => {
-      authStore.signinSilent().catch((error) => {
-        console.log(error);
-      });
-
       if (!(authStore.user instanceof User)) {
+        authStore.signinSilent().catch((error) => {
+          console.log(error);
+        });
+
         authStore.getUser().catch((error) => {
           console.log(error);
         });
       }
     };
 
-    getAuthenticationStatus().catch((error) => {
-      console.log(error);
-    });
+    getAuthenticationStatus();
   }, [authStore]);
 
   useEffect(() => {
