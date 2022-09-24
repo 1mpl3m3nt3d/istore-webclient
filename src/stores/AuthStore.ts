@@ -19,7 +19,7 @@ export default class AuthStore {
     makeAutoObservable(this);
   }
 
-  public getAuthenticationStatus = (): boolean => this.authenticationService.getAuthenticationStatus();
+  public getSessionStorageUser = (): User => this.authenticationService.getSessionStorageUser();
 
   public getUser = async (): Promise<void> => {
     const userResponse = await this.authenticationService.getUser();
