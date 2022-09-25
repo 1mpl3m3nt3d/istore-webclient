@@ -21,7 +21,9 @@ const Layout = observer(() => {
         authStore.signinSilent().catch((error) => {
           console.log(error);
         });
+      }
 
+      if (!(authStore.user instanceof User)) {
         authStore.getUser().catch((error) => {
           console.log(error);
         });

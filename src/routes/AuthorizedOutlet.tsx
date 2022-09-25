@@ -6,26 +6,25 @@ import { Outlet } from 'react-router-dom';
 
 import { LoadingSpinner } from 'components/LoadingSpinner';
 import { IoCTypes, useInjection } from 'ioc';
+import { User } from 'oidc-client-ts';
 import { AuthStore } from 'stores';
 
 const AuthorizedOutlet = observer(() => {
   const authStore = useInjection<AuthStore>(IoCTypes.authStore);
 
   useEffect(() => {
-    const getAuthentication = async (): Promise<void> => {
-      await authStore.getUser();
-
-      if (!authStore.user) {
+    const getAuthenticationStatus = async (): Promise<void> => {
+      if (!(authStore.user instanceof User)) {
         await authStore.signinRedirect();
       }
     };
 
-    getAuthentication().catch((error) => {
+    getAuthenticationStatus().catch((error) => {
       console.log(error);
     });
   }, [authStore]);
 
-  return authStore.user ? <Outlet /> : <LoadingSpinner />;
+  return authStore.user instanceof User ? <Outlet /> : <LoadingSpinner />;
 });
 
 export default AuthorizedOutlet;

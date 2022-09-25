@@ -20,7 +20,7 @@ const Product = observer(() => {
       const result = await store.getById(Number(id));
 
       if (result === undefined) {
-        navigate('/products/', { replace: true });
+        navigate('/products/', { replace: false });
       }
     };
 
