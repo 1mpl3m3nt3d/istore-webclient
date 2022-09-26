@@ -23,7 +23,7 @@ const Products = observer(() => {
     getProducts().catch((error) => {
       console.log(error);
     });
-  }, [store]);
+  }, [store, store.currentPage]);
 
   return (
     <>

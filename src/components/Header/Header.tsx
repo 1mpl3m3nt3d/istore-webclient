@@ -14,7 +14,6 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 
 import { IoCTypes, useInjection } from 'ioc';
-import { User } from 'oidc-client-ts';
 import { AuthStore, CartStore } from 'stores';
 
 const Header = observer(() => {
@@ -77,12 +76,12 @@ const Header = observer(() => {
             {t('cart')}
           </Button>
         </Badge>
-        {!(authStore.user instanceof User) && (
+        {!authStore.user && (
           <Tooltip title={t('login')}>
             <IconButton
               className="signinButton"
-              onClick={(): void => {
-                navigate('/signin', { replace: false });
+              onClick={async (): Promise<void> => {
+                await authStore.signinRedirect();
               }}
             >
               <Avatar variant="circular" sx={{ width: 45, height: 45, bgcolor: 'darkcyan' }}>
@@ -91,7 +90,7 @@ const Header = observer(() => {
             </IconButton>
           </Tooltip>
         )}
-        {authStore.user instanceof User && (
+        {authStore.user && (
           <Fragment>
             <Tooltip title="Account settings">
               <IconButton {...bindTrigger(popupState)}>
@@ -102,9 +101,9 @@ const Header = observer(() => {
             </Tooltip>
             <Menu {...bindMenu(popupState)}>
               <MenuItem
-                onClick={(): void => {
+                onClick={async (): Promise<void> => {
                   popupState.close();
-                  navigate('/signout', { replace: false });
+                  await authStore.signoutRedirect();
                 }}
               >
                 <ListItemIcon>

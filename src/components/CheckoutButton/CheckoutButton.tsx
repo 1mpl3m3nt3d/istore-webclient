@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 
 import { IoCTypes, useInjection } from 'ioc';
-import { CartStore, CheckoutStore } from 'stores';
+import { CheckoutStore } from 'stores';
 
 interface Properties {
   totalPrice: number;
@@ -14,7 +14,6 @@ interface Properties {
 
 const CheckoutButton = observer((properties: Properties) => {
   const store = useInjection<CheckoutStore>(IoCTypes.checkoutStore);
-  const cartStore = useInjection<CartStore>(IoCTypes.cartStore);
   const navigate = useNavigate();
   const { t } = useTranslation(['cart']);
 

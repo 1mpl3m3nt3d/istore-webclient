@@ -8,11 +8,11 @@ import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import { Checkout } from 'components/Checkout';
 import { LoadingSpinner } from 'components/LoadingSpinner';
 import {
+  SigninCallback,
   SigninRedirect,
-  SigninRedirectCallback,
   SigninSilentCallback,
+  SignoutCallback,
   SignoutRedirect,
-  SignoutRedirectCallback,
 } from 'components/OidcAuthorization';
 import { Layout } from 'containers/Layout';
 import { AuthorizedOutlet } from 'routes';
@@ -43,19 +43,21 @@ const AppRoutes = observer(() => (
         <Route path="*" element={<Navigate replace to="/" />} />
         <Route path="/" element={<Layout />}>
           <Route index element={<Products />} />
+          <Route path="/cart" element={<Cart />} />
           <Route path="/products" element={<Products />} />
           <Route path="/products/:id" element={<Product />} />
-          <Route path="/login/callback" element={<SigninRedirectCallback />} />
-          <Route path="/logout/callback" element={<SignoutRedirectCallback />} />
+          <Route path="/login/callback" element={<SigninCallback />} />
+          <Route path="/logout/callback" element={<SignoutCallback />} />
           <Route path="/signin" element={<SigninRedirect />} />
-          <Route path="/signin-oidc" element={<SigninRedirectCallback />} />
-          <Route path="/signin/calback" element={<SigninRedirect />} />
+          <Route path="/signin-oidc" element={<SigninCallback />} />
+          <Route path="/signin-oidc-callback" element={<SigninCallback />} />
+          <Route path="/signin/calback" element={<SigninCallback />} />
           <Route path="/signout" element={<SignoutRedirect />} />
-          <Route path="/signout-oidc" element={<SignoutRedirectCallback />} />
-          <Route path="/signout/callback" element={<SignoutRedirectCallback />} />
+          <Route path="/signout-oidc" element={<SignoutCallback />} />
+          <Route path="/signout-oidc-callback" element={<SignoutCallback />} />
+          <Route path="/signout/callback" element={<SignoutCallback />} />
           <Route path="/silentrenew" element={<SigninSilentCallback />} />
           <Route element={<AuthorizedOutlet />}>
-            <Route path="/cart" element={<Cart />} />
             <Route path="/checkout" element={<Checkout />} />
           </Route>
         </Route>

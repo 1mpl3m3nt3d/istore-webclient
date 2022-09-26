@@ -7,23 +7,27 @@ import { OidcConfig } from 'utils';
 
 export interface AuthenticationService {
   clearStaleState: () => Promise<void>;
-  getSessionStorageUser: () => User;
   getUser: () => Promise<User | null>;
+  getUserLocalStorage: () => User;
+  getUserSessionStorage: () => User;
   parseJwt: (token: string) => unknown;
   querySessionStatus: () => Promise<SessionStatus | null>;
   revokeTokens: () => Promise<void>;
-  signinPopup: () => Promise<User | undefined>;
+  signinCallback: () => Promise<void | User>;
+  signinPopup: () => Promise<User>;
   signinPopupCallback: () => Promise<void>;
   signinRedirect: () => Promise<void>;
-  signinRedirectCallback: () => Promise<User | undefined>;
+  signinRedirectCallback: () => Promise<User>;
   signinSilent: () => Promise<User | null>;
   signinSilentCallback: () => Promise<void>;
+  signoutCallback: () => Promise<void>;
   signoutPopup: () => Promise<void>;
   signoutPopupCallback: () => Promise<void>;
   signoutRedirect: () => Promise<void>;
   signoutRedirectCallback: () => Promise<SignoutResponse>;
   startSilentRenew: () => void;
   stopSilentRenew: () => void;
+  storeUser: (user: User | null) => Promise<void>;
 }
 
 @injectable()
@@ -53,7 +57,7 @@ export default class DefaultAuthenticationService implements AuthenticationServi
     this.userManager.events.addUserLoaded((user) => {
       console.log(`User loaded: ${user.profile.sub}!`);
 
-      this.userManager
+      /*this.userManager
         .getUser()
         .then(() => {
           console.log(`Method 'getUser' loaded user '${user.profile.sub}' after userLoaded event fired`);
@@ -61,6 +65,7 @@ export default class DefaultAuthenticationService implements AuthenticationServi
         .catch((error) => {
           console.log(`Get user error:\n${error.name}\n${error.message}\n${error.cause}`);
         });
+        */
     });
 
     this.userManager.events.addUserUnloaded(() => {
@@ -70,11 +75,10 @@ export default class DefaultAuthenticationService implements AuthenticationServi
     this.userManager.events.addAccessTokenExpiring(() => {
       console.log('Token expiring!');
 
-      // maybe do this code manually if automaticSilentRenew doesn't work for you
       this.userManager
         .signinSilent()
         .then((user) => {
-          console.log('Silent renew success!', user);
+          console.log(`Silent renew for user '${user?.profile.sub}' was successful!`);
         })
         .catch((error) => {
           console.log(`Silent renew error:\n${error.name}\n${error.message}\n${error.cause}`);
@@ -92,7 +96,21 @@ export default class DefaultAuthenticationService implements AuthenticationServi
     });
   };
 
-  public getSessionStorageUser = (): User => {
+  public getUser = async (): Promise<User | null> => {
+    return await this.userManager.getUser();
+  };
+
+  public getUserLocalStorage = (): User => {
+    const oidcUser: User = JSON.parse(
+      String(
+        localStorage.getItem(`oidc.user:${process.env.REACT_APP_AUTH_URL}:${process.env.REACT_APP_IDENTITY_CLIENT_ID}`)
+      )
+    ) as User;
+
+    return oidcUser;
+  };
+
+  public getUserSessionStorage = (): User => {
     const oidcUser: User = JSON.parse(
       String(
         sessionStorage.getItem(
@@ -102,10 +120,6 @@ export default class DefaultAuthenticationService implements AuthenticationServi
     ) as User;
 
     return oidcUser;
-  };
-
-  public getUser = async (): Promise<User | null> => {
-    return await this.userManager.getUser();
   };
 
   public parseJwt = (token: string): unknown => {
@@ -120,15 +134,25 @@ export default class DefaultAuthenticationService implements AuthenticationServi
   };
 
   public revokeTokens = async (): Promise<void> => {
-    return await this.userManager.revokeTokens();
+    return await this.userManager.revokeTokens().catch((error) => {
+      console.log(error);
+    });
   };
 
-  public signinPopup = async (): Promise<User | undefined> => {
-    return (await this.userManager.signinPopup()) ?? undefined;
+  public signinCallback = async (): Promise<void | User> => {
+    return await this.userManager.signinCallback().catch((error) => {
+      console.log(error);
+    });
+  };
+
+  public signinPopup = async (): Promise<User> => {
+    return await this.userManager.signinPopup();
   };
 
   public signinPopupCallback = async (): Promise<void> => {
-    return await this.userManager.signinPopupCallback();
+    return await this.userManager.signinPopupCallback().catch((error) => {
+      console.log(error);
+    });
   };
 
   public signinRedirect = async (): Promise<void> => {
@@ -137,16 +161,24 @@ export default class DefaultAuthenticationService implements AuthenticationServi
     });
   };
 
-  public signinRedirectCallback = async (): Promise<User | undefined> => {
-    return (await this.userManager.signinRedirectCallback()) ?? undefined;
+  public signinRedirectCallback = async (): Promise<User> => {
+    return await this.userManager.signinRedirectCallback();
   };
 
   public signinSilent = async (): Promise<User | null> => {
-    return await this.userManager.signinSilent({});
+    return await this.userManager.signinSilent();
   };
 
   public signinSilentCallback = async (): Promise<void> => {
-    return await this.userManager.signinSilentCallback();
+    return await this.userManager.signinSilentCallback().catch((error) => {
+      console.log(error);
+    });
+  };
+
+  public signoutCallback = async (): Promise<void> => {
+    await this.userManager.signoutCallback().catch((error) => {
+      console.log(error);
+    });
   };
 
   public signoutPopup = async (): Promise<void> => {
@@ -162,13 +194,9 @@ export default class DefaultAuthenticationService implements AuthenticationServi
   };
 
   public signoutRedirect = async (): Promise<void> => {
-    await this.userManager
-      .signoutRedirect({
-        id_token_hint: localStorage.getItem('id_token') ?? undefined,
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    await this.userManager.signoutRedirect().catch((error) => {
+      console.log(error);
+    });
   };
 
   public signoutRedirectCallback = async (): Promise<SignoutResponse> => {
@@ -181,5 +209,11 @@ export default class DefaultAuthenticationService implements AuthenticationServi
 
   public stopSilentRenew = (): void => {
     this.userManager.stopSilentRenew();
+  };
+
+  public storeUser = async (user: User | null): Promise<void> => {
+    await this.userManager.storeUser(user).catch((error) => {
+      console.log(error);
+    });
   };
 }

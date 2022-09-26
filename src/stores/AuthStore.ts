@@ -19,12 +19,14 @@ export default class AuthStore {
     makeAutoObservable(this);
   }
 
-  public getSessionStorageUser = (): User => this.authenticationService.getSessionStorageUser();
+  public getSavedLocation = (): string | null => {
+    return localStorage.getItem('redirectUri');
+  };
 
   public getUser = async (): Promise<void> => {
     const userResponse = await this.authenticationService.getUser();
 
-    if (userResponse instanceof User) {
+    if (userResponse) {
       this.user = userResponse;
     }
   };
@@ -40,11 +42,53 @@ export default class AuthStore {
   public saveLocation = (location?: string): void => {
     if (location) {
       localStorage.setItem('redirectUri', location);
-    } else if (window.location.pathname !== '/signin' && window.location.pathname !== '/signout') {
-      localStorage.setItem('redirectUri', window.location.pathname);
+    } else if (
+      !window.location.pathname.includes('/checkout') &&
+      !window.location.pathname.includes('/signin') &&
+      !window.location.pathname.includes('/signout')
+    ) {
+      localStorage.setItem('redirectUri', window.location.href);
     } else {
       localStorage.setItem('redirectUri', '/');
     }
+  };
+
+  public signinCallback = async (): Promise<void> => {
+    const signinResponse = await this.authenticationService.signinCallback();
+
+    if (signinResponse) {
+      this.user = signinResponse;
+    } else {
+      await this.getUser();
+    }
+
+    if (this.user) {
+      this.authenticationService.startSilentRenew();
+    } else {
+      await this.authenticationService.clearStaleState();
+    }
+
+    if (this.getSavedLocation()) {
+      this.replaceLocation();
+      this.removeRedirectLocation();
+    }
+  };
+
+  public signinPopup = async (location?: string): Promise<void> => {
+    this.authenticationService.stopSilentRenew();
+    await this.authenticationService.clearStaleState();
+    const signinResponse = await this.authenticationService.signinPopup();
+
+    if (signinResponse) {
+      this.user = signinResponse;
+      this.authenticationService.startSilentRenew();
+    } else {
+      await this.authenticationService.clearStaleState();
+    }
+  };
+
+  public signinPopupCallback = async (): Promise<void> => {
+    await this.authenticationService.signinPopupCallback();
   };
 
   public signinRedirect = async (location?: string): Promise<void> => {
@@ -52,35 +96,68 @@ export default class AuthStore {
     this.authenticationService.stopSilentRenew();
     await this.authenticationService.clearStaleState();
     await this.authenticationService.signinRedirect();
-    this.authenticationService.startSilentRenew();
   };
 
   public signinRedirectCallback = async (): Promise<void> => {
-    await this.authenticationService.signinRedirectCallback();
+    const signinResponse = await this.authenticationService.signinRedirectCallback();
+
+    if (signinResponse) {
+      this.user = signinResponse;
+      this.authenticationService.startSilentRenew();
+    } else {
+      await this.authenticationService.clearStaleState();
+    }
+
     this.replaceLocation();
     this.removeRedirectLocation();
   };
 
   public signinSilent = async (): Promise<void> => {
-    this.user = await this.authenticationService.signinSilent();
-    console.log(`User with ID: ${this.user?.profile.sub} successfully signed in silently!`);
+    const silentResponse = await this.authenticationService.signinSilent();
+
+    if (silentResponse) {
+      this.user = silentResponse;
+      console.log(`User '${this.user?.profile.sub}' successfully signed in silently!`);
+    } else {
+      console.log('Signin silent request is not successfull!');
+    }
   };
 
   public signinSilentCallback = async (): Promise<void> => {
     await this.authenticationService.signinSilentCallback();
   };
 
+  public signoutCallback = async (): Promise<void> => {
+    await this.authenticationService.signoutCallback();
+    await this.authenticationService.clearStaleState();
+    this.user = null;
+
+    if (this.getSavedLocation()) {
+      this.replaceLocation();
+      this.removeRedirectLocation();
+    }
+  };
+
+  public signoutPopup = async (location?: string): Promise<void> => {
+    await this.authenticationService.signoutPopup();
+  };
+
+  public signoutPopupCallback = async (): Promise<void> => {
+    await this.authenticationService.signoutPopupCallback();
+    await this.authenticationService.clearStaleState();
+    this.user = null;
+  };
+
   public signoutRedirect = async (location?: string): Promise<void> => {
     this.saveLocation(location);
     await this.authenticationService.signoutRedirect();
-    await this.authenticationService.clearStaleState();
   };
 
   public signoutRedirectCallback = async (): Promise<void> => {
     await this.authenticationService.signoutRedirectCallback();
-    localStorage.clear();
+    await this.authenticationService.clearStaleState();
+    this.user = null;
     this.replaceLocation();
     this.removeRedirectLocation();
-    this.user = null;
   };
 }

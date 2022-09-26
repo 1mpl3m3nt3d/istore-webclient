@@ -13,7 +13,6 @@ import Typography from '@mui/material/Typography';
 import { useInjection } from 'inversify-react';
 import { observer } from 'mobx-react';
 import { Fragment, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 
 import { IoCTypes } from 'ioc';
 import { CartStore, CheckoutStore } from 'stores';
@@ -37,7 +36,6 @@ function getStepContent(step: number): JSX.Element {
 }
 
 const Checkout = observer((): JSX.Element => {
-  const navigate = useNavigate();
   const store = useInjection<CheckoutStore>(IoCTypes.checkoutStore);
   const cartStore = useInjection<CartStore>(IoCTypes.cartStore);
   const [activeStep, setActiveStep] = useState(0);

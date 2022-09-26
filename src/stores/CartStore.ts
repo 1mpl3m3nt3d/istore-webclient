@@ -6,7 +6,6 @@ import { makeAutoObservable } from 'mobx';
 import { CartDto } from 'dtos';
 import { IoCTypes } from 'ioc';
 import { Cart, CartItem } from 'models';
-import { User } from 'oidc-client-ts';
 import type { CartService } from 'services';
 import { AuthStore, ProductsStore } from 'stores';
 
@@ -35,11 +34,9 @@ export default class CartStore {
 
   public getCount = (id: number): number => {
     try {
-      if (this.authStore.user instanceof User) {
-        const index = this.cartItems?.findIndex((ci) => ci.id === id);
+      const index = this.cartItems?.findIndex((ci) => ci.id === id);
 
-        return index >= 0 ? this.cartItems[index].count : 0;
-      }
+      return index >= 0 ? this.cartItems[index].count : 0;
     } catch (error: unknown) {
       console.error(error);
     }
@@ -48,62 +45,46 @@ export default class CartStore {
   };
 
   public addItem = async (id: number): Promise<void> => {
-    if (!(this.authStore.user instanceof User)) {
-      await this.authStore.signinRedirect();
-    }
-
     try {
-      if (this.authStore.user instanceof User) {
-        this.cartService.getAuthorizationHeaders();
+      const index = this.cartItems?.findIndex((ci) => ci.id === id);
 
-        const index = this.cartItems?.findIndex((ci) => ci.id === id);
-
-        if (index >= 0) {
-          this.cartItems[index].count += 1;
-          this.cartItems[index].totalPrice += this.cartItems[index].price;
-          this.cart.totalPrice += this.cartItems[index].price;
-        } else {
-          await this.pushItem(id);
-        }
-
-        this.cart.items = this.cartItems;
-        this.cart.totalCount += 1;
-
-        await this.updateCart();
+      if (index >= 0) {
+        this.cartItems[index].count += 1;
+        this.cartItems[index].totalPrice += this.cartItems[index].price;
+        this.cart.totalPrice += this.cartItems[index].price;
+      } else {
+        await this.pushItem(id);
       }
+
+      this.cart.items = this.cartItems;
+      this.cart.totalCount += 1;
+
+      await this.updateCart();
     } catch (error: unknown) {
       console.error(error);
     }
   };
 
   public removeItem = async (id: number): Promise<void> => {
-    if (!(this.authStore.user instanceof User)) {
-      await this.authStore.getUser();
-    }
-
     try {
-      if (this.authStore.user instanceof User) {
-        this.cartService.getAuthorizationHeaders();
+      const index = this.cartItems?.findIndex((ci) => ci.id === id);
 
-        const index = this.cartItems?.findIndex((ci) => ci.id === id);
-
-        if (index >= 0) {
-          if (this.cartItems[index].count > 1) {
-            this.cartItems[index].count -= 1;
-            this.cartItems[index].totalPrice -= this.cartItems[index].price;
-            this.cart.totalPrice -= this.cartItems[index].price;
-          } else {
-            this.cart.totalPrice -= this.cartItems[index].price;
-            this.cartItems.splice(index, 1);
-          }
-
-          this.cart.items = this.cartItems;
-          this.cart.totalCount -= 1;
-
-          await this.updateCart();
+      if (index >= 0) {
+        if (this.cartItems[index].count > 1) {
+          this.cartItems[index].count -= 1;
+          this.cartItems[index].totalPrice -= this.cartItems[index].price;
+          this.cart.totalPrice -= this.cartItems[index].price;
         } else {
-          console.log(`There is no item with [id: ${id}] in your cart to remove!`);
+          this.cart.totalPrice -= this.cartItems[index].price;
+          this.cartItems.splice(index, 1);
         }
+
+        this.cart.items = this.cartItems;
+        this.cart.totalCount -= 1;
+
+        await this.updateCart();
+      } else {
+        console.log(`There is no item with [id: ${id}] in your cart to remove!`);
       }
     } catch (error: unknown) {
       console.error(error);
@@ -114,7 +95,7 @@ export default class CartStore {
     this.isLoading = true;
 
     try {
-      if (this.authStore.user instanceof User) {
+      if (this.authStore.user) {
         this.cartService.getAuthorizationHeaders();
 
         const response = await this.cartService.getCart();
@@ -123,17 +104,34 @@ export default class CartStore {
           this.cartDto = response.data;
         }
 
-        if (this.cartDto.data && this.cartDto.data !== '{}') {
-          this.cart = JSON.parse(this.cartDto.data);
-          this.cartItems = this.cart.items;
-        } else {
-          this.cart = { items: [], totalCount: 0, totalPrice: 0 };
-          this.cartItems = this.cart.items;
+        this.cart =
+          this.cartDto.data && this.cartDto.data !== '{}'
+            ? JSON.parse(this.cartDto.data)
+            : { items: [], totalCount: 0, totalPrice: 0 };
+
+        const localCart = localStorage.getItem('cart');
+
+        if (localCart) {
+          const parsedCart: Cart = JSON.parse(localCart);
+
+          if (parsedCart) {
+            this.cart = this.cartMerger(this.cart, parsedCart);
+            this.cartItems = this.cart.items;
+            this.cartDto = { data: '{}' };
+            await this.updateCart();
+            localStorage.removeItem('cart');
+          }
         }
       } else {
-        this.cart = { items: [], totalCount: 0, totalPrice: 0 };
-        this.cartItems = this.cart.items;
+        const localCart = localStorage.getItem('cart');
+        const parsedCart = localCart
+          ? JSON.parse(localCart) ?? { items: [], totalCount: 0, totalPrice: 0 }
+          : { items: [], totalCount: 0, totalPrice: 0 };
+
+        this.cart = parsedCart;
       }
+
+      this.cartItems = this.cart.items;
     } catch (error: unknown) {
       console.error(error);
     }
@@ -143,19 +141,21 @@ export default class CartStore {
   };
 
   public updateCart = async (): Promise<void> => {
-    if (!(this.authStore.user instanceof User)) {
+    if (!this.authStore.user) {
       await this.authStore.getUser();
     }
 
     try {
-      if (this.authStore.user instanceof User) {
+      this.cart.items = this.cartItems;
+      const cartString = JSON.stringify(this.cart);
+      this.cartDto.data = cartString;
+
+      if (this.authStore.user) {
         this.cartService.getAuthorizationHeaders();
-
-        this.cart.items = this.cartItems;
-        const cartString = JSON.stringify(this.cart);
-        this.cartDto.data = cartString;
-
         await this.cartService.updateCart(this.cartDto);
+      } else {
+        const parsedCart: string = JSON.stringify(this.cart);
+        localStorage.setItem('cart', parsedCart);
       }
     } catch (error: unknown) {
       console.error(error);
@@ -165,15 +165,17 @@ export default class CartStore {
   };
 
   public deleteCart = async (): Promise<void> => {
-    if (!(this.authStore.user instanceof User)) {
+    if (!this.authStore.user) {
       await this.authStore.getUser();
     }
 
     try {
-      if (this.authStore.user instanceof User) {
+      if (this.authStore.user) {
         this.cartService.getAuthorizationHeaders();
 
         await this.cartService.deleteCart();
+      } else {
+        localStorage.removeItem('cart');
       }
     } catch (error: unknown) {
       console.error(error);
@@ -202,5 +204,26 @@ export default class CartStore {
     } catch (error: unknown) {
       console.error(error);
     }
+  };
+
+  private readonly cartMerger = (cart1: Cart, cart2: Cart): Cart => {
+    const newCart: Cart = { items: [], totalCount: 0, totalPrice: 0 };
+
+    newCart.totalCount += cart1.totalCount + cart2.totalCount;
+    newCart.totalPrice += cart1.totalPrice + cart2.totalPrice;
+    newCart.items = Object.assign(newCart.items, cart1.items);
+
+    for (const item of cart2.items) {
+      const index = newCart.items.findIndex((n) => n.id === item.id);
+
+      if (index === -1) {
+        newCart.items.push(item);
+      } else {
+        newCart.items[index].count += item.count;
+        newCart.items[index].totalPrice += item.totalPrice;
+      }
+    }
+
+    return newCart;
   };
 }
