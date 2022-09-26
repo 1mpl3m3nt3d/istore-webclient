@@ -57,10 +57,11 @@ export default class DefaultAuthenticationService implements AuthenticationServi
     this.userManager.events.addUserLoaded((user) => {
       console.log(`User loaded: ${user.profile.sub}!`);
 
-      /*this.userManager
+      /*
+      this.userManager
         .getUser()
         .then(() => {
-          console.log(`Method 'getUser' loaded user '${user.profile.sub}' after userLoaded event fired`);
+          console.log(`Method 'getUser' loaded user '${user.profile.sub}' after userLoaded event fired!`);
         })
         .catch((error) => {
           console.log(`Get user error:\n${error.name}\n${error.message}\n${error.cause}`);
