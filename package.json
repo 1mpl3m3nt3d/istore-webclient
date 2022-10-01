@@ -4,8 +4,8 @@
   "private": true,
   "sideEffects": true,
   "engines": {
-    "node": ">=18.9.0",
-    "npm": ">=8.19.1",
+    "node": ">=18.10.0",
+    "npm": ">=8.19.2",
     "yarn": ">=3.2.3"
   },
   "homepage": ".",
