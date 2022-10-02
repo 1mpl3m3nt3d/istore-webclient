@@ -46,6 +46,7 @@ export default class DefaultHttpService implements HttpService {
   private readonly headerValueMethodTypePatch = 'PATCH';
   private readonly headerValueMethodTypePost = 'POST';
   private readonly headerValueMethodTypePut = 'PUT';
+
   private readonly headerValueCredentialsTypeInclude = 'include';
   private readonly headerValueCredentialsTypeOmit = 'omit';
 
@@ -170,16 +171,6 @@ export default class DefaultHttpService implements HttpService {
         };
       }
     }
-
-    /*
-    headersRequest = {
-      ...headersRequest,
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Headers':
-        'Accept, Content-Type, Origin, X-Requested-With',
-      'Access-Control-Allow-Methods': 'GET, POST, OPTIONS, PUT, PATCH, DELETE',
-    };
-    */
 
     return headersRequest;
   };
