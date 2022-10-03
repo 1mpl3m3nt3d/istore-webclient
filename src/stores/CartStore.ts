@@ -15,6 +15,7 @@ export default class CartStore {
   cart: Cart = { items: [], totalCount: 0, totalPrice: 0 };
   cartItems: CartItem[] = [];
   isLoading = false;
+  currentCount: number | undefined = undefined;
 
   @inject(IoCTypes.authStore)
   private readonly authStore!: AuthStore;
@@ -29,6 +30,8 @@ export default class CartStore {
     this.cartDto = { data: '{}' };
     this.cart = { items: [], totalCount: 0, totalPrice: 0 };
     this.cartItems = this.cart.items;
+    this.currentCount = undefined;
+    this.isLoading = false;
     makeAutoObservable(this);
   }
 
@@ -42,6 +45,26 @@ export default class CartStore {
     }
 
     return 0;
+  };
+
+  public setCount = async (id: number, count?: string): Promise<void> => {
+    try {
+      const index = this.cartItems?.findIndex((ci) => ci.id === id);
+      const parsedCount = count ? Number.parseInt(count) : this.currentCount;
+
+      if (parsedCount && parsedCount > 0) {
+        this.cartItems[index].count = parsedCount;
+        this.cartItems[index].totalPrice = parsedCount * this.cartItems[index].price;
+
+        await this.updateCart();
+      } else if (parsedCount && parsedCount < 1) {
+        await this.clearItem(id);
+      }
+
+      this.currentCount = undefined;
+    } catch (error: unknown) {
+      console.error(error);
+    }
   };
 
   public addItem = async (id: number): Promise<void> => {
@@ -266,5 +289,9 @@ export default class CartStore {
     this.updateCartTotals();
 
     return newCart;
+  };
+
+  public changeCount = (count: number | string): void => {
+    this.currentCount = typeof count === 'string' ? Number.parseInt(count) : count;
   };
 }

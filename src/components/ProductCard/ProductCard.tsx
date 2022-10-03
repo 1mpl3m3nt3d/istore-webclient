@@ -173,9 +173,6 @@ const ProductCard = observer((properties: Properties) => {
             padding: 0,
             objectFit: 'contain',
           }}
-          onClick={(): void => {
-            navigate(`/products/${id}`, { replace: false });
-          }}
         />
       </Stack>
       <CardContent sx={{ padding: 0, margin: 0, marginX: 1 }}>

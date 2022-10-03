@@ -2,6 +2,7 @@ import { Box, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent } fro
 import { observer } from 'mobx-react';
 import { Brand } from 'models';
 import { ReactElement, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 
 interface Properties {
@@ -15,6 +16,7 @@ interface Properties {
 const SelectorBrand = observer(
   ({ label, items, selectedBrandId, onChange, minWidth = 150 }: Properties): ReactElement => {
     const navigate = useNavigate();
+    const { t } = useTranslation(['products']);
 
     const defaultValue = selectedBrandId === 0 ? '' : selectedBrandId.toString();
     const [value, setValue] = useState<string>(defaultValue);
@@ -46,13 +48,14 @@ const SelectorBrand = observer(
           <InputLabel>{label}</InputLabel>
           <Select id="brand-selector" value={value} label={label} onChange={handleChange}>
             <MenuItem key={0} value={0}>
-              <em>All</em>
+              <em>{t('selectors.all')}</em>
             </MenuItem>
-            {items.map((item) => (
-              <MenuItem key={item.id} value={item.id}>
-                {item.brand}
-              </MenuItem>
-            ))}
+            {items &&
+              items?.map((item) => (
+                <MenuItem key={item.id} value={item.id}>
+                  {item.brand}
+                </MenuItem>
+              ))}
           </Select>
         </FormControl>
       </Box>

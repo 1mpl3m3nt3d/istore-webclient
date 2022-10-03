@@ -13,5 +13,10 @@
     "type": "Type",
     "price": "Price",
     "description": "Description"
+  },
+  "selectors": {
+    "all": "All",
+    "brands": "Select Brand",
+    "types": "Select Type"
   }
 }

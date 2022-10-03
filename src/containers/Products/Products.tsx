@@ -11,11 +11,13 @@ import { ProductCard } from 'components/ProductCard';
 import { SelectorBrand } from 'components/SelectorBrand';
 import { SelectorType } from 'components/SelectorType';
 import { IoCTypes, useInjection } from 'ioc';
+import { useTranslation } from 'react-i18next';
 import { ProductsStore } from 'stores';
 
 const Products = observer(() => {
   const store = useInjection<ProductsStore>(IoCTypes.productsStore);
   const location = useLocation();
+  const { t } = useTranslation(['products']);
 
   useEffect(() => {
     const getProducts = async (): Promise<void> => {
@@ -36,7 +38,7 @@ const Products = observer(() => {
           <Grid key={Math.random() * 12_345} container justifyContent="center">
             <Grid key={Math.random() * 12_345} item mb={4} ml={2} mr={2}>
               <SelectorBrand
-                label="Select Brand"
+                label={t('selectors.brands')}
                 items={store.brands}
                 selectedBrandId={store.selectedBrandId}
                 minWidth={250}
@@ -45,7 +47,7 @@ const Products = observer(() => {
             </Grid>
             <Grid key={Math.random() * 12_345} item mb={4} ml={2} mr={2}>
               <SelectorType
-                label="Select Types"
+                label={t('selectors.types')}
                 items={store.types}
                 selectedTypeId={store.selectedTypeId}
                 minWidth={250}
@@ -54,11 +56,12 @@ const Products = observer(() => {
             </Grid>
           </Grid>
           <Grid key={Math.random() * 12_345} container justifyContent="center">
-            {store.products?.map((product) => (
-              <Grid key={Math.random() * 12_345} item mb={4} ml={2} mr={2}>
-                <ProductCard product={{ ...product }} />
-              </Grid>
-            ))}
+            {store.products &&
+              store.products?.map((product) => (
+                <Grid key={Math.random() * 12_345} item mb={4} ml={2} mr={2}>
+                  <ProductCard product={{ ...product }} />
+                </Grid>
+              ))}
           </Grid>
           <Grid container justifyContent="center">
             <Pagination

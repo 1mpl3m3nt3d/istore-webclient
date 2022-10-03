@@ -50,6 +50,8 @@ export default class AuthStore {
       !window.location.pathname.includes('/signout')
     ) {
       localStorage.setItem('redirectUri', window.location.pathname + window.location.search);
+    } else if (window.location.pathname.includes('/checkout')) {
+      localStorage.setItem('redirectUri', '/cart');
     } else {
       localStorage.setItem('redirectUri', '/');
     }

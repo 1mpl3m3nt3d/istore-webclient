@@ -3,6 +3,7 @@ import { SelectChangeEvent } from '@mui/material/Select';
 import { observer } from 'mobx-react';
 import { Type } from 'models';
 import { ReactElement, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 
 interface Properties {
@@ -16,6 +17,7 @@ interface Properties {
 const SelectorType = observer(
   ({ label, items, selectedTypeId, onChange, minWidth = 150 }: Properties): ReactElement => {
     const navigate = useNavigate();
+    const { t } = useTranslation(['products']);
 
     const defaultValue = selectedTypeId === 0 ? '' : selectedTypeId.toString();
     const [value, setValue] = useState<string>(defaultValue);
@@ -47,13 +49,14 @@ const SelectorType = observer(
           <InputLabel>{label}</InputLabel>
           <Select id="type-selector" value={value} label={label} onChange={handleChange}>
             <MenuItem key={0} value={0}>
-              <em>All</em>
+              <em>{t('selectors.all')}</em>
             </MenuItem>
-            {items.map((item) => (
-              <MenuItem key={item.id} value={item.id}>
-                {item.type}
-              </MenuItem>
-            ))}
+            {items &&
+              items?.map((item) => (
+                <MenuItem key={item.id} value={item.id}>
+                  {item.type}
+                </MenuItem>
+              ))}
           </Select>
         </FormControl>
       </Box>

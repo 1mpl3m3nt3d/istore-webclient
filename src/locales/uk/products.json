@@ -13,5 +13,10 @@
     "type": "Тип",
     "price": "Ціна",
     "description": "Опис"
+  },
+  "selectors": {
+    "all": "Усі",
+    "brands": "Вибрати Бренд",
+    "types": "Вибрати Тип"
   }
 }
