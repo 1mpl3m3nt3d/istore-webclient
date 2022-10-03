@@ -66,15 +66,6 @@ const Products = observer(() => {
               currentPage={store.currentPage}
               onChange={(event: ChangeEvent<unknown>, value: number): void => {
                 store.changePage(value);
-                const urlParameters = new URLSearchParams(window.location.search);
-
-                if (value > 1) {
-                  urlParameters.set('page', value.toString());
-                } else {
-                  urlParameters.delete('page');
-                }
-
-                window.location.search = urlParameters.toString();
               }}
             />
           </Grid>

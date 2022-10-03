@@ -7,7 +7,6 @@ import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import { useInjection } from 'inversify-react';
 import { observer } from 'mobx-react';
-import { Fragment } from 'react';
 
 import { IoCTypes } from 'ioc';
 import { CheckoutStore } from 'stores';
@@ -16,7 +15,7 @@ const PaymentForm = observer((): JSX.Element => {
   const store = useInjection<CheckoutStore>(IoCTypes.checkoutStore);
 
   return (
-    <Fragment>
+    <>
       <Typography variant="h6" gutterBottom>
         Payment method
       </Typography>
@@ -83,7 +82,7 @@ const PaymentForm = observer((): JSX.Element => {
           />
         </Grid>
       </Grid>
-    </Fragment>
+    </>
   );
 });
 

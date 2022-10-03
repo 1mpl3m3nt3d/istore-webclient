@@ -14,7 +14,7 @@ export default class CartStore {
   cartDto: CartDto = { data: '{}' };
   cart: Cart = { items: [], totalCount: 0, totalPrice: 0 };
   cartItems: CartItem[] = [];
-  isLoading: boolean | undefined = undefined;
+  isLoading = false;
 
   @inject(IoCTypes.authStore)
   private readonly authStore!: AuthStore;
@@ -51,13 +51,13 @@ export default class CartStore {
       if (index >= 0) {
         this.cartItems[index].count += 1;
         this.cartItems[index].totalPrice += this.cartItems[index].price;
-        this.cart.totalPrice += this.cartItems[index].price;
+        //this.cart.totalPrice += this.cartItems[index].price;
       } else {
         await this.pushItem(id);
       }
 
       this.cart.items = this.cartItems;
-      this.cart.totalCount += 1;
+      //this.cart.totalCount += 1;
 
       await this.updateCart();
     } catch (error: unknown) {
@@ -73,14 +73,33 @@ export default class CartStore {
         if (this.cartItems[index].count > 1) {
           this.cartItems[index].count -= 1;
           this.cartItems[index].totalPrice -= this.cartItems[index].price;
-          this.cart.totalPrice -= this.cartItems[index].price;
+          //this.cart.totalPrice -= this.cartItems[index].price;
         } else {
-          this.cart.totalPrice -= this.cartItems[index].price;
+          //this.cart.totalPrice -= this.cartItems[index].price;
           this.cartItems.splice(index, 1);
         }
 
         this.cart.items = this.cartItems;
-        this.cart.totalCount -= 1;
+        //this.cart.totalCount -= 1;
+
+        await this.updateCart();
+      } else {
+        console.log(`There is no item with [id: ${id}] in your cart to remove!`);
+      }
+    } catch (error: unknown) {
+      console.error(error);
+    }
+  };
+
+  public clearItem = async (id: number): Promise<void> => {
+    try {
+      const index = this.cartItems?.findIndex((ci) => ci.id === id);
+
+      if (index >= 0) {
+        //this.cart.totalPrice -= this.cartItems[index].price;
+        //this.cart.totalCount -= this.cartItems[index].count;
+        this.cartItems.splice(index, 1);
+        this.cart.items = this.cartItems;
 
         await this.updateCart();
       } else {
@@ -115,7 +134,7 @@ export default class CartStore {
           const parsedCart: Cart = JSON.parse(localCart);
 
           if (parsedCart) {
-            this.cart = this.cartMerger(this.cart, parsedCart);
+            this.cart = this.cartMerger(parsedCart, this.cart);
             this.cartItems = this.cart.items;
             this.cartDto = { data: '{}' };
             await this.updateCart();
@@ -146,7 +165,10 @@ export default class CartStore {
     }
 
     try {
+      this.updateCartTotals();
+
       this.cart.items = this.cartItems;
+
       const cartString = JSON.stringify(this.cart);
       this.cartDto.data = cartString;
 
@@ -184,6 +206,23 @@ export default class CartStore {
     await this.getCart();
   };
 
+  public updateCartTotals = (): void => {
+    try {
+      let totalPrice = 0;
+      let totalCount = 0;
+
+      for (const item of this.cartItems) {
+        totalCount += item.count;
+        totalPrice += item.price * item.count;
+      }
+
+      this.cart.totalCount = totalCount;
+      this.cart.totalPrice = totalPrice;
+    } catch (error: unknown) {
+      console.error(error);
+    }
+  };
+
   private readonly pushItem = async (id: number): Promise<void> => {
     try {
       const product = await this.productsStore.getById(id);
@@ -199,7 +238,7 @@ export default class CartStore {
           name: product.name,
           totalPrice: product.price,
         });
-        this.cart.totalPrice += product.price;
+        //this.cart.totalPrice += product.price;
       }
     } catch (error: unknown) {
       console.error(error);
@@ -209,8 +248,8 @@ export default class CartStore {
   private readonly cartMerger = (cart1: Cart, cart2: Cart): Cart => {
     const newCart: Cart = { items: [], totalCount: 0, totalPrice: 0 };
 
-    newCart.totalCount += cart1.totalCount + cart2.totalCount;
-    newCart.totalPrice += cart1.totalPrice + cart2.totalPrice;
+    //newCart.totalCount += cart1.totalCount + cart2.totalCount;
+    //newCart.totalPrice += cart1.totalPrice + cart2.totalPrice;
     newCart.items = Object.assign(newCart.items, cart1.items);
 
     for (const item of cart2.items) {
@@ -219,10 +258,12 @@ export default class CartStore {
       if (index === -1) {
         newCart.items.push(item);
       } else {
-        newCart.items[index].count += item.count;
-        newCart.items[index].totalPrice += item.totalPrice;
+        //newCart.items[index].count += item.count;
+        //newCart.items[index].totalPrice += item.totalPrice;
       }
     }
+
+    this.updateCartTotals();
 
     return newCart;
   };

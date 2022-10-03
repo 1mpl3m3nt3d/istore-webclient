@@ -5,6 +5,7 @@ import { makeAutoObservable } from 'mobx';
 import { User } from 'oidc-client-ts';
 
 import { IoCTypes } from 'ioc';
+import { NavigateFunction } from 'react-router-dom';
 import type { AuthenticationService } from 'services/AuthenticationService';
 
 @injectable()
@@ -35,8 +36,9 @@ export default class AuthStore {
     localStorage.removeItem('redirectUri');
   };
 
-  public replaceLocation = (): void => {
-    window.location.replace(localStorage.getItem('redirectUri') || '/');
+  public replaceLocation = (navigate: NavigateFunction): void => {
+    const destination = localStorage.getItem('redirectUri') || '/';
+    navigate(destination, { replace: false, preventScrollReset: true });
   };
 
   public saveLocation = (location?: string): void => {
@@ -47,13 +49,13 @@ export default class AuthStore {
       !window.location.pathname.includes('/signin') &&
       !window.location.pathname.includes('/signout')
     ) {
-      localStorage.setItem('redirectUri', window.location.href);
+      localStorage.setItem('redirectUri', window.location.pathname + window.location.search);
     } else {
       localStorage.setItem('redirectUri', '/');
     }
   };
 
-  public signinCallback = async (): Promise<void> => {
+  public signinCallback = async (navigate: NavigateFunction): Promise<void> => {
     const signinResponse = await this.authenticationService.signinCallback();
 
     if (signinResponse) {
@@ -69,7 +71,7 @@ export default class AuthStore {
     }
 
     if (this.getSavedLocation()) {
-      this.replaceLocation();
+      this.replaceLocation(navigate);
       this.removeRedirectLocation();
     }
   };
@@ -98,7 +100,7 @@ export default class AuthStore {
     await this.authenticationService.signinRedirect();
   };
 
-  public signinRedirectCallback = async (): Promise<void> => {
+  public signinRedirectCallback = async (navigate: NavigateFunction): Promise<void> => {
     const signinResponse = await this.authenticationService.signinRedirectCallback();
 
     if (signinResponse) {
@@ -108,7 +110,7 @@ export default class AuthStore {
       await this.authenticationService.clearStaleState();
     }
 
-    this.replaceLocation();
+    this.replaceLocation(navigate);
     this.removeRedirectLocation();
   };
 
@@ -127,13 +129,13 @@ export default class AuthStore {
     await this.authenticationService.signinSilentCallback();
   };
 
-  public signoutCallback = async (): Promise<void> => {
+  public signoutCallback = async (navigate: NavigateFunction): Promise<void> => {
     await this.authenticationService.signoutCallback();
     await this.authenticationService.clearStaleState();
     this.user = null;
 
     if (this.getSavedLocation()) {
-      this.replaceLocation();
+      this.replaceLocation(navigate);
       this.removeRedirectLocation();
     }
   };
@@ -153,11 +155,11 @@ export default class AuthStore {
     await this.authenticationService.signoutRedirect();
   };
 
-  public signoutRedirectCallback = async (): Promise<void> => {
+  public signoutRedirectCallback = async (navigate: NavigateFunction): Promise<void> => {
     await this.authenticationService.signoutRedirectCallback();
     await this.authenticationService.clearStaleState();
     this.user = null;
-    this.replaceLocation();
+    this.replaceLocation(navigate);
     this.removeRedirectLocation();
   };
 }

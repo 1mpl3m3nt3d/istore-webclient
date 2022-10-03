@@ -3,6 +3,7 @@ import { SelectChangeEvent } from '@mui/material/Select';
 import { observer } from 'mobx-react';
 import { Type } from 'models';
 import { ReactElement, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 interface Properties {
   label: string;
@@ -14,6 +15,8 @@ interface Properties {
 
 const SelectorType = observer(
   ({ label, items, selectedTypeId, onChange, minWidth = 150 }: Properties): ReactElement => {
+    const navigate = useNavigate();
+
     const defaultValue = selectedTypeId === 0 ? '' : selectedTypeId.toString();
     const [value, setValue] = useState<string>(defaultValue);
 
@@ -35,7 +38,7 @@ const SelectorType = observer(
         urlParameters.delete('type');
       }
 
-      window.location.search = urlParameters.toString();
+      navigate('?' + urlParameters.toString(), { replace: false, preventScrollReset: true });
     };
 
     return (

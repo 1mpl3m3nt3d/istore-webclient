@@ -2,6 +2,7 @@ import { Box, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent } fro
 import { observer } from 'mobx-react';
 import { Brand } from 'models';
 import { ReactElement, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 interface Properties {
   label: string;
@@ -13,6 +14,8 @@ interface Properties {
 
 const SelectorBrand = observer(
   ({ label, items, selectedBrandId, onChange, minWidth = 150 }: Properties): ReactElement => {
+    const navigate = useNavigate();
+
     const defaultValue = selectedBrandId === 0 ? '' : selectedBrandId.toString();
     const [value, setValue] = useState<string>(defaultValue);
 
@@ -34,7 +37,7 @@ const SelectorBrand = observer(
         urlParameters.delete('brand');
       }
 
-      window.location.search = urlParameters.toString();
+      navigate('?' + urlParameters.toString(), { replace: false, preventScrollReset: true });
     };
 
     return (

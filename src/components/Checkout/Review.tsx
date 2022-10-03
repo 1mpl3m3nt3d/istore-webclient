@@ -25,7 +25,7 @@ const Review = observer((): JSX.Element => {
   ];
 
   return (
-    <Fragment>
+    <>
       <Typography variant="h6" gutterBottom>
         Order summary
       </Typography>
@@ -75,7 +75,7 @@ const Review = observer((): JSX.Element => {
           </Grid>
         </Grid>
       </Grid>
-    </Fragment>
+    </>
   );
 });
 

@@ -51,7 +51,10 @@ export default class ProductsStore {
   }
 
   public getById = async (id: number): Promise<Product | undefined> => {
-    this.isLoading = true;
+    if (new RegExp(/\/products\/\d+/).test(window.location.pathname)) {
+      this.isLoading = true;
+    }
+
     this.product = undefined;
 
     try {
@@ -92,6 +95,7 @@ export default class ProductsStore {
 
   public getItems = async (): Promise<void> => {
     this.isLoading = true;
+    this.product = undefined;
     const urlParameters = new URLSearchParams(window.location.search);
     const page = urlParameters.get('page');
     const limit = urlParameters.get('limit');

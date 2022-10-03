@@ -9,7 +9,6 @@ import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import { Avatar, Badge, Button, IconButton, ListItemIcon, Menu, MenuItem, Paper, Stack, Tooltip } from '@mui/material';
 import { bindMenu, bindTrigger, usePopupState } from 'material-ui-popup-state/hooks';
 import { observer } from 'mobx-react';
-import { Fragment } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 
@@ -91,7 +90,7 @@ const Header = observer(() => {
           </Tooltip>
         )}
         {authStore.user && (
-          <Fragment>
+          <>
             <Tooltip title="Account settings">
               <IconButton {...bindTrigger(popupState)}>
                 <Avatar variant="circular" sx={{ width: 45, height: 45, bgcolor: 'darkcyan' }}>
@@ -112,7 +111,7 @@ const Header = observer(() => {
                 {t('logout')}
               </MenuItem>
             </Menu>
-          </Fragment>
+          </>
         )}
       </Stack>
     </Paper>

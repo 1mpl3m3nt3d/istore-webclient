@@ -10,7 +10,7 @@ import Stepper from '@mui/material/Stepper';
 import Typography from '@mui/material/Typography';
 import { useInjection } from 'inversify-react';
 import { observer } from 'mobx-react';
-import { Fragment, useState } from 'react';
+import { useState } from 'react';
 
 import { IoCTypes } from 'ioc';
 import { CartStore, CheckoutStore } from 'stores';
@@ -59,9 +59,9 @@ const Checkout = observer((): JSX.Element => {
             </Step>
           ))}
         </Stepper>
-        <Fragment>
+        <>
           {activeStep === steps.length ? (
-            <Fragment>
+            <>
               <Typography variant="h5" gutterBottom>
                 Thank you for your order
               </Typography>
@@ -69,9 +69,9 @@ const Checkout = observer((): JSX.Element => {
                 Your order number is #123456789. We have emailed your order confirmation, and will send you an update
                 when your order has shipped.
               </Typography>
-            </Fragment>
+            </>
           ) : (
-            <Fragment>
+            <>
               {getStepContent(activeStep)}
               <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
                 {activeStep !== 0 && (
@@ -95,9 +95,9 @@ const Checkout = observer((): JSX.Element => {
                   {activeStep === steps.length - 1 ? 'Place order' : 'Next'}
                 </Button>
               </Box>
-            </Fragment>
+            </>
           )}
-        </Fragment>
+        </>
       </Paper>
     </Container>
   );

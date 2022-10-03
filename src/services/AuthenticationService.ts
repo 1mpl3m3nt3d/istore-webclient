@@ -37,11 +37,12 @@ export default class DefaultAuthenticationService implements AuthenticationServi
   constructor() {
     this.userManager = new UserManager(OidcConfig);
     this.configUserManager();
-    Log.setLogger(console);
-    Log.setLevel(Log.INFO);
   }
 
   public configUserManager = (): void => {
+    Log.setLogger(console);
+    Log.setLevel(Log.INFO);
+
     this.userManager.events.addSilentRenewError((error) => {
       console.log(`Silent renew error:\n${error.name}\n${error.message}\n${error.cause}`);
     });
