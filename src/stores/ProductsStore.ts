@@ -59,7 +59,7 @@ export default class ProductsStore {
 
     try {
       const result = await this.productsService.getById(id);
-      this.product = { ...result };
+      this.product = result;
     } catch (error: unknown) {
       if (error instanceof Error) {
         console.log(error.message);

@@ -11,12 +11,12 @@ import type {
   TypeDto,
 } from 'dtos';
 import { IoCTypes } from 'ioc';
-import type { Brand, Product, Type } from 'models';
+import type { Brand, PaginatedItems, Product, Type } from 'models';
 import type { ApiHeader, HttpService } from 'services/HttpService';
 import { ContentType, MethodType } from 'services/HttpService';
 
 export interface ProductsService {
-  getById(id: number): Promise<Product>;
+  getById(id: number): Promise<Product | undefined>;
   getItems(request: PaginatedItemsRequest): Promise<PaginatedItemsResponse>;
 }
 
@@ -35,17 +35,23 @@ export default class DefaultProductsService implements ProductsService {
     accessControlAllowOrigin: this.catalogUrl,
   };
 
-  public async getById(id: number): Promise<Product> {
+  public async getById(id: number): Promise<Product | undefined> {
     const result = await this.httpService.sendAsync<ProductDto>(
       `${this.catalogRoute}/getcatalogitembyid?id=${id}`,
       MethodType.POST,
       this.headers
     );
 
-    return result.data!;
+    if (result.status === 200) {
+      return result.data!;
+    } else {
+      console.error(`Products can't be fetched, status: ${result.status}, description: ${result.statusText}`);
+
+      return undefined;
+    }
   }
 
-  public async getItems(request: PaginatedItemsRequest): Promise<PaginatedItemsResponse> {
+  public async getItems(request: PaginatedItemsRequest): Promise<PaginatedItems> {
     const result = await this.httpService.sendAsync<PaginatedItemsDto>(
       `${this.catalogRoute}/getcatalogitems/`,
       MethodType.POST,
@@ -53,17 +59,16 @@ export default class DefaultProductsService implements ProductsService {
       request
     );
 
-    let data: ProductDto[] = [];
-    let total_pages = 0;
+    const paginatedItems: PaginatedItems = { data: [], total_pages: 0 };
 
     if (result.status === 200) {
-      data = result.data!.data;
-      total_pages = Math.ceil(Number(result.data!.count) / Number(request.pageSize));
+      paginatedItems.data = result.data!.data;
+      paginatedItems.total_pages = Math.ceil(Number(result.data!.count) / Number(request.pageSize));
     } else {
       console.error(`Products can't be fetched, status: ${result.status}, description: ${result.statusText}`);
     }
 
-    return { data, total_pages };
+    return paginatedItems;
   }
 
   public async getBrands(): Promise<Brand[]> {
