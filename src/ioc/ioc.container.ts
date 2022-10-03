@@ -29,6 +29,6 @@ IoCContainer.bind<CartStore>(IoCTypes.cartStore).to(CartStore).inSingletonScope(
 
 IoCContainer.bind<CheckoutStore>(IoCTypes.checkoutStore).to(CheckoutStore).inSingletonScope();
 
-IoCContainer.bind<ProductsStore>(IoCTypes.productsStore).to(ProductsStore).inTransientScope();
+IoCContainer.bind<ProductsStore>(IoCTypes.productsStore).to(ProductsStore).inSingletonScope();
 
 export default IoCContainer;

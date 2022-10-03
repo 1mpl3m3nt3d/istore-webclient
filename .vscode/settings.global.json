@@ -71,6 +71,9 @@
     "vue-html": "html"
   },
   "eslint.alwaysShowStatus": false,
+  "eslint.codeAction.showDocumentation": {
+    "enable": true
+  },
   "eslint.codeActionsOnSave.mode": "all",
   "eslint.enable": true,
   "eslint.format.enable": true,
@@ -90,6 +93,7 @@
     "yaml",
     "yml"
   ],
+  "eslint.run": "onType",
   "eslint.validate": [
     "javascript",
     "javascriptreact",

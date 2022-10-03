@@ -2,12 +2,18 @@ import 'reflect-metadata';
 
 import { inject, injectable } from 'inversify';
 
-import type { PaginatedItemsDto, PaginatedItemsRequest, PaginatedItemsResponse, ProductDto } from 'dtos';
+import type {
+  BrandDto,
+  PaginatedItemsDto,
+  PaginatedItemsRequest,
+  PaginatedItemsResponse,
+  ProductDto,
+  TypeDto,
+} from 'dtos';
 import { IoCTypes } from 'ioc';
-import type { Product } from 'models';
+import type { Brand, Product, Type } from 'models';
 import type { ApiHeader, HttpService } from 'services/HttpService';
 import { ContentType, MethodType } from 'services/HttpService';
-import { AuthStore } from 'stores';
 
 export interface ProductsService {
   getById(id: number): Promise<Product>;
@@ -16,9 +22,6 @@ export interface ProductsService {
 
 @injectable()
 export default class DefaultProductsService implements ProductsService {
-  @inject(IoCTypes.authStore)
-  private readonly authStore!: AuthStore;
-
   @inject(IoCTypes.httpService)
   private readonly httpService!: HttpService;
 
@@ -50,9 +53,36 @@ export default class DefaultProductsService implements ProductsService {
       request
     );
 
-    const data = result.data!.data;
-    const total_pages = Math.ceil(Number(result.data!.count) / Number(request.pageSize));
+    let data: ProductDto[] = [];
+    let total_pages = 0;
+
+    if (result.status === 200) {
+      data = result.data!.data;
+      total_pages = Math.ceil(Number(result.data!.count) / Number(request.pageSize));
+    } else {
+      console.error(`Products can't be fetched, status: ${result.status}, description: ${result.statusText}`);
+    }
 
     return { data, total_pages };
+  }
+
+  public async getBrands(): Promise<Brand[]> {
+    const result = await this.httpService.sendAsync<BrandDto[]>(
+      `${this.catalogRoute}/getbrands`,
+      MethodType.POST,
+      this.headers
+    );
+
+    return result.data!;
+  }
+
+  public async getTypes(): Promise<Type[]> {
+    const result = await this.httpService.sendAsync<TypeDto[]>(
+      `${this.catalogRoute}/gettypes`,
+      MethodType.POST,
+      this.headers
+    );
+
+    return result.data!;
   }
 }

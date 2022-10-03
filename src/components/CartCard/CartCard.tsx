@@ -1,5 +1,3 @@
-/* eslint-disable i18next/no-literal-string */
-
 import 'reflect-metadata';
 
 import { Card, CardContent, CardMedia, Stack, Typography } from '@mui/material';

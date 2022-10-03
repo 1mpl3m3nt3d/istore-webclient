@@ -2,7 +2,7 @@ import 'reflect-metadata';
 
 import { Pagination as MUIPagination } from '@mui/material';
 import { observer } from 'mobx-react';
-import React, { ChangeEvent, useEffect } from 'react';
+import React, { ChangeEvent, ReactElement, useEffect } from 'react';
 
 interface Properties {
   totalCount: number;
@@ -10,7 +10,7 @@ interface Properties {
   onChange: (event: ChangeEvent<unknown>, value: number) => void;
 }
 
-const Pagination = observer(({ totalCount, currentPage, onChange }: Properties) => {
+const Pagination = observer(({ totalCount, currentPage, onChange }: Properties): ReactElement => {
   const [page, setPage] = React.useState(currentPage);
 
   const handleChange = (event: ChangeEvent<unknown>, value: number): void => {

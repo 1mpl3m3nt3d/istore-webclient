@@ -1,5 +1,3 @@
-/* eslint-disable i18next/no-literal-string */
-
 import 'reflect-metadata';
 
 import Box from '@mui/material/Box';
@@ -89,7 +87,6 @@ const Checkout = observer((): JSX.Element => {
                           store.init();
                           await cartStore.deleteCart();
                           handleNext();
-                          //navigate('/products', { replace: false });
                         }
                       : handleNext
                   }

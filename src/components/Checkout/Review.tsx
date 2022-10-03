@@ -1,5 +1,3 @@
-/* eslint-disable i18next/no-literal-string */
-
 import 'reflect-metadata';
 
 import Grid from '@mui/material/Grid';

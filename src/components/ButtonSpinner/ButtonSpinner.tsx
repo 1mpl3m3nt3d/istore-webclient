@@ -11,7 +11,7 @@ interface Properties {
   variant?: 'text' | 'outlined' | 'contained' | undefined;
 }
 
-function ButtonSpinner({ isLoading, text, disabled, type, onClick, onChange, variant }: Properties): ReactElement {
+const ButtonSpinner = ({ isLoading, text, disabled, type, onClick, onChange, variant }: Properties): ReactElement => {
   return (
     <Button
       variant={variant ? variant : 'outlined'}
@@ -27,6 +27,6 @@ function ButtonSpinner({ isLoading, text, disabled, type, onClick, onChange, var
       {isLoading ? <CircularProgress /> : `${text}`}
     </Button>
   );
-}
+};
 
 export default ButtonSpinner;
