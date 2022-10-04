@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/explicit-function-return-type */
-
 import 'reflect-metadata';
 
 import DescriptionIcon from '@mui/icons-material/Description';
@@ -15,7 +13,7 @@ import { useNavigate } from 'react-router-dom';
 import { IoCTypes, useInjection } from 'ioc';
 import { AuthStore, CartStore } from 'stores';
 
-const Header = observer(() => {
+const Header = observer((): JSX.Element => {
   const navigate = useNavigate();
   const authStore = useInjection<AuthStore>(IoCTypes.authStore);
   const cartStore = useInjection<CartStore>(IoCTypes.cartStore);

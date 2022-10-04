@@ -1,10 +1,13 @@
+import 'reflect-metadata';
+
 import { Box, FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 import { SelectChangeEvent } from '@mui/material/Select';
 import { observer } from 'mobx-react';
-import { Type } from 'models';
 import { ReactElement, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
+
+import { Type } from 'models';
 
 interface Properties {
   label: string;

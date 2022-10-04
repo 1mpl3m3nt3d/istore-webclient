@@ -11,10 +11,10 @@ import Typography from '@mui/material/Typography';
 import { useInjection } from 'inversify-react';
 import { observer } from 'mobx-react';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import { AddressForm, PaymentForm, Review } from 'components/Checkout';
 import { IoCTypes } from 'ioc';
-import { useTranslation } from 'react-i18next';
 import { CartStore, CheckoutStore } from 'stores';
 
 const steps = ['Shipping address', 'Payment details', 'Review your order'];

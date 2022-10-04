@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import { IoCTypes, useInjection } from 'ioc';
-import { useNavigate } from 'react-router-dom';
 import { AuthStore } from 'stores';
 
 function SigninCallback(): JSX.Element {

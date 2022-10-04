@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/explicit-function-return-type */
-
 import 'reflect-metadata';
 
 import { Link, Paper, Stack, Typography } from '@mui/material';
@@ -21,7 +19,7 @@ const Copyright = (): JSX.Element => {
   );
 };
 
-const Footer = observer(() => {
+const Footer = observer((): JSX.Element => {
   return (
     <Paper
       elevation={1}

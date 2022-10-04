@@ -3,6 +3,7 @@ import 'reflect-metadata';
 import { Grid } from '@mui/material';
 import { observer } from 'mobx-react';
 import { ChangeEvent, useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
 
 import { LoadingSpinner } from 'components/LoadingSpinner';
@@ -11,7 +12,6 @@ import { ProductCard } from 'components/ProductCard';
 import { SelectorBrand } from 'components/SelectorBrand';
 import { SelectorType } from 'components/SelectorType';
 import { IoCTypes, useInjection } from 'ioc';
-import { useTranslation } from 'react-i18next';
 import { ProductsStore } from 'stores';
 
 const Products = observer(() => {
