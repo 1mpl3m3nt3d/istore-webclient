@@ -43,8 +43,8 @@ const CartCard = observer((properties: Properties) => {
               padding: 0,
               height: 'auto',
               width: 'auto',
-              maxHeight: 120,
-              maxWidth: 120,
+              maxHeight: 125,
+              maxWidth: 125,
               objectFit: 'contain',
             }}
             onClick={(): void => {
@@ -92,7 +92,7 @@ const CartCard = observer((properties: Properties) => {
               <CardContent
                 sx={{
                   display: 'grid',
-                  width: 80,
+                  width: '6em',
                   alignContent: 'center',
                   justifyContent: 'right',
                   textAlign: 'right',

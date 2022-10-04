@@ -15,8 +15,17 @@
     "description": "Опис"
   },
   "selectors": {
-    "all": "Усі",
+    "all": "Всі",
     "brands": "Вибрати Бренд",
     "types": "Вибрати Тип"
+  },
+  "tooltips": {
+    "cart_add": "Додати до кошика",
+    "description": "Опис",
+    "details": "Детальніше"
+  },
+  "values": {
+    "add": "+",
+    "remove": "–"
   }
 }

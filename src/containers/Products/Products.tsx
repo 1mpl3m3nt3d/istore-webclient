@@ -12,10 +12,11 @@ import { ProductCard } from 'components/ProductCard';
 import { SelectorBrand } from 'components/SelectorBrand';
 import { SelectorType } from 'components/SelectorType';
 import { IoCTypes, useInjection } from 'ioc';
-import { ProductsStore } from 'stores';
+import { CartStore, ProductsStore } from 'stores';
 
 const Products = observer(() => {
   const store = useInjection<ProductsStore>(IoCTypes.productsStore);
+  const cartStore = useInjection<CartStore>(IoCTypes.cartStore);
   const location = useLocation();
   const { t } = useTranslation(['products']);
 
@@ -59,7 +60,7 @@ const Products = observer(() => {
             {store.products &&
               store.products?.map((product) => (
                 <Grid key={Math.random() * 12_345} item mb={4} ml={2} mr={2}>
-                  <ProductCard product={{ ...product }} />
+                  <ProductCard count={cartStore.getCount(product.id)} product={{ ...product }} />
                 </Grid>
               ))}
           </Grid>

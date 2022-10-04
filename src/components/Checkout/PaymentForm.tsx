@@ -55,7 +55,7 @@ const PaymentForm = observer((): JSX.Element => {
           <TextField
             required
             id="expDate"
-            label={t('payment_expiry_date')}
+            label={t('payment_form.expiry_date')}
             fullWidth
             autoComplete="cc-exp"
             variant="standard"

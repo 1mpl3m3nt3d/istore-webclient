@@ -17,7 +17,9 @@ import { AddressForm, PaymentForm, Review } from 'components/Checkout';
 import { IoCTypes } from 'ioc';
 import { CartStore, CheckoutStore } from 'stores';
 
-const steps = ['Shipping address', 'Payment details', 'Review your order'];
+const order = {
+  number: Math.round(Math.random() * Math.pow(10, 9)),
+};
 
 const getStepContent = (step: number): JSX.Element => {
   switch (step) {
@@ -37,6 +39,8 @@ const Checkout = observer((): JSX.Element => {
   const cartStore = useInjection<CartStore>(IoCTypes.cartStore);
   const { t } = useTranslation(['checkout']);
 
+  const steps = [t('steps.shipping'), t('steps.payment'), t('steps.review')];
+
   const [activeStep, setActiveStep] = useState(0);
 
   const handleNext = (): void => {
@@ -45,10 +49,6 @@ const Checkout = observer((): JSX.Element => {
 
   const handleBack = (): void => {
     setActiveStep(activeStep - 1);
-  };
-
-  const order = {
-    number: Math.random() * Math.pow(10, 6),
   };
 
   return (
@@ -96,7 +96,7 @@ const Checkout = observer((): JSX.Element => {
                   }
                   sx={{ mt: 3, ml: 1 }}
                 >
-                  {activeStep === steps.length - 1 ? 'Place order' : 'Next'}
+                  {activeStep === steps.length - 1 ? t('checkout.confirm') : t('checkout.next')}
                 </Button>
               </Box>
             </>

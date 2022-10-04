@@ -18,5 +18,14 @@
     "all": "All",
     "brands": "Select Brand",
     "types": "Select Type"
+  },
+  "tooltips": {
+    "cart_add": "Add to cart",
+    "description": "Description",
+    "details": "Details"
+  },
+  "values": {
+    "add": "+",
+    "remove": "–"
   }
 }

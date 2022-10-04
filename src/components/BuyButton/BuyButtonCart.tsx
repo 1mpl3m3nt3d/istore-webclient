@@ -52,7 +52,7 @@ const BuyButtonCart = observer(({ productId, count }: Properties) => {
         >
           <span>-</span>
         </Button>
-        <Box width="25%">
+        <Box width="3em">
           <TextField
             onChange={(ev): void => {
               ev.preventDefault();

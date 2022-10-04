@@ -39,7 +39,7 @@ const Review = observer((): JSX.Element => {
           </ListItem>
         ))}
         <ListItem sx={{ py: 1, px: 0 }}>
-          <ListItemText primary="Total" />
+          <ListItemText primary={t('review.total')} />
           <Typography variant="subtitle1" sx={{ fontWeight: 700 }}>
             {cartStore.cart.totalPrice}
           </Typography>

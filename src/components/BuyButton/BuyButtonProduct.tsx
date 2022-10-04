@@ -4,23 +4,25 @@ import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { Box, Button, ButtonGroup, IconButton, Stack, TextField, Tooltip, Zoom } from '@mui/material';
 import { observer } from 'mobx-react';
+import { useTranslation } from 'react-i18next';
 
 import { IoCTypes, useInjection } from 'ioc';
 import { CartStore } from 'stores';
 
 interface Properties {
   productId: number;
+  count: number;
 }
 
-const BuyButtonProduct = observer(({ productId }: Properties) => {
+const BuyButtonProduct = observer(({ productId, count }: Properties) => {
   const cartStore = useInjection<CartStore>(IoCTypes.cartStore);
-  const count = cartStore.getCount(productId);
+  const { t } = useTranslation(['products']);
 
   return (
     <Stack direction="row">
       {count <= 0 && (
         <Tooltip
-          title="Add to cart"
+          title={t('tooltips.cart_add')}
           placement="bottom"
           enterDelay={600}
           leaveDelay={200}
@@ -73,9 +75,9 @@ const BuyButtonProduct = observer(({ productId }: Properties) => {
                 await cartStore.removeItem(productId);
               }}
             >
-              <span>-</span>
+              <span>{t('values.remove')}</span>
             </Button>
-            <Box width="30%">
+            <Box width="3em">
               <TextField
                 onChange={(ev): void => {
                   ev.preventDefault();
@@ -136,7 +138,7 @@ const BuyButtonProduct = observer(({ productId }: Properties) => {
                 await cartStore.addItem(productId);
               }}
             >
-              <span>+</span>
+              <span>{t('values.add')}</span>
             </Button>
           </ButtonGroup>
         </>

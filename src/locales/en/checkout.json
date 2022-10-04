@@ -1,10 +1,18 @@
 {
   "title": "Checkout",
+  "steps": {
+    "shipping": "Shipping address",
+    "payment": "Payment details",
+    "review": "Review your order"
+  },
   "checkout": {
     "checkout": "Checkout",
     "thanks": "Thank you for your order",
     "order_confirmed": "Your order number is {{order.number}}. We have emailed your order confirmation, and will send you an update when your order has shipped.",
-    "back": "Back"
+    "back": "Back",
+    "next": "Next",
+    "total": "Total",
+    "confirm": "Confirm"
   },
   "address_form": {
     "shipping_address": "Shipping address",
@@ -33,6 +41,7 @@
     "expiry_date": "Expiry date",
     "order_summary": "Order summary",
     "shipping": "Shipping",
-    "payment_details": "Payment details"
+    "payment_details": "Payment details",
+    "total": "Total"
   }
 }

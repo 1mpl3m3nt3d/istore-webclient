@@ -52,12 +52,12 @@ export default class CartStore {
       const index = this.cartItems?.findIndex((ci) => ci.id === id);
       const parsedCount = count ? Number.parseInt(count) : this.currentCount;
 
-      if (parsedCount && parsedCount > 0) {
+      if (parsedCount !== undefined && parsedCount > 0) {
         this.cartItems[index].count = parsedCount;
         this.cartItems[index].totalPrice = parsedCount * this.cartItems[index].price;
 
         await this.updateCart();
-      } else if (parsedCount && parsedCount < 1) {
+      } else if (parsedCount !== undefined && parsedCount < 1) {
         await this.clearItem(id);
       }
 
@@ -146,23 +146,25 @@ export default class CartStore {
           this.cartDto = response.data;
         }
 
-        this.cart =
+        const basket =
           this.cartDto.data && this.cartDto.data !== '{}'
             ? JSON.parse(this.cartDto.data)
             : { items: [], totalCount: 0, totalPrice: 0 };
 
-        const localCart = localStorage.getItem('cart');
+        const localCart: string | null = localStorage.getItem('cart');
+        const parsedCart: Cart | null = localCart ? JSON.parse(localCart) : null;
 
-        if (localCart) {
-          const parsedCart: Cart = JSON.parse(localCart);
-
-          if (parsedCart) {
-            this.cart = this.cartMerger(parsedCart, this.cart);
-            this.cartItems = this.cart.items;
-            this.cartDto = { data: '{}' };
-            await this.updateCart();
-            localStorage.removeItem('cart');
-          }
+        if (parsedCart?.items) {
+          this.cart = this.cartMerger(parsedCart, basket);
+          this.cartItems = this.cart.items;
+          this.cartDto = { data: '{}' };
+          await this.updateCart();
+          localStorage.removeItem('cart');
+        } else {
+          this.cart = basket;
+          this.cartItems = this.cart.items;
+          this.cartDto = { data: '{}' };
+          localStorage.removeItem('cart');
         }
       } else {
         const localCart = localStorage.getItem('cart');

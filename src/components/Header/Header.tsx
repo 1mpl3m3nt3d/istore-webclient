@@ -89,7 +89,7 @@ const Header = observer((): JSX.Element => {
         )}
         {authStore.user && (
           <>
-            <Tooltip title="Account settings">
+            <Tooltip title={t('account')}>
               <IconButton {...bindTrigger(popupState)}>
                 <Avatar variant="circular" sx={{ width: 45, height: 45, bgcolor: 'darkcyan' }}>
                   {authStore.user?.profile?.given_name?.slice(0, 1)}
