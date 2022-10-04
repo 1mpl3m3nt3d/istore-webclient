@@ -62,6 +62,7 @@ const CartCard = observer((properties: Properties) => {
                 textAlign: 'right',
                 margin: 0,
                 marginLeft: 1,
+                marginRight: 1,
                 padding: 0,
                 paddingBottom: '0px !important',
                 width: 'fit-content',
@@ -97,6 +98,7 @@ const CartCard = observer((properties: Properties) => {
                   justifyContent: 'right',
                   textAlign: 'right',
                   margin: 0,
+                  marginRight: 1,
                   padding: 0,
                   paddingBottom: '0px !important',
                 }}
