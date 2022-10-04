@@ -50,7 +50,7 @@ const BuyButtonCart = observer(({ productId, count }: Properties) => {
             await cartStore.removeItem(productId);
           }}
         >
-          -
+          <span>-</span>
         </Button>
         <Box width="25%">
           <TextField
@@ -113,7 +113,7 @@ const BuyButtonCart = observer(({ productId, count }: Properties) => {
             await cartStore.addItem(productId);
           }}
         >
-          +
+          <span>+</span>
         </Button>
       </ButtonGroup>
     </Stack>

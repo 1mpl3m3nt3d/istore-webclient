@@ -7,17 +7,19 @@ import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import { useInjection } from 'inversify-react';
 import { observer } from 'mobx-react';
+import { useTranslation } from 'react-i18next';
 
 import { IoCTypes } from 'ioc';
 import { CheckoutStore } from 'stores';
 
 const AddressForm = observer((): JSX.Element => {
   const store = useInjection<CheckoutStore>(IoCTypes.checkoutStore);
+  const { t } = useTranslation('checkout');
 
   return (
     <>
       <Typography variant="h6" gutterBottom>
-        Shipping address
+        {t('address_form.shipping_address')}
       </Typography>
       <Grid container spacing={3}>
         <Grid item xs={12} sm={6}>
@@ -25,7 +27,7 @@ const AddressForm = observer((): JSX.Element => {
             required
             id="firstName"
             name="firstName"
-            label="First name"
+            label={t('address_form.first_name')}
             fullWidth
             autoComplete="given-name"
             variant="standard"
@@ -38,7 +40,7 @@ const AddressForm = observer((): JSX.Element => {
             required
             id="lastName"
             name="lastName"
-            label="Last name"
+            label={t('address_form.last_name')}
             fullWidth
             autoComplete="family-name"
             variant="standard"
@@ -51,7 +53,7 @@ const AddressForm = observer((): JSX.Element => {
             required
             id="address1"
             name="address1"
-            label="Address line 1"
+            label={t('address_form.address_line_1')}
             fullWidth
             autoComplete="shipping address-line1"
             variant="standard"
@@ -63,7 +65,7 @@ const AddressForm = observer((): JSX.Element => {
           <TextField
             id="address2"
             name="address2"
-            label="Address line 2"
+            label={t('address_form.address_line_2')}
             fullWidth
             autoComplete="shipping address-line2"
             variant="standard"
@@ -76,7 +78,7 @@ const AddressForm = observer((): JSX.Element => {
             required
             id="city"
             name="city"
-            label="City"
+            label={t('address_form.city')}
             fullWidth
             autoComplete="shipping address-level2"
             variant="standard"
@@ -88,7 +90,7 @@ const AddressForm = observer((): JSX.Element => {
           <TextField
             id="state"
             name="state"
-            label="State/Province/Region"
+            label={t('address_form.state')}
             fullWidth
             variant="standard"
             value={store.state}
@@ -100,7 +102,7 @@ const AddressForm = observer((): JSX.Element => {
             required
             id="zip"
             name="zip"
-            label="Zip / Postal code"
+            label={t('address_form.zip')}
             fullWidth
             autoComplete="shipping postal-code"
             variant="standard"
@@ -113,7 +115,7 @@ const AddressForm = observer((): JSX.Element => {
             required
             id="country"
             name="country"
-            label="Country"
+            label={t('address_form.country')}
             fullWidth
             autoComplete="shipping country"
             variant="standard"
@@ -124,7 +126,7 @@ const AddressForm = observer((): JSX.Element => {
         <Grid item xs={12}>
           <FormControlLabel
             control={<Checkbox color="secondary" name="saveAddress" value="yes" />}
-            label="Use this address for payment details"
+            label={t('address_form.use_address_for_payment')}
           />
         </Grid>
       </Grid>

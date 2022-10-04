@@ -7,24 +7,26 @@ import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import { useInjection } from 'inversify-react';
 import { observer } from 'mobx-react';
+import { useTranslation } from 'react-i18next';
 
 import { IoCTypes } from 'ioc';
 import { CheckoutStore } from 'stores';
 
 const PaymentForm = observer((): JSX.Element => {
   const store = useInjection<CheckoutStore>(IoCTypes.checkoutStore);
+  const { t } = useTranslation('checkout');
 
   return (
     <>
       <Typography variant="h6" gutterBottom>
-        Payment method
+        {t('payment_form.payment_method')}
       </Typography>
       <Grid container spacing={3}>
         <Grid item xs={12} md={6}>
           <TextField
             required
             id="cardName"
-            label="Name on card"
+            label={t('payment_form.name_on_card')}
             fullWidth
             autoComplete="cc-name"
             variant="standard"
@@ -36,7 +38,7 @@ const PaymentForm = observer((): JSX.Element => {
           <TextField
             required
             id="cardNumber"
-            label="Card number"
+            label={t('payment_form.card_number')}
             fullWidth
             autoComplete="cc-number"
             variant="standard"
@@ -53,7 +55,7 @@ const PaymentForm = observer((): JSX.Element => {
           <TextField
             required
             id="expDate"
-            label="Expiry date"
+            label={t('payment_expiry_date')}
             fullWidth
             autoComplete="cc-exp"
             variant="standard"
@@ -65,8 +67,8 @@ const PaymentForm = observer((): JSX.Element => {
           <TextField
             required
             id="cvv"
-            label="CVV"
-            helperText="Last three digits on signature strip"
+            label={t('payment_form.cvv')}
+            helperText={t('payment_form.cvv_help')}
             fullWidth
             autoComplete="cc-csc"
             variant="standard"
@@ -78,7 +80,7 @@ const PaymentForm = observer((): JSX.Element => {
         <Grid item xs={12}>
           <FormControlLabel
             control={<Checkbox color="secondary" name="saveCard" value="yes" />}
-            label="Remember credit card details for next time"
+            label={t('payment_form.remember_card')}
           />
         </Grid>
       </Grid>

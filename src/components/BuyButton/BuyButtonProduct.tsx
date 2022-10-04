@@ -73,7 +73,7 @@ const BuyButtonProduct = observer(({ productId }: Properties) => {
                 await cartStore.removeItem(productId);
               }}
             >
-              -
+              <span>-</span>
             </Button>
             <Box width="30%">
               <TextField
@@ -136,7 +136,7 @@ const BuyButtonProduct = observer(({ productId }: Properties) => {
                 await cartStore.addItem(productId);
               }}
             >
-              +
+              <span>+</span>
             </Button>
           </ButtonGroup>
         </>

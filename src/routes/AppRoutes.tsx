@@ -5,7 +5,6 @@ import { observer } from 'mobx-react';
 import { lazy, Suspense } from 'react';
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 
-import { Checkout } from 'components/Checkout';
 import { LoadingSpinner } from 'components/LoadingSpinner';
 import {
   SigninCallback,
@@ -14,6 +13,7 @@ import {
   SignoutCallback,
   SignoutRedirect,
 } from 'components/OidcAuthorization';
+import { Checkout } from 'containers/Checkout';
 import { Layout } from 'containers/Layout';
 import { AuthorizedOutlet } from 'routes';
 

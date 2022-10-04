@@ -8,6 +8,7 @@ import Typography from '@mui/material/Typography';
 import { useInjection } from 'inversify-react';
 import { observer } from 'mobx-react';
 import { Fragment } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import { IoCTypes } from 'ioc';
 import { CartStore, CheckoutStore } from 'stores';
@@ -15,19 +16,20 @@ import { CartStore, CheckoutStore } from 'stores';
 const Review = observer((): JSX.Element => {
   const store = useInjection<CheckoutStore>(IoCTypes.checkoutStore);
   const cartStore = useInjection<CartStore>(IoCTypes.cartStore);
+  const { t } = useTranslation('checkout');
 
   const products = cartStore.cart.items;
   const addresses = [store.zip, store.country, store.state, store.city, store.address1, store.address2];
   const payments = [
-    { name: 'Card holder', detail: store.cardName },
-    { name: 'Card number', detail: store.cardNumber },
-    { name: 'Expiry date', detail: store.expDate },
+    { name: t('review.card_holder'), detail: store.cardName },
+    { name: t('review.card_number'), detail: store.cardNumber },
+    { name: t('review.expiry_date'), detail: store.expDate },
   ];
 
   return (
     <>
       <Typography variant="h6" gutterBottom>
-        Order summary
+        <span>{t('review.order_summary')}</span>
       </Typography>
       <List disablePadding>
         {products.map((product) => (
@@ -46,7 +48,7 @@ const Review = observer((): JSX.Element => {
       <Grid container spacing={2}>
         <Grid item xs={12} sm={6}>
           <Typography variant="h6" gutterBottom sx={{ mt: 2 }}>
-            Shipping
+            <span>{t('review.shipping')}</span>
           </Typography>
           <Typography gutterBottom>{`${store.firstName} ${store.lastName}`}</Typography>
           <Typography gutterBottom>
@@ -59,7 +61,7 @@ const Review = observer((): JSX.Element => {
         </Grid>
         <Grid item container direction="column" xs={12} sm={6}>
           <Typography variant="h6" gutterBottom sx={{ mt: 2 }}>
-            Payment details
+            <span>{t('review.payment_details')}</span>
           </Typography>
           <Grid container>
             {payments.map((payment) => (

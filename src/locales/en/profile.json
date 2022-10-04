@@ -2,7 +2,7 @@
   "title": "Profile",
   "info": {
     "email": "Email",
-    "firstName": "First Name",
-    "lastName": "Last Name"
+    "first_name": "First Name",
+    "last_name": "Last Name"
   }
 }

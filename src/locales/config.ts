@@ -5,12 +5,14 @@ import { initReactI18next } from 'react-i18next';
 import consts from './consts/consts.json';
 import appEn from './en/app.json';
 import cartEn from './en/cart.json';
+import checkoutEn from './en/checkout.json';
 import headerEn from './en/header.json';
 import productEn from './en/product.json';
 import productsEn from './en/products.json';
 import profileEn from './en/profile.json';
 import appUk from './uk/app.json';
 import cartUk from './uk/cart.json';
+import checkoutUk from './uk/checkout.json';
 import headerUk from './uk/header.json';
 import productUk from './uk/product.json';
 import productsUk from './uk/products.json';
@@ -20,6 +22,7 @@ const resources = {
   en: {
     app: appEn,
     cart: cartEn,
+    checkout: checkoutEn,
     header: headerEn,
     product: productEn,
     products: productsEn,
@@ -29,6 +32,7 @@ const resources = {
   uk: {
     app: appUk,
     cart: cartUk,
+    checkout: checkoutUk,
     header: headerUk,
     product: productUk,
     products: productsUk,
@@ -79,7 +83,7 @@ init({
 
   // lng: 'en',
   fallbackLng: ['en', 'uk'],
-  ns: ['app', 'cart', 'header', 'product', 'products', 'profile', 'consts'],
+  ns: ['app', 'cart', 'checkout', 'header', 'product', 'products', 'profile', 'consts'],
   defaultNS: 'consts',
   supportedLngs: ['en', 'uk'],
   interpolation: {

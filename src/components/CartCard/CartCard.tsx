@@ -102,7 +102,7 @@ const CartCard = observer((properties: Properties) => {
                 }}
               >
                 <Typography>
-                  <strong>{t('totalPrice', { ns: 'cart' })}:</strong>
+                  <strong>{t('total_price', { ns: 'cart' })}:</strong>
                 </Typography>
                 <Typography>{`${totalPrice} ${t('currency', { ns: 'consts' })}`}</Typography>
               </CardContent>

@@ -12,15 +12,14 @@ import { useInjection } from 'inversify-react';
 import { observer } from 'mobx-react';
 import { useState } from 'react';
 
+import { AddressForm, PaymentForm, Review } from 'components/Checkout';
 import { IoCTypes } from 'ioc';
+import { useTranslation } from 'react-i18next';
 import { CartStore, CheckoutStore } from 'stores';
-import AddressForm from './AddressForm';
-import PaymentForm from './PaymentForm';
-import Review from './Review';
 
 const steps = ['Shipping address', 'Payment details', 'Review your order'];
 
-function getStepContent(step: number): JSX.Element {
+const getStepContent = (step: number): JSX.Element => {
   switch (step) {
     case 0:
       return <AddressForm />;
@@ -31,11 +30,13 @@ function getStepContent(step: number): JSX.Element {
     default:
       throw new Error('Unknown step');
   }
-}
+};
 
 const Checkout = observer((): JSX.Element => {
   const store = useInjection<CheckoutStore>(IoCTypes.checkoutStore);
   const cartStore = useInjection<CartStore>(IoCTypes.cartStore);
+  const { t } = useTranslation(['checkout']);
+
   const [activeStep, setActiveStep] = useState(0);
 
   const handleNext = (): void => {
@@ -46,11 +47,15 @@ const Checkout = observer((): JSX.Element => {
     setActiveStep(activeStep - 1);
   };
 
+  const order = {
+    number: Math.random() * Math.pow(10, 6),
+  };
+
   return (
     <Container component="main" maxWidth="sm">
       <Paper variant="outlined" sx={{ my: { xs: 3, md: 6 }, p: { xs: 2, md: 3 } }}>
         <Typography component="h1" variant="h4" align="center">
-          Checkout
+          <span>{t('checkout.checkout')}</span>
         </Typography>
         <Stepper activeStep={activeStep} sx={{ pt: 3, pb: 5 }}>
           {steps.map((label) => (
@@ -62,12 +67,11 @@ const Checkout = observer((): JSX.Element => {
         <>
           {activeStep === steps.length ? (
             <>
-              <Typography variant="h5" gutterBottom>
-                Thank you for your order
+              <Typography variant="h5" gutterBottom whiteSpace="pre-line">
+                <span>{t('checkout.thanks')}</span>
               </Typography>
-              <Typography variant="subtitle1">
-                Your order number is #123456789. We have emailed your order confirmation, and will send you an update
-                when your order has shipped.
+              <Typography variant="subtitle1" whiteSpace="pre-line">
+                <span>{t('checkout.order_confirmed', { order: order, interpolation: { escapeValue: false } })}</span>
               </Typography>
             </>
           ) : (
@@ -76,7 +80,7 @@ const Checkout = observer((): JSX.Element => {
               <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
                 {activeStep !== 0 && (
                   <Button onClick={handleBack} sx={{ mt: 3, ml: 1 }}>
-                    Back
+                    <span>{t('checkout.back')}</span>
                   </Button>
                 )}
                 <Button
