@@ -37,9 +37,11 @@ export default class CartStore {
 
   public getCount = (id: number): number => {
     try {
+      /*
       const index = this.cartItems?.findIndex((ci) => ci.id === id);
-
       return index >= 0 ? this.cartItems[index].count : 0;
+      */
+      return this.cartItems.find((item) => item.id === id)?.count ?? 0;
     } catch (error: unknown) {
       console.error(error);
     }

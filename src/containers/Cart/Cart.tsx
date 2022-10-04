@@ -21,9 +21,9 @@ const Cart = observer(() => {
       ) : (
         <Grid key={Math.random() * 12_345} container justifyContent="center" marginY={4} marginX={1}>
           <Grid key={Math.random() * 12_345} container justifyContent="center">
-            {cartStore.cart.items.length > 0 ? (
+            {cartStore.cartItems.length > 0 ? (
               <Stack direction="column">
-                {cartStore.cart.items.map((cartItem) => (
+                {cartStore.cartItems.map((cartItem) => (
                   <Grid key={Math.random() * 12_345} item justifyContent="center" marginBottom={4}>
                     <CartCard cartItem={cartItem} />
                   </Grid>

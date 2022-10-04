@@ -60,7 +60,7 @@ const Products = observer(() => {
             {store.products &&
               store.products?.map((product) => (
                 <Grid key={Math.random() * 12_345} item mb={4} ml={2} mr={2}>
-                  <ProductCard count={cartStore.getCount(product.id)} product={{ ...product }} />
+                  <ProductCard count={cartStore.getCount(product.id)} product={product} />
                 </Grid>
               ))}
           </Grid>

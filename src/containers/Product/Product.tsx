@@ -8,10 +8,11 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { LoadingSpinner } from 'components/LoadingSpinner';
 import { ProductDetails } from 'components/ProductDetails';
 import { IoCTypes, useInjection } from 'ioc';
-import { ProductsStore } from 'stores';
+import { CartStore, ProductsStore } from 'stores';
 
 const Product = observer(() => {
   const store = useInjection<ProductsStore>(IoCTypes.productsStore);
+  const cartStore = useInjection<CartStore>(IoCTypes.cartStore);
   const navigate = useNavigate();
   const { id } = useParams();
 
@@ -34,13 +35,15 @@ const Product = observer(() => {
       {store.isLoading ? (
         <LoadingSpinner />
       ) : (
-        <Grid key={Math.random() * 12_345} container justifyContent="center" marginY={4} marginX={1}>
-          <Grid key={Math.random() * 12_345} container justifyContent="center">
-            <Grid item margin={0}>
-              <ProductDetails product={store.product} />
+        store.product && (
+          <Grid key={Math.random() * 12_345} container justifyContent="center" marginY={4} marginX={1}>
+            <Grid key={Math.random() * 12_345} container justifyContent="center">
+              <Grid item margin={0}>
+                <ProductDetails count={cartStore.getCount(store.product?.id)} product={store.product} />
+              </Grid>
             </Grid>
           </Grid>
-        </Grid>
+        )
       )}
     </>
   );

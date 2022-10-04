@@ -27,7 +27,7 @@ import { BuyButtonProduct } from 'components/BuyButton';
 import { Product } from 'models';
 
 interface Properties {
-  product: Product | undefined;
+  product: Product;
   count: number;
 }
 
