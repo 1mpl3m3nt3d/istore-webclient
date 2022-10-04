@@ -14,7 +14,7 @@ interface Properties {
 
 const CartCard = observer((properties: Properties) => {
   const navigate = useNavigate();
-  const { t } = useTranslation();
+  const { t } = useTranslation('cart');
   const { id, brand, type, name, picture, count, totalPrice } = properties.cartItem;
 
   return (
@@ -88,11 +88,11 @@ const CartCard = observer((properties: Properties) => {
                 <BuyButtonCart count={count} productId={id} />
               </CardContent>
             </Stack>
-            <Stack>
+            <Stack justifyContent="center">
               <CardContent
                 sx={{
                   display: 'grid',
-                  width: '6em',
+                  width: '4.8em',
                   alignContent: 'center',
                   justifyContent: 'right',
                   textAlign: 'right',
@@ -102,9 +102,11 @@ const CartCard = observer((properties: Properties) => {
                 }}
               >
                 <Typography>
-                  <strong>{t('total_price', { ns: 'cart' })}:</strong>
+                  <strong>
+                    {totalPrice}
+                    {t('currency', { ns: 'consts' })}
+                  </strong>
                 </Typography>
-                <Typography>{`${totalPrice} ${t('currency', { ns: 'consts' })}`}</Typography>
               </CardContent>
             </Stack>
           </Stack>

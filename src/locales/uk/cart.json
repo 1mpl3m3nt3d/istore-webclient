@@ -4,5 +4,9 @@
   "total_price": "Сума",
   "placeholder": {
     "empty": "Кошик порожній :-("
+  },
+  "values": {
+    "add": "+",
+    "remove": "–"
   }
 }

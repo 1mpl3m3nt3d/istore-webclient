@@ -39,7 +39,7 @@ const Product = observer(() => {
           <Grid key={Math.random() * 12_345} container justifyContent="center" marginY={4} marginX={1}>
             <Grid key={Math.random() * 12_345} container justifyContent="center">
               <Grid item margin={0}>
-                <ProductDetails count={cartStore.getCount(store.product?.id)} product={store.product} />
+                <ProductDetails count={cartStore.getCount(Number(id))} product={store.product} />
               </Grid>
             </Grid>
           </Grid>

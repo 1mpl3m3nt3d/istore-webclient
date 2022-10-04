@@ -3,6 +3,7 @@ import 'reflect-metadata';
 import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import { Box, Button, ButtonGroup, Stack, TextField } from '@mui/material';
 import { observer } from 'mobx-react';
+import { useTranslation } from 'react-i18next';
 
 import { IoCTypes, useInjection } from 'ioc';
 import { CartStore } from 'stores';
@@ -14,6 +15,7 @@ interface Properties {
 
 const BuyButtonCart = observer(({ productId, count }: Properties) => {
   const cartStore = useInjection<CartStore>(IoCTypes.cartStore);
+  const { t } = useTranslation(['cart']);
 
   return (
     <Stack direction="row">
@@ -50,7 +52,7 @@ const BuyButtonCart = observer(({ productId, count }: Properties) => {
             await cartStore.removeItem(productId);
           }}
         >
-          <span>-</span>
+          <span>{t('values.remove')}</span>
         </Button>
         <Box width="3em">
           <TextField
@@ -113,7 +115,7 @@ const BuyButtonCart = observer(({ productId, count }: Properties) => {
             await cartStore.addItem(productId);
           }}
         >
-          <span>+</span>
+          <span>{t('values.add')}</span>
         </Button>
       </ButtonGroup>
     </Stack>

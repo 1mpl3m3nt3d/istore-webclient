@@ -26,6 +26,7 @@ export default class ProductsStore {
   public pageLimit = 6;
   public totalPages = 0;
   public isLoading = false;
+  public lastState = '';
 
   constructor() {
     const urlParameters = new URLSearchParams(window.location.search);
@@ -47,10 +48,15 @@ export default class ProductsStore {
     this.product = undefined;
     this.products = [];
     this.isLoading = false;
+    this.lastState = '';
     makeAutoObservable(this);
   }
 
   public getById = async (id: number): Promise<Product | undefined> => {
+    if (this.product?.id === id) {
+      return this.product;
+    }
+
     if (new RegExp(/\/products\/\d+/).test(window.location.pathname)) {
       this.isLoading = true;
     }
@@ -93,7 +99,11 @@ export default class ProductsStore {
     }
   };
 
-  public getItems = async (): Promise<void> => {
+  public getItems = async (state?: string): Promise<void> => {
+    if (this.products.length > 0 && state === this.lastState) {
+      return;
+    }
+
     this.isLoading = true;
     this.product = undefined;
     const urlParameters = new URLSearchParams(window.location.search);
@@ -129,6 +139,7 @@ export default class ProductsStore {
       }
     }
 
+    this.lastState = state ?? '';
     this.isLoading = false;
   };
 
