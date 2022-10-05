@@ -11,25 +11,25 @@ import { IoCTypes, useInjection } from 'ioc';
 import { CartStore } from 'stores';
 
 const Cart = observer(() => {
-  const cartStore = useInjection<CartStore>(IoCTypes.cartStore);
+  const store = useInjection<CartStore>(IoCTypes.cartStore);
   const { t } = useTranslation(['cart']);
 
   return (
     <>
-      {cartStore.isLoading ? (
+      {store.isLoading ? (
         <LoadingSpinner />
       ) : (
         <Grid key={Math.random() * 12_345} container justifyContent="center" marginY={4} marginX={1}>
           <Grid key={Math.random() * 12_345} container justifyContent="center">
-            {cartStore.cart.items.length > 0 ? (
+            {store.cart.items.length > 0 ? (
               <Stack direction="column">
-                {cartStore.cart.items.map((item) => (
+                {store.cart.items.map((item) => (
                   <Grid key={Math.random() * 12_345} item justifyContent="center" marginBottom={4}>
                     <CartCard item={item} />
                   </Grid>
                 ))}
                 <Grid key={Math.random() * 12_345} item justifyContent="center">
-                  <CheckoutButton totalPrice={cartStore.cart.totalPrice} />
+                  <CheckoutButton totalPrice={store.cart.totalPrice} />
                 </Grid>
               </Stack>
             ) : (
