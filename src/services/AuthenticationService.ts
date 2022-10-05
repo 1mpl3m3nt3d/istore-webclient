@@ -83,7 +83,11 @@ export default class DefaultAuthenticationService implements AuthenticationServi
           console.log(`Silent renew for user '${user?.profile.sub}' was successful!`);
         })
         .catch((error) => {
-          console.log(`Silent renew error:\n${error.name}\n${error.message}\n${error.cause}`);
+          if (error instanceof Error) {
+            console.log(`Silent renew error:\n${error.name}\n${error.message}\n${error.cause}`);
+          } else {
+            console.log(error);
+          }
         });
     });
 
@@ -94,7 +98,11 @@ export default class DefaultAuthenticationService implements AuthenticationServi
 
   public clearStaleState = async (): Promise<void> => {
     await this.userManager.clearStaleState().catch((error) => {
-      console.log(error);
+      if (error instanceof Error) {
+        console.error(error.message);
+      } else {
+        console.log(error);
+      }
     });
   };
 
@@ -137,13 +145,21 @@ export default class DefaultAuthenticationService implements AuthenticationServi
 
   public revokeTokens = async (): Promise<void> => {
     return await this.userManager.revokeTokens().catch((error) => {
-      console.log(error);
+      if (error instanceof Error) {
+        console.error(error.message);
+      } else {
+        console.log(error);
+      }
     });
   };
 
   public signinCallback = async (): Promise<void | User> => {
     return await this.userManager.signinCallback().catch((error) => {
-      console.log(error);
+      if (error instanceof Error) {
+        console.error(error.message);
+      } else {
+        console.log(error);
+      }
     });
   };
 
@@ -153,13 +169,21 @@ export default class DefaultAuthenticationService implements AuthenticationServi
 
   public signinPopupCallback = async (): Promise<void> => {
     return await this.userManager.signinPopupCallback().catch((error) => {
-      console.log(error);
+      if (error instanceof Error) {
+        console.error(error.message);
+      } else {
+        console.log(error);
+      }
     });
   };
 
   public signinRedirect = async (): Promise<void> => {
     await this.userManager.signinRedirect().catch((error) => {
-      console.log(error);
+      if (error instanceof Error) {
+        console.error(error.message);
+      } else {
+        console.log(error);
+      }
     });
   };
 
@@ -173,31 +197,51 @@ export default class DefaultAuthenticationService implements AuthenticationServi
 
   public signinSilentCallback = async (): Promise<void> => {
     return await this.userManager.signinSilentCallback().catch((error) => {
-      console.log(error);
+      if (error instanceof Error) {
+        console.error(error.message);
+      } else {
+        console.log(error);
+      }
     });
   };
 
   public signoutCallback = async (): Promise<void> => {
     await this.userManager.signoutCallback().catch((error) => {
-      console.log(error);
+      if (error instanceof Error) {
+        console.error(error.message);
+      } else {
+        console.log(error);
+      }
     });
   };
 
   public signoutPopup = async (): Promise<void> => {
     await this.userManager.signoutPopup().catch((error) => {
-      console.log(error);
+      if (error instanceof Error) {
+        console.error(error.message);
+      } else {
+        console.log(error);
+      }
     });
   };
 
   public signoutPopupCallback = async (): Promise<void> => {
     await this.userManager.signoutPopupCallback().catch((error) => {
-      console.log(error);
+      if (error instanceof Error) {
+        console.error(error.message);
+      } else {
+        console.log(error);
+      }
     });
   };
 
   public signoutRedirect = async (): Promise<void> => {
     await this.userManager.signoutRedirect().catch((error) => {
-      console.log(error);
+      if (error instanceof Error) {
+        console.error(error.message);
+      } else {
+        console.log(error);
+      }
     });
   };
 
@@ -215,7 +259,11 @@ export default class DefaultAuthenticationService implements AuthenticationServi
 
   public storeUser = async (user: User | null): Promise<void> => {
     await this.userManager.storeUser(user).catch((error) => {
-      console.log(error);
+      if (error instanceof Error) {
+        console.error(error.message);
+      } else {
+        console.log(error);
+      }
     });
   };
 }

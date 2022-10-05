@@ -26,7 +26,11 @@ const Product = observer(() => {
     };
 
     getProduct().catch((error) => {
-      console.error(error);
+      if (error instanceof Error) {
+        console.error(error.message);
+      } else {
+        console.log(error);
+      }
     });
   }, [store, id, navigate]);
 

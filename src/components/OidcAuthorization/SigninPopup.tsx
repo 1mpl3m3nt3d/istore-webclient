@@ -12,7 +12,11 @@ function SigninPopup(): JSX.Element {
     };
 
     signinPopup().catch((error) => {
-      console.log(error);
+      if (error instanceof Error) {
+        console.error(error.message);
+      } else {
+        console.log(error);
+      }
     });
   }, [authStore, authStore.user]);
 

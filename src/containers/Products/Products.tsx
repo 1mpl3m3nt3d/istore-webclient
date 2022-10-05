@@ -27,9 +27,28 @@ const Products = observer(() => {
     };
 
     getProducts().catch((error) => {
-      console.log(error);
+      if (error instanceof Error) {
+        console.error(error.message);
+      } else {
+        console.log(error);
+      }
     });
   }, [store, store.currentPage, store.selectedBrandId, store.selectedTypeId, location]);
+
+  useEffect(() => {
+    const getBrandsTypes = async (): Promise<void> => {
+      await store.getBrands();
+      await store.getTypes();
+    };
+
+    getBrandsTypes().catch((error) => {
+      if (error instanceof Error) {
+        console.error(error.message);
+      } else {
+        console.log(error);
+      }
+    });
+  }, [store]);
 
   return (
     <>

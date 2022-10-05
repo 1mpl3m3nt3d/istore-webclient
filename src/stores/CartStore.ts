@@ -5,9 +5,9 @@ import { makeAutoObservable } from 'mobx';
 
 import { CartDto } from 'dtos';
 import { IoCTypes } from 'ioc';
-import { Cart, CartItem } from 'models';
+import { Cart } from 'models';
 import type { CartService } from 'services';
-import { AuthStore, ProductsStore, ProductStore } from 'stores';
+import { AuthStore, ProductStore } from 'stores';
 
 @injectable()
 export default class CartStore {
@@ -17,22 +17,17 @@ export default class CartStore {
   @inject(IoCTypes.productStore)
   private readonly productStore!: ProductStore;
 
-  @inject(IoCTypes.productsStore)
-  private readonly productsStore!: ProductsStore;
-
   @inject(IoCTypes.cartService)
   private readonly cartService!: CartService;
 
   cartDto: CartDto = { data: '{}' };
   cart: Cart = { items: [], totalCount: 0, totalPrice: 0 };
-  cartItems: CartItem[] = [];
   currentCount: number | undefined = undefined;
   isLoading = false;
 
   constructor() {
     this.cartDto = { data: '{}' };
     this.cart = { items: [], totalCount: 0, totalPrice: 0 };
-    this.cartItems = this.cart.items;
     this.currentCount = undefined;
     this.isLoading = false;
     makeAutoObservable(this);
@@ -40,7 +35,7 @@ export default class CartStore {
 
   public getCount = (id: number): number => {
     try {
-      return this.cartItems.find((item) => item.id === id)?.count ?? 0;
+      return this.cart.items.find((item) => item.id === id)?.count ?? 0;
     } catch (error: unknown) {
       if (error instanceof Error) {
         console.error(error.message);
@@ -54,16 +49,18 @@ export default class CartStore {
 
   public setCount = async (id: number, count?: string): Promise<void> => {
     try {
-      const index = this.cartItems?.findIndex((ci) => ci.id === id);
+      const item = this.cart.items?.find((ci) => ci.id === id);
       const parsedCount = count ? Number.parseInt(count) : this.currentCount;
 
-      if (parsedCount !== undefined && parsedCount > 0) {
-        this.cartItems[index].count = parsedCount;
-        this.cartItems[index].totalPrice = parsedCount * this.cartItems[index].price;
+      if (item && parsedCount !== undefined && parsedCount > 0) {
+        item.count = parsedCount;
+        item.totalPrice = parsedCount * item.price;
 
         await this.updateCart();
-      } else if (parsedCount !== undefined && parsedCount < 1) {
+      } else if (item && parsedCount !== undefined && parsedCount < 1) {
         await this.clearItem(id);
+      } else {
+        console.error(`There is no item with id: ${id} in your cart to set the count!`);
       }
 
       this.currentCount = undefined;
@@ -78,16 +75,14 @@ export default class CartStore {
 
   public addItem = async (id: number): Promise<void> => {
     try {
-      const index = this.cartItems?.findIndex((ci) => ci.id === id);
+      const item = this.cart.items?.find((ci) => ci.id === id);
 
-      if (index >= 0) {
-        this.cartItems[index].count += 1;
-        this.cartItems[index].totalPrice += this.cartItems[index].price;
+      if (item) {
+        item.count += 1;
+        item.totalPrice += item.price;
       } else {
         await this.pushItem(id);
       }
-
-      this.cart.items = this.cartItems;
 
       await this.updateCart();
     } catch (error: unknown) {
@@ -101,21 +96,25 @@ export default class CartStore {
 
   public removeItem = async (id: number): Promise<void> => {
     try {
-      const index = this.cartItems?.findIndex((ci) => ci.id === id);
+      let index = -1;
 
-      if (index >= 0) {
-        if (this.cartItems[index].count > 1) {
-          this.cartItems[index].count -= 1;
-          this.cartItems[index].totalPrice -= this.cartItems[index].price;
+      const item = this.cart.items?.find((ci, idx) => {
+        index = idx;
+
+        return ci.id === id;
+      });
+
+      if (item) {
+        if (item.count > 1) {
+          item.count -= 1;
+          item.totalPrice -= item.price;
         } else {
-          this.cartItems.splice(index, 1);
+          this.cart.items.splice(index, 1);
         }
-
-        this.cart.items = this.cartItems;
 
         await this.updateCart();
       } else {
-        console.error(`There is no item with [id: ${id}] in your cart to remove!`);
+        console.error(`There is no item with id: ${id} in your cart to remove!`);
       }
     } catch (error: unknown) {
       if (error instanceof Error) {
@@ -128,15 +127,14 @@ export default class CartStore {
 
   public clearItem = async (id: number): Promise<void> => {
     try {
-      const index = this.cartItems?.findIndex((ci) => ci.id === id);
+      const index = this.cart.items?.findIndex((ci) => ci.id === id);
 
       if (index >= 0) {
-        this.cartItems.splice(index, 1);
-        this.cart.items = this.cartItems;
+        this.cart.items.splice(index, 1);
 
         await this.updateCart();
       } else {
-        console.error(`There is no item with [id: ${id}] in your cart to remove!`);
+        console.error(`There is no item with id: ${id} in your cart to remove!`);
       }
     } catch (error: unknown) {
       if (error instanceof Error) {
@@ -170,13 +168,11 @@ export default class CartStore {
 
         if (parsedCart?.items) {
           this.cart = this.cartMerger(parsedCart, basket);
-          this.cartItems = this.cart.items;
           this.cartDto = { data: '{}' };
           await this.updateCart();
           localStorage.removeItem('cart');
         } else {
           this.cart = basket;
-          this.cartItems = this.cart.items;
           this.cartDto = { data: '{}' };
           localStorage.removeItem('cart');
         }
@@ -188,8 +184,6 @@ export default class CartStore {
 
         this.cart = parsedCart;
       }
-
-      this.cartItems = this.cart.items;
     } catch (error: unknown) {
       if (error instanceof Error) {
         console.error(error.message);
@@ -210,13 +204,12 @@ export default class CartStore {
     try {
       this.updateCartTotals();
 
-      this.cart.items = this.cartItems;
-
       const cartString = JSON.stringify(this.cart);
       this.cartDto.data = cartString;
 
       if (this.authStore.user) {
         this.cartService.getAuthorizationHeaders();
+
         await this.cartService.updateCart(this.cartDto);
       } else {
         const parsedCart: string = JSON.stringify(this.cart);
@@ -262,7 +255,7 @@ export default class CartStore {
       let totalPrice = 0;
       let totalCount = 0;
 
-      for (const item of this.cartItems) {
+      for (const item of this.cart.items) {
         totalCount += item.count;
         totalPrice += item.price * item.count;
       }
@@ -283,7 +276,7 @@ export default class CartStore {
       const product = await this.productStore.getById(id);
 
       if (product) {
-        this.cartItems.push({
+        this.cart.items.push({
           count: 1,
           brand: product.catalogBrand.brand,
           type: product.catalogType.type,

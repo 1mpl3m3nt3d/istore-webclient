@@ -14,7 +14,11 @@ function SigninRedirectCallback(): JSX.Element {
     };
 
     signinRedirectCallback().catch((error) => {
-      console.log(error);
+      if (error instanceof Error) {
+        console.error(error.message);
+      } else {
+        console.log(error);
+      }
     });
   }, [authStore, navigate]);
 

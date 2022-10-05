@@ -102,7 +102,11 @@ init({
     */
   resources,
 }).catch((error) => {
-  console.log(error);
+  if (error instanceof Error) {
+    console.error(error.message);
+  } else {
+    console.log(error);
+  }
 });
 
 export { default } from 'i18next';

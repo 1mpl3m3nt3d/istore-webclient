@@ -88,7 +88,13 @@ export default class DefaultHttpService implements HttpService {
         const responseData = JSON.parse(responseText);
         result.data = responseData;
       } catch (error: unknown) {
-        console.log(`Did not receive JSON, instead received:\n"${responseText}"\nDetails:\n${error}`);
+        console.log(`Did not receive JSON, instead received:\n"${responseText}"`);
+
+        if (error instanceof Error) {
+          console.error(error.message);
+        } else {
+          console.log(error);
+        }
       }
     }
 

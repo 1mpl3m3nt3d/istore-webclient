@@ -44,7 +44,9 @@ export default class ProductsStore {
 
   public getBrands = async (): Promise<void> => {
     try {
-      this.brands = await this.productsService.getBrands();
+      if (this.brands.length === 0) {
+        this.brands = await this.productsService.getBrands();
+      }
     } catch (error: unknown) {
       if (error instanceof Error) {
         console.error(error.message);
@@ -56,7 +58,9 @@ export default class ProductsStore {
 
   public getTypes = async (): Promise<void> => {
     try {
-      this.types = await this.productsService.getTypes();
+      if (this.types.length === 0) {
+        this.types = await this.productsService.getTypes();
+      }
     } catch (error: unknown) {
       if (error instanceof Error) {
         console.error(error.message);
@@ -83,14 +87,6 @@ export default class ProductsStore {
     this.selectedTypeId = type ? Number(type) : Number(0);
 
     try {
-      if (this.brands.length === 0) {
-        await this.getBrands();
-      }
-
-      if (this.types.length === 0) {
-        await this.getTypes();
-      }
-
       const result = await this.productsService.getItems({
         pageIndex: Number(this.currentPage) - 1, // numeration of pages starts from 0 on server
         pageSize: Number(this.pageLimit),

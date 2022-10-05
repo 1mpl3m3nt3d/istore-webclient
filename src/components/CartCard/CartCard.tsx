@@ -9,13 +9,13 @@ import { BuyButtonCart } from 'components/BuyButton';
 import { CartItem } from 'models';
 
 interface Properties {
-  cartItem: CartItem;
+  item: CartItem;
 }
 
 const CartCard = observer((properties: Properties) => {
   const navigate = useNavigate();
   const { t } = useTranslation('cart');
-  const { id, brand, type, name, picture, count, totalPrice } = properties.cartItem;
+  const { id, brand, type, name, picture, count, totalPrice } = properties.item;
 
   return (
     <Card
