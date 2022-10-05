@@ -12,21 +12,16 @@ export default class ProductsStore {
   @inject(IoCTypes.productsService)
   private readonly productsService!: ProductsService;
 
-  public brands: Brand[] = [];
-  public types: Type[] = [];
-  public selectedBrand: Brand | undefined = undefined;
-  public selectedBrandId = 0;
-  public selectedBrandName = '';
-  public selectedType: Type | undefined = undefined;
-  public selectedTypeId = 0;
-  public selectedTypeName = '';
-  public product: Product | undefined = undefined;
-  public products: Product[] = [];
   public currentPage = 1;
   public pageLimit = 6;
   public totalPages = 0;
-  public isLoading = false;
+  public brands: Brand[] = [];
+  public types: Type[] = [];
+  public selectedBrandId = 0;
+  public selectedTypeId = 0;
+  public products: Product[] = [];
   public lastState = '';
+  public isLoading = false;
 
   constructor() {
     const urlParameters = new URLSearchParams(window.location.search);
@@ -39,62 +34,34 @@ export default class ProductsStore {
     this.totalPages = 0;
     this.brands = [];
     this.types = [];
-    this.selectedBrand = undefined;
     this.selectedBrandId = Number(brand);
-    this.selectedBrandName = '';
-    this.selectedType = undefined;
     this.selectedTypeId = Number(type);
-    this.selectedTypeName = '';
-    this.product = undefined;
     this.products = [];
-    this.isLoading = false;
     this.lastState = '';
+    this.isLoading = false;
     makeAutoObservable(this);
   }
 
-  public getById = async (id: number): Promise<Product | undefined> => {
-    if (this.product?.id === id) {
-      return this.product;
-    }
-
-    if (new RegExp(/\/products\/\d+/).test(window.location.pathname)) {
-      this.isLoading = true;
-    }
-
-    this.product = undefined;
-
-    try {
-      const result = await this.productsService.getById(id);
-      this.product = result;
-    } catch (error: unknown) {
-      if (error instanceof Error) {
-        console.log(error.message);
-      }
-    }
-
-    this.isLoading = false;
-
-    return this.product;
-  };
-
   public getBrands = async (): Promise<void> => {
     try {
-      const result = await this.productsService.getBrands();
-      this.brands = result;
+      this.brands = await this.productsService.getBrands();
     } catch (error: unknown) {
       if (error instanceof Error) {
-        console.log(error.message);
+        console.error(error.message);
+      } else {
+        console.log(error);
       }
     }
   };
 
   public getTypes = async (): Promise<void> => {
     try {
-      const result = await this.productsService.getTypes();
-      this.types = result;
+      this.types = await this.productsService.getTypes();
     } catch (error: unknown) {
       if (error instanceof Error) {
-        console.log(error.message);
+        console.error(error.message);
+      } else {
+        console.log(error);
       }
     }
   };
@@ -105,7 +72,6 @@ export default class ProductsStore {
     }
 
     this.isLoading = true;
-    this.product = undefined;
     const urlParameters = new URLSearchParams(window.location.search);
     const page = urlParameters.get('page');
     const limit = urlParameters.get('limit');
@@ -131,28 +97,23 @@ export default class ProductsStore {
         brandIdFilter: Number(this.selectedBrandId) ?? 0,
         typeIdFilter: Number(this.selectedTypeId) ?? 0,
       });
+
       this.products = result.data;
       this.totalPages = result.total_pages;
     } catch (error: unknown) {
       if (error instanceof Error) {
-        console.log(error.message);
+        console.error(error.message);
+      } else {
+        console.log(error);
       }
     }
 
-    this.lastState = state ?? '';
     this.isLoading = false;
+    this.lastState = state ?? '';
   };
 
   public changePage = (page: number): void => {
     this.currentPage = page;
-  };
-
-  public changeBrand = (brand: Brand): void => {
-    this.selectedBrand = brand;
-  };
-
-  public changeType = (type: Type): void => {
-    this.selectedType = type;
   };
 
   public changeBrandId = (brand: number): void => {
@@ -161,21 +122,5 @@ export default class ProductsStore {
 
   public changeTypeId = (type: number): void => {
     this.selectedTypeId = type;
-  };
-
-  public getBrandName = (brand: number): string => {
-    return this.brands[brand].brand;
-  };
-
-  public getTypeName = (type: number): string => {
-    return this.types[type].type;
-  };
-
-  public getBrandId = (brand: string): number => {
-    return this.brands.findIndex((b) => b.brand === brand);
-  };
-
-  public getTypeId = (type: string): number => {
-    return this.types.findIndex((t) => t.type === type);
   };
 }

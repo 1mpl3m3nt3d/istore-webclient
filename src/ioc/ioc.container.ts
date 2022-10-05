@@ -9,7 +9,7 @@ import type { HttpService } from 'services/HttpService';
 import DefaultHttpService from 'services/HttpService';
 import type { ProductsService } from 'services/ProductsService';
 import DefaultProductsService from 'services/ProductsService';
-import { AuthStore, CartStore, CheckoutStore, ProductsStore } from 'stores';
+import { AuthStore, CartStore, CheckoutStore, ProductsStore, ProductStore } from 'stores';
 
 const IoCContainer = new Container();
 
@@ -30,5 +30,7 @@ IoCContainer.bind<CartStore>(IoCTypes.cartStore).to(CartStore).inSingletonScope(
 IoCContainer.bind<CheckoutStore>(IoCTypes.checkoutStore).to(CheckoutStore).inSingletonScope();
 
 IoCContainer.bind<ProductsStore>(IoCTypes.productsStore).to(ProductsStore).inSingletonScope();
+
+IoCContainer.bind<ProductStore>(IoCTypes.productStore).to(ProductStore).inSingletonScope();
 
 export default IoCContainer;

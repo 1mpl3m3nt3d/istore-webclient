@@ -7,24 +7,27 @@ import { CartDto } from 'dtos';
 import { IoCTypes } from 'ioc';
 import { Cart, CartItem } from 'models';
 import type { CartService } from 'services';
-import { AuthStore, ProductsStore } from 'stores';
+import { AuthStore, ProductsStore, ProductStore } from 'stores';
 
 @injectable()
 export default class CartStore {
-  cartDto: CartDto = { data: '{}' };
-  cart: Cart = { items: [], totalCount: 0, totalPrice: 0 };
-  cartItems: CartItem[] = [];
-  isLoading = false;
-  currentCount: number | undefined = undefined;
-
   @inject(IoCTypes.authStore)
   private readonly authStore!: AuthStore;
+
+  @inject(IoCTypes.productStore)
+  private readonly productStore!: ProductStore;
 
   @inject(IoCTypes.productsStore)
   private readonly productsStore!: ProductsStore;
 
   @inject(IoCTypes.cartService)
   private readonly cartService!: CartService;
+
+  cartDto: CartDto = { data: '{}' };
+  cart: Cart = { items: [], totalCount: 0, totalPrice: 0 };
+  cartItems: CartItem[] = [];
+  currentCount: number | undefined = undefined;
+  isLoading = false;
 
   constructor() {
     this.cartDto = { data: '{}' };
@@ -37,13 +40,13 @@ export default class CartStore {
 
   public getCount = (id: number): number => {
     try {
-      /*
-      const index = this.cartItems?.findIndex((ci) => ci.id === id);
-      return index >= 0 ? this.cartItems[index].count : 0;
-      */
       return this.cartItems.find((item) => item.id === id)?.count ?? 0;
     } catch (error: unknown) {
-      console.error(error);
+      if (error instanceof Error) {
+        console.error(error.message);
+      } else {
+        console.log(error);
+      }
     }
 
     return 0;
@@ -65,7 +68,11 @@ export default class CartStore {
 
       this.currentCount = undefined;
     } catch (error: unknown) {
-      console.error(error);
+      if (error instanceof Error) {
+        console.error(error.message);
+      } else {
+        console.log(error);
+      }
     }
   };
 
@@ -76,17 +83,19 @@ export default class CartStore {
       if (index >= 0) {
         this.cartItems[index].count += 1;
         this.cartItems[index].totalPrice += this.cartItems[index].price;
-        //this.cart.totalPrice += this.cartItems[index].price;
       } else {
         await this.pushItem(id);
       }
 
       this.cart.items = this.cartItems;
-      //this.cart.totalCount += 1;
 
       await this.updateCart();
     } catch (error: unknown) {
-      console.error(error);
+      if (error instanceof Error) {
+        console.error(error.message);
+      } else {
+        console.log(error);
+      }
     }
   };
 
@@ -98,21 +107,22 @@ export default class CartStore {
         if (this.cartItems[index].count > 1) {
           this.cartItems[index].count -= 1;
           this.cartItems[index].totalPrice -= this.cartItems[index].price;
-          //this.cart.totalPrice -= this.cartItems[index].price;
         } else {
-          //this.cart.totalPrice -= this.cartItems[index].price;
           this.cartItems.splice(index, 1);
         }
 
         this.cart.items = this.cartItems;
-        //this.cart.totalCount -= 1;
 
         await this.updateCart();
       } else {
-        console.log(`There is no item with [id: ${id}] in your cart to remove!`);
+        console.error(`There is no item with [id: ${id}] in your cart to remove!`);
       }
     } catch (error: unknown) {
-      console.error(error);
+      if (error instanceof Error) {
+        console.error(error.message);
+      } else {
+        console.log(error);
+      }
     }
   };
 
@@ -121,17 +131,19 @@ export default class CartStore {
       const index = this.cartItems?.findIndex((ci) => ci.id === id);
 
       if (index >= 0) {
-        //this.cart.totalPrice -= this.cartItems[index].price;
-        //this.cart.totalCount -= this.cartItems[index].count;
         this.cartItems.splice(index, 1);
         this.cart.items = this.cartItems;
 
         await this.updateCart();
       } else {
-        console.log(`There is no item with [id: ${id}] in your cart to remove!`);
+        console.error(`There is no item with [id: ${id}] in your cart to remove!`);
       }
     } catch (error: unknown) {
-      console.error(error);
+      if (error instanceof Error) {
+        console.error(error.message);
+      } else {
+        console.log(error);
+      }
     }
   };
 
@@ -179,7 +191,11 @@ export default class CartStore {
 
       this.cartItems = this.cart.items;
     } catch (error: unknown) {
-      console.error(error);
+      if (error instanceof Error) {
+        console.error(error.message);
+      } else {
+        console.log(error);
+      }
     }
 
     this.cartDto = { data: '{}' };
@@ -207,7 +223,11 @@ export default class CartStore {
         localStorage.setItem('cart', parsedCart);
       }
     } catch (error: unknown) {
-      console.error(error);
+      if (error instanceof Error) {
+        console.error(error.message);
+      } else {
+        console.log(error);
+      }
     }
 
     this.cartDto = { data: '{}' };
@@ -227,7 +247,11 @@ export default class CartStore {
         localStorage.removeItem('cart');
       }
     } catch (error: unknown) {
-      console.error(error);
+      if (error instanceof Error) {
+        console.error(error.message);
+      } else {
+        console.log(error);
+      }
     }
 
     await this.getCart();
@@ -246,13 +270,17 @@ export default class CartStore {
       this.cart.totalCount = totalCount;
       this.cart.totalPrice = totalPrice;
     } catch (error: unknown) {
-      console.error(error);
+      if (error instanceof Error) {
+        console.error(error.message);
+      } else {
+        console.log(error);
+      }
     }
   };
 
   private readonly pushItem = async (id: number): Promise<void> => {
     try {
-      const product = await this.productsStore.getById(id);
+      const product = await this.productStore.getById(id);
 
       if (product) {
         this.cartItems.push({
@@ -265,28 +293,34 @@ export default class CartStore {
           name: product.name,
           totalPrice: product.price,
         });
-        //this.cart.totalPrice += product.price;
       }
     } catch (error: unknown) {
-      console.error(error);
+      if (error instanceof Error) {
+        console.error(error.message);
+      } else {
+        console.log(error);
+      }
     }
   };
 
   private readonly cartMerger = (cart1: Cart, cart2: Cart): Cart => {
     const newCart: Cart = { items: [], totalCount: 0, totalPrice: 0 };
 
-    //newCart.totalCount += cart1.totalCount + cart2.totalCount;
-    //newCart.totalPrice += cart1.totalPrice + cart2.totalPrice;
-    newCart.items = Object.assign(newCart.items, cart1.items);
+    try {
+      newCart.items = Object.assign(newCart.items, cart1.items);
 
-    for (const item of cart2.items) {
-      const index = newCart.items.findIndex((n) => n.id === item.id);
+      for (const item of cart2.items) {
+        const index = newCart.items.findIndex((n) => n.id === item.id);
 
-      if (index === -1) {
-        newCart.items.push(item);
+        if (index === -1) {
+          newCart.items.push(item);
+        }
+      }
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        console.error(error.message);
       } else {
-        //newCart.items[index].count += item.count;
-        //newCart.items[index].totalPrice += item.totalPrice;
+        console.log(error);
       }
     }
 

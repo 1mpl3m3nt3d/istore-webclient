@@ -7,6 +7,7 @@ const IoCTypes = {
   httpService: Symbol('httpService'),
   productsService: Symbol('productsService'),
   productsStore: Symbol('productsStore'),
+  productStore: Symbol('productStore'),
   signInStore: Symbol('signInStore'),
 };
 

@@ -8,10 +8,10 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { LoadingSpinner } from 'components/LoadingSpinner';
 import { ProductDetails } from 'components/ProductDetails';
 import { IoCTypes, useInjection } from 'ioc';
-import { CartStore, ProductsStore } from 'stores';
+import { CartStore, ProductStore } from 'stores';
 
 const Product = observer(() => {
-  const store = useInjection<ProductsStore>(IoCTypes.productsStore);
+  const store = useInjection<ProductStore>(IoCTypes.productStore);
   const cartStore = useInjection<CartStore>(IoCTypes.cartStore);
   const navigate = useNavigate();
   const { id } = useParams();
@@ -26,7 +26,7 @@ const Product = observer(() => {
     };
 
     getProduct().catch((error) => {
-      console.log(error);
+      console.error(error);
     });
   }, [store, id, navigate]);
 
