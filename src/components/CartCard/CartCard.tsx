@@ -43,8 +43,8 @@ const CartCard = observer((properties: Properties) => {
               padding: 0,
               height: 'auto',
               width: 'auto',
-              maxHeight: 125,
-              maxWidth: 125,
+              maxHeight: 115,
+              maxWidth: 115,
               objectFit: 'contain',
             }}
             onClick={(): void => {
@@ -62,9 +62,9 @@ const CartCard = observer((properties: Properties) => {
                 textAlign: 'right',
                 margin: 0,
                 marginLeft: 1,
-                marginRight: 1,
                 padding: 0,
                 paddingBottom: '0px !important',
+                paddingRight: 2,
                 width: 'fit-content',
                 height: 'fit-content',
               }}
@@ -98,9 +98,9 @@ const CartCard = observer((properties: Properties) => {
                   justifyContent: 'right',
                   textAlign: 'right',
                   margin: 0,
-                  marginRight: 1,
                   padding: 0,
                   paddingBottom: '0px !important',
+                  paddingRight: 2,
                 }}
               >
                 <Typography>
