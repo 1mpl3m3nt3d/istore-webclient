@@ -85,17 +85,17 @@ const Products = observer(() => {
                   </Grid>
                 ))}
             </Grid>
-            <Grid container justifyContent="center">
-              <Pagination
-                totalCount={store.totalPages}
-                currentPage={store.currentPage}
-                onChange={(event: ChangeEvent<unknown>, value: number): void => {
-                  store.changePage(value);
-                }}
-              />
-            </Grid>
           </>
         )}
+        <Grid container justifyContent="center">
+          <Pagination
+            totalCount={store.totalPages}
+            currentPage={store.currentPage}
+            onChange={(event: ChangeEvent<unknown>, value: number): void => {
+              store.changePage(value);
+            }}
+          />
+        </Grid>
       </Grid>
     </>
   );
