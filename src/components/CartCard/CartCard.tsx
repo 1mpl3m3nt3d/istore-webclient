@@ -93,7 +93,7 @@ const CartCard = observer((properties: Properties) => {
               <CardContent
                 sx={{
                   display: 'grid',
-                  width: '4.8em',
+                  width: '5.5em',
                   alignContent: 'center',
                   justifyContent: 'right',
                   textAlign: 'right',
@@ -104,10 +104,10 @@ const CartCard = observer((properties: Properties) => {
                 }}
               >
                 <Typography>
-                  <strong>
-                    {totalPrice}
-                    {t('currency', { ns: 'consts' })}
-                  </strong>
+                  <strong>{totalPrice}</strong>
+                </Typography>
+                <Typography>
+                  <strong>{t('currency', { ns: 'consts' })}</strong>
                 </Typography>
               </CardContent>
             </Stack>
