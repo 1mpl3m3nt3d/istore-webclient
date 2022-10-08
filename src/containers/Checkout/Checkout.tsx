@@ -23,14 +23,21 @@ const order = {
 
 const getStepContent = (step: number): JSX.Element => {
   switch (step) {
-    case 0:
+    case 0: {
       return <AddressForm />;
-    case 1:
+    }
+
+    case 1: {
       return <PaymentForm />;
-    case 2:
+    }
+
+    case 2: {
       return <Review />;
-    default:
+    }
+
+    default: {
       throw new Error('Unknown step');
+    }
   }
 };
 
