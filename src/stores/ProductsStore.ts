@@ -27,12 +27,8 @@ export default class ProductsStore {
     const urlParameters = new URLSearchParams(window.location.search);
     const page = urlParameters.get('page');
     const limit = urlParameters.get('limit');
-    const brands = urlParameters.get('brands');
-    const types = urlParameters.get('types');
     this.currentPage = Number(page);
     this.pageLimit = Number(limit);
-    this.selectedBrandIds = brands ? brands.split(',').map(Number) : [];
-    this.selectedTypeIds = types ? types.split(',').map(Number) : [];
     this.totalPages = 0;
     this.brands = [];
     this.types = [];
@@ -75,6 +71,14 @@ export default class ProductsStore {
       return;
     }
 
+    if (this.brands.length === 0) {
+      await this.getBrands();
+    }
+
+    if (this.types.length === 0) {
+      await this.getTypes();
+    }
+
     this.isLoading = true;
     const urlParameters = new URLSearchParams(window.location.search);
     const page = urlParameters.get('page');
@@ -83,8 +87,11 @@ export default class ProductsStore {
     const types = urlParameters.get('types');
     this.currentPage = page ? Number(page) : Number(1);
     this.pageLimit = limit ? Number(limit) : Number(6);
-    this.selectedBrandIds = brands ? brands.split(',').map(Number) : [];
-    this.selectedTypeIds = types ? types.split(',').map(Number) : [];
+
+    const selectedBrandIdsTemp = brands ? brands.split(',').map(Number) : [];
+    const selectedTypeIdsTemp = types ? types.split(',').map(Number) : [];
+    this.selectedBrandIds = selectedBrandIdsTemp.filter((id) => this.brands.map((brand) => brand.id).includes(id));
+    this.selectedTypeIds = selectedTypeIdsTemp.filter((id) => this.types.map((type) => type.id).includes(id));
 
     try {
       const result = await this.productsService.getItems({

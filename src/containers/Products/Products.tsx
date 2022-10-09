@@ -23,6 +23,8 @@ const Products = observer(() => {
   useEffect(() => {
     const getProducts = async (): Promise<void> => {
       const state = window.location.pathname.toString() + window.location.search.toString();
+      await store.getBrands();
+      await store.getTypes();
       await store.getItems(state);
     };
 
@@ -33,22 +35,7 @@ const Products = observer(() => {
         console.log(error);
       }
     });
-  }, [store, store.currentPage, store.selectedBrandIds, store.selectedTypeIds, location]);
-
-  useEffect(() => {
-    const getBrandsTypes = async (): Promise<void> => {
-      await store.getBrands();
-      await store.getTypes();
-    };
-
-    getBrandsTypes().catch((error) => {
-      if (error instanceof Error) {
-        console.error(error.message);
-      } else {
-        console.log(error);
-      }
-    });
-  }, [store]);
+  }, [store, store.brands, store.currentPage, store.selectedBrandIds, store.selectedTypeIds, store.types, location]);
 
   return (
     <>
