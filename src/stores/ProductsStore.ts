@@ -17,25 +17,25 @@ export default class ProductsStore {
   public totalPages = 0;
   public brands: Brand[] = [];
   public types: Type[] = [];
-  public selectedBrandId = 0;
-  public selectedTypeId = 0;
+  public selectedBrandIds: number[] = [];
+  public selectedTypeIds: number[] = [];
   public products: Product[] = [];
-  public lastState = '';
+  public lastState: string | undefined = undefined;
   public isLoading = false;
 
   constructor() {
     const urlParameters = new URLSearchParams(window.location.search);
     const page = urlParameters.get('page');
     const limit = urlParameters.get('limit');
-    const brand = urlParameters.get('brand');
-    const type = urlParameters.get('type');
+    const brands = urlParameters.get('brands');
+    const types = urlParameters.get('types');
     this.currentPage = Number(page);
     this.pageLimit = Number(limit);
+    this.selectedBrandIds = brands ? brands.split(',').map(Number) : [];
+    this.selectedTypeIds = types ? types.split(',').map(Number) : [];
     this.totalPages = 0;
     this.brands = [];
     this.types = [];
-    this.selectedBrandId = Number(brand);
-    this.selectedTypeId = Number(type);
     this.products = [];
     this.lastState = '';
     this.isLoading = false;
@@ -71,7 +71,7 @@ export default class ProductsStore {
   };
 
   public getItems = async (state?: string): Promise<void> => {
-    if (this.products.length > 0 && state === this.lastState) {
+    if (state === this.lastState) {
       return;
     }
 
@@ -79,19 +79,19 @@ export default class ProductsStore {
     const urlParameters = new URLSearchParams(window.location.search);
     const page = urlParameters.get('page');
     const limit = urlParameters.get('limit');
-    const brand = urlParameters.get('brand');
-    const type = urlParameters.get('type');
+    const brands = urlParameters.get('brands');
+    const types = urlParameters.get('types');
     this.currentPage = page ? Number(page) : Number(1);
     this.pageLimit = limit ? Number(limit) : Number(6);
-    this.selectedBrandId = brand ? Number(brand) : Number(0);
-    this.selectedTypeId = type ? Number(type) : Number(0);
+    this.selectedBrandIds = brands ? brands.split(',').map(Number) : [];
+    this.selectedTypeIds = types ? types.split(',').map(Number) : [];
 
     try {
       const result = await this.productsService.getItems({
         pageIndex: Number(this.currentPage) - 1, // numeration of pages starts from 0 on server
         pageSize: Number(this.pageLimit),
-        brandIdFilter: Number(this.selectedBrandId) ?? 0,
-        typeIdFilter: Number(this.selectedTypeId) ?? 0,
+        brandIdFilter: this.selectedBrandIds ?? [],
+        typeIdFilter: this.selectedTypeIds ?? [],
       });
 
       this.products = result.data;
@@ -105,18 +105,18 @@ export default class ProductsStore {
     }
 
     this.isLoading = false;
-    this.lastState = state ?? '';
+    this.lastState = state ?? undefined;
   };
 
   public changePage = (page: number): void => {
     this.currentPage = page;
   };
 
-  public changeBrandId = (brand: number): void => {
-    this.selectedBrandId = brand;
+  public changeBrandIds = (brand: number[]): void => {
+    this.selectedBrandIds = brand;
   };
 
-  public changeTypeId = (type: number): void => {
-    this.selectedTypeId = type;
+  public changeTypeIds = (type: number[]): void => {
+    this.selectedTypeIds = type;
   };
 }

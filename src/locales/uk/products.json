@@ -17,6 +17,8 @@
   "selectors": {
     "all": "Всі",
     "brands": "Вибрати Бренд",
+    "selected_brands": "Вибрано: {{count}} брендів",
+    "selected_types": "Вибрано: {{count}} типів",
     "types": "Вибрати Тип"
   },
   "tooltips": {

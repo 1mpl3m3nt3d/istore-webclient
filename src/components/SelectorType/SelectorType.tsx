@@ -1,6 +1,6 @@
 import 'reflect-metadata';
 
-import { Box, FormControl, InputLabel, MenuItem, Select } from '@mui/material';
+import { Box, Checkbox, FormControl, InputLabel, ListItemText, MenuItem, OutlinedInput, Select } from '@mui/material';
 import { SelectChangeEvent } from '@mui/material/Select';
 import { observer } from 'mobx-react';
 import { ReactElement, useState } from 'react';
@@ -12,35 +12,64 @@ import { Type } from 'models';
 interface Properties {
   label: string;
   items: Type[];
-  selectedTypeId: number;
+  selectedTypeId: number[];
   minWidth?: number;
-  onChange?: (id: number) => void;
+  onChange?: (types: number[]) => void;
 }
+
+const RESET_INDEX = -1;
+
+const ITEM_HEIGHT = 48;
+const ITEM_PADDING_TOP = 8;
+const MenuProps = {
+  PaperProps: {
+    style: {
+      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+      width: 250,
+    },
+  },
+};
 
 const SelectorType = observer(
   ({ label, items, selectedTypeId, onChange, minWidth = 150 }: Properties): ReactElement => {
     const navigate = useNavigate();
     const { t } = useTranslation(['products']);
 
-    const defaultValue = selectedTypeId === 0 ? '' : selectedTypeId.toString();
-    const [value, setValue] = useState<string>(defaultValue);
+    const defaultValue = selectedTypeId ? selectedTypeId.map(String) : [];
+    const [typesValue, setTypesValue] = useState<string[]>(defaultValue);
 
-    const handleChange = (event: SelectChangeEvent): void => {
-      const newValue = event.target.value;
-      const newValueNumber = Number.parseInt(newValue);
+    const handleChange = (event: SelectChangeEvent<typeof typesValue>): void => {
+      const {
+        target: { value },
+      } = event;
 
-      setValue(newValue as string);
+      if (value.includes(RESET_INDEX.toString())) {
+        setTypesValue([]);
 
-      if (onChange !== undefined) onChange(newValue === '' ? 0 : newValueNumber);
+        const urlParameters = new URLSearchParams(window.location.search);
+
+        urlParameters.delete('page');
+        urlParameters.delete('types');
+
+        navigate('?' + urlParameters.toString(), { replace: false, preventScrollReset: true });
+
+        return;
+      }
+
+      const newValue = typeof value === 'string' ? value.split(',') : value;
+
+      setTypesValue(newValue); // on autofill we get a stringified value
+
+      if (onChange !== undefined) onChange(newValue ? newValue.map(Number) : []);
 
       const urlParameters = new URLSearchParams(window.location.search);
 
       urlParameters.delete('page');
 
-      if (newValueNumber !== 0) {
-        urlParameters.set('type', newValue);
+      if (newValue.length > 0) {
+        urlParameters.set('types', newValue.toString());
       } else {
-        urlParameters.delete('type');
+        urlParameters.delete('types');
       }
 
       navigate('?' + urlParameters.toString(), { replace: false, preventScrollReset: true });
@@ -50,14 +79,26 @@ const SelectorType = observer(
       <Box sx={{ minWidth: { minWidth } }}>
         <FormControl fullWidth>
           <InputLabel>{label}</InputLabel>
-          <Select id="type-selector" value={value} label={label} onChange={handleChange}>
-            <MenuItem key={0} value={0}>
+          <Select
+            multiple
+            id="type-selector"
+            value={typesValue}
+            label={label}
+            onChange={handleChange}
+            input={<OutlinedInput label={label} />}
+            renderValue={(selected): string => {
+              return t('selectors.selected_types', { count: selected.length });
+            }}
+            MenuProps={MenuProps}
+          >
+            <MenuItem key={RESET_INDEX.toString()} value={RESET_INDEX.toString()}>
               <em>{t('selectors.all')}</em>
             </MenuItem>
             {items &&
               items?.map((item) => (
                 <MenuItem key={item.id} value={item.id}>
-                  {item.type}
+                  <Checkbox checked={typesValue?.includes(item.id.toString())} />
+                  <ListItemText primary={item.type} />
                 </MenuItem>
               ))}
           </Select>

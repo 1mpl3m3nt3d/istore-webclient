@@ -17,6 +17,8 @@
   "selectors": {
     "all": "All",
     "brands": "Select Brand",
+    "selected_brands": "Selected: {{count}} brands",
+    "selected_types": "Selected: {{count}} types",
     "types": "Select Type"
   },
   "tooltips": {

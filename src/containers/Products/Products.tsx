@@ -33,7 +33,7 @@ const Products = observer(() => {
         console.log(error);
       }
     });
-  }, [store, store.currentPage, store.selectedBrandId, store.selectedTypeId, location]);
+  }, [store, store.currentPage, store.selectedBrandIds, store.selectedTypeIds, location]);
 
   useEffect(() => {
     const getBrandsTypes = async (): Promise<void> => {
@@ -58,18 +58,18 @@ const Products = observer(() => {
             <SelectorBrand
               label={t('selectors.brands')}
               items={store.brands}
-              selectedBrandId={store.selectedBrandId}
+              selectedBrandId={store.selectedBrandIds}
               minWidth={250}
-              onChange={store.changeBrandId}
+              onChange={store.changeBrandIds}
             />
           </Grid>
           <Grid key={Math.random() * 12_345} item mb={4} ml={2} mr={2}>
             <SelectorType
               label={t('selectors.types')}
               items={store.types}
-              selectedTypeId={store.selectedTypeId}
+              selectedTypeId={store.selectedTypeIds}
               minWidth={250}
-              onChange={store.changeTypeId}
+              onChange={store.changeTypeIds}
             />
           </Grid>
         </Grid>
