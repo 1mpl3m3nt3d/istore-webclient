@@ -1,6 +1,6 @@
 import 'reflect-metadata';
 
-import { Grid } from '@mui/material';
+import { Grid, Typography } from '@mui/material';
 import { observer } from 'mobx-react';
 import { ChangeEvent, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -23,8 +23,6 @@ const Products = observer(() => {
   useEffect(() => {
     const getProducts = async (): Promise<void> => {
       const state = window.location.pathname.toString() + window.location.search.toString();
-      await store.getBrands();
-      await store.getTypes();
       await store.getItems(state);
     };
 
@@ -35,7 +33,7 @@ const Products = observer(() => {
         console.log(error);
       }
     });
-  }, [store, store.brands, store.currentPage, store.selectedBrandIds, store.selectedTypeIds, store.types, location]);
+  }, [store, store.currentPage, store.selectedBrandIds, store.selectedTypeIds, location]);
 
   return (
     <>
@@ -63,16 +61,17 @@ const Products = observer(() => {
         {store.isLoading ? (
           <LoadingSpinner />
         ) : (
-          <>
-            <Grid key={Math.random() * 12_345} container justifyContent="center">
-              {store.products &&
-                store.products?.map((product) => (
-                  <Grid key={Math.random() * 12_345} item mb={4} ml={2} mr={2}>
-                    <ProductCard count={cartStore.getCount(product.id)} product={product} />
-                  </Grid>
-                ))}
-            </Grid>
-          </>
+          <Grid key={Math.random() * 12_345} container justifyContent="center">
+            {store.products.length > 0 ? (
+              store.products?.map((product) => (
+                <Grid key={Math.random() * 12_345} item mb={4} ml={2} mr={2}>
+                  <ProductCard count={cartStore.getCount(product.id)} product={product} />
+                </Grid>
+              ))
+            ) : (
+              <Typography whiteSpace="pre-line">{t('placeholder.empty')}</Typography>
+            )}
+          </Grid>
         )}
         <Grid container justifyContent="center">
           <Pagination

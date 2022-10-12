@@ -45,7 +45,9 @@ export default class DefaultProductsService implements ProductsService {
     if (result.status === 200) {
       return result.data!;
     } else {
-      console.error(`Products can't be fetched, status: ${result.status}, description: ${result.statusText}`);
+      console.error(
+        `Product with id ${id} can't be fetched, status: ${result.status}, description: ${result.statusText}`
+      );
 
       return undefined;
     }
@@ -78,7 +80,13 @@ export default class DefaultProductsService implements ProductsService {
       this.headers
     );
 
-    return result.data!;
+    if (result.status === 200) {
+      return result.data!;
+    } else {
+      console.error(`Brands can't be fetched, status: ${result.status}, description: ${result.statusText}`);
+
+      return [];
+    }
   }
 
   public async getTypes(): Promise<Type[]> {
@@ -88,6 +96,12 @@ export default class DefaultProductsService implements ProductsService {
       this.headers
     );
 
-    return result.data!;
+    if (result.status === 200) {
+      return result.data!;
+    } else {
+      console.error(`Types can't be fetched, status: ${result.status}, description: ${result.statusText}`);
+
+      return [];
+    }
   }
 }

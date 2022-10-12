@@ -4,7 +4,8 @@
     "empty": "Empty"
   },
   "placeholder": {
-    "title": "Title"
+    "title": "Title",
+    "empty": "There are no products that meet the defined criteria :("
   },
   "properties": {
     "title": "Title",

@@ -48,7 +48,7 @@ const ProductCard = observer((properties: Properties) => {
   const count = properties.count;
 
   return (
-    <Card className="productCard" sx={{ width: 320, maxWidth: 320, padding: 1 }}>
+    <Card className="productCard" sx={{ width: 250, maxWidth: 250, padding: 1 }}>
       <Stack
         sx={{
           maxHeight: 60,
@@ -169,9 +169,9 @@ const ProductCard = observer((properties: Properties) => {
             justifyContent: 'center',
             justifyItems: 'center',
             textAlign: 'center',
-            height: 200,
-            maxHeight: 200,
-            maxWidth: 350,
+            height: 150,
+            maxHeight: 150,
+            maxWidth: 250,
             padding: 0,
             objectFit: 'contain',
           }}
@@ -276,17 +276,19 @@ const ProductCard = observer((properties: Properties) => {
             fullWidth
             multiline
             focused
-            sx={{
-              fontSize: '1.0rem',
-            }}
             InputProps={{
               sx: {
-                fontSize: '1.0rem',
+                fontSize: '0.8rem',
+              },
+              inputProps: {
+                style: {
+                  textAlign: 'center',
+                },
               },
               readOnly: true,
             }}
             InputLabelProps={{
-              sx: { fontSize: '1.1rem', lineHeight: '1.4rem' },
+              sx: { fontSize: '1.0rem', lineHeight: '1.4rem' },
             }}
             id="outlined-multiline-static"
             label={t('properties.description')}

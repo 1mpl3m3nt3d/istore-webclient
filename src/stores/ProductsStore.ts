@@ -40,9 +40,7 @@ export default class ProductsStore {
 
   public getBrands = async (): Promise<void> => {
     try {
-      if (this.brands.length === 0) {
-        this.brands = await this.productsService.getBrands();
-      }
+      this.brands = await this.productsService.getBrands();
     } catch (error: unknown) {
       if (error instanceof Error) {
         console.error(error.message);
@@ -54,9 +52,7 @@ export default class ProductsStore {
 
   public getTypes = async (): Promise<void> => {
     try {
-      if (this.types.length === 0) {
-        this.types = await this.productsService.getTypes();
-      }
+      this.types = await this.productsService.getTypes();
     } catch (error: unknown) {
       if (error instanceof Error) {
         console.error(error.message);
