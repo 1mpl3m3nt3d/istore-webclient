@@ -21,8 +21,7 @@ const Products = observer(() => {
 
   useEffect(() => {
     const getProducts = async (): Promise<void> => {
-      const state = window.location.pathname.toString() + window.location.search.toString();
-      await store.getItems(state);
+      await store.getItems();
     };
 
     getProducts().catch((error) => {

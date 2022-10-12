@@ -42,8 +42,8 @@ export default class DefaultProductsService implements ProductsService {
       this.headers
     );
 
-    if (result.status === 200) {
-      return result.data!;
+    if (result.status === 200 && result.data) {
+      return result.data;
     } else {
       console.error(
         `Product with id ${id} can't be fetched, status: ${result.status}, description: ${result.statusText}`
@@ -63,9 +63,9 @@ export default class DefaultProductsService implements ProductsService {
 
     const paginatedItems: PaginatedItems = { data: [], total_pages: 0 };
 
-    if (result.status === 200) {
-      paginatedItems.data = result.data!.data;
-      paginatedItems.total_pages = Math.ceil(Number(result.data!.count) / Number(request.pageSize));
+    if (result.status === 200 && result.data) {
+      paginatedItems.data = result.data.data;
+      paginatedItems.total_pages = Math.ceil(Number(result.data.count) / Number(request.pageSize));
     } else {
       console.error(`Products can't be fetched, status: ${result.status}, description: ${result.statusText}`);
     }
@@ -80,8 +80,8 @@ export default class DefaultProductsService implements ProductsService {
       this.headers
     );
 
-    if (result.status === 200) {
-      return result.data!;
+    if (result.status === 200 && result.data) {
+      return result.data;
     } else {
       console.error(`Brands can't be fetched, status: ${result.status}, description: ${result.statusText}`);
 
@@ -96,8 +96,8 @@ export default class DefaultProductsService implements ProductsService {
       this.headers
     );
 
-    if (result.status === 200) {
-      return result.data!;
+    if (result.status === 200 && result.data) {
+      return result.data;
     } else {
       console.error(`Types can't be fetched, status: ${result.status}, description: ${result.statusText}`);
 

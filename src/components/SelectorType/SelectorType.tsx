@@ -2,12 +2,15 @@ import 'reflect-metadata';
 
 import { Box, Checkbox, FormControl, InputLabel, ListItemText, MenuItem, OutlinedInput, Select } from '@mui/material';
 import { SelectChangeEvent } from '@mui/material/Select';
+import { useInjection } from 'inversify-react';
 import { observer } from 'mobx-react';
 import { ReactElement, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 
+import { IoCTypes } from 'ioc';
 import { Type } from 'models';
+import { ProductsStore } from 'stores';
 
 interface Properties {
   label: string;
@@ -32,6 +35,7 @@ const MenuProps = {
 
 const SelectorType = observer(
   ({ label, items, selectedTypeId, onChange, minWidth = 150 }: Properties): ReactElement => {
+    const store = useInjection<ProductsStore>(IoCTypes.productsStore);
     const navigate = useNavigate();
     const { t } = useTranslation(['products']);
 
@@ -53,6 +57,8 @@ const SelectorType = observer(
 
         navigate('?' + urlParameters.toString(), { replace: false, preventScrollReset: true });
 
+        store.changeTypeIds([]);
+
         return;
       }
 
@@ -60,7 +66,9 @@ const SelectorType = observer(
 
       setTypesValue(newValue); // on autofill we get a stringified value
 
-      if (onChange !== undefined) onChange(newValue ? newValue.map(Number) : []);
+      const parsedValue = newValue ? newValue.map(Number) : [];
+
+      if (onChange !== undefined) onChange(parsedValue);
 
       const urlParameters = new URLSearchParams(window.location.search);
 
@@ -71,6 +79,8 @@ const SelectorType = observer(
       } else {
         urlParameters.delete('types');
       }
+
+      store.changeTypeIds(parsedValue);
 
       navigate('?' + urlParameters.toString(), { replace: false, preventScrollReset: true });
     };

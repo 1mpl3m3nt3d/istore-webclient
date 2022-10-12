@@ -7,6 +7,7 @@ import { IoCTypes } from 'ioc';
 import type { Brand, Product, Type } from 'models';
 import type { ProductsService } from 'services';
 
+const DEFAULT_IDS: number[] = [];
 const DEFAULT_PAGE = 1;
 const DEFAULT_LIMIT = 4;
 
@@ -18,12 +19,11 @@ export default class ProductsStore {
   public currentPage = DEFAULT_PAGE;
   public pageLimit = DEFAULT_LIMIT;
   public totalPages = 0;
+  public products: Product[] = [];
   public brands: Brand[] = [];
   public types: Type[] = [];
   public selectedBrandIds: number[] = [];
   public selectedTypeIds: number[] = [];
-  public products: Product[] = [];
-  public lastState: string | undefined = undefined;
   public isLoading = false;
 
   constructor() {
@@ -36,14 +36,15 @@ export default class ProductsStore {
     this.brands = [];
     this.types = [];
     this.products = [];
-    this.lastState = '';
     this.isLoading = true;
     makeAutoObservable(this);
   }
 
   public getBrands = async (): Promise<void> => {
     try {
-      this.brands = await this.productsService.getBrands();
+      if (this.brands.length === 0) {
+        this.brands = await this.productsService.getBrands();
+      }
     } catch (error: unknown) {
       if (error instanceof Error) {
         console.error(error.message);
@@ -55,7 +56,9 @@ export default class ProductsStore {
 
   public getTypes = async (): Promise<void> => {
     try {
-      this.types = await this.productsService.getTypes();
+      if (this.types.length === 0) {
+        this.types = await this.productsService.getTypes();
+      }
     } catch (error: unknown) {
       if (error instanceof Error) {
         console.error(error.message);
@@ -65,10 +68,8 @@ export default class ProductsStore {
     }
   };
 
-  public getItems = async (state?: string): Promise<void> => {
-    if (state === this.lastState) {
-      return;
-    }
+  public getItems = async (): Promise<void> => {
+    this.isLoading = true;
 
     if (this.brands.length === 0) {
       await this.getBrands();
@@ -78,8 +79,6 @@ export default class ProductsStore {
       await this.getTypes();
     }
 
-    this.isLoading = true;
-
     try {
       const urlParameters = new URLSearchParams(window.location.search);
       const page = urlParameters.get('page');
@@ -87,20 +86,43 @@ export default class ProductsStore {
       const brands = urlParameters.get('brands');
       const types = urlParameters.get('types');
 
-      this.currentPage = page ? Number.parseInt(page) : DEFAULT_PAGE;
-      this.pageLimit = limit ? Number.parseInt(limit) : DEFAULT_LIMIT;
+      if (page) {
+        this.currentPage = page ? Number.parseInt(page) : DEFAULT_PAGE;
+      } else {
+        this.currentPage = DEFAULT_PAGE;
+      }
 
-      const selectedBrandIdsTemp = brands ? brands.split(',').map(Number) : [];
-      const selectedTypeIdsTemp = types ? types.split(',').map(Number) : [];
+      if (limit) {
+        this.pageLimit = limit ? Number.parseInt(limit) : DEFAULT_LIMIT;
+      } else {
+        this.pageLimit = DEFAULT_LIMIT;
+      }
 
-      this.selectedBrandIds = selectedBrandIdsTemp.filter((id) => this.brands.map((brand) => brand.id).includes(id));
-      this.selectedTypeIds = selectedTypeIdsTemp.filter((id) => this.types.map((type) => type.id).includes(id));
+      if (brands) {
+        const selectedBrandIdsTemp = brands ? brands.split(',').map(Number) : DEFAULT_IDS;
+        const selectedBrandIdsChecked = selectedBrandIdsTemp.filter((id) =>
+          this.brands.map((brand) => brand.id).includes(id)
+        );
+        this.selectedBrandIds = selectedBrandIdsChecked;
+      } else {
+        this.selectedBrandIds = DEFAULT_IDS;
+      }
+
+      if (types) {
+        const selectedTypeIdsTemp = types ? types.split(',').map(Number) : DEFAULT_IDS;
+        const selectedTypeIdsChecked = selectedTypeIdsTemp.filter((id) =>
+          this.types.map((type) => type.id).includes(id)
+        );
+        this.selectedTypeIds = selectedTypeIdsChecked;
+      } else {
+        this.selectedTypeIds = DEFAULT_IDS;
+      }
 
       const result = await this.productsService.getItems({
         pageIndex: this.currentPage - 1, // numeration of pages starts from 0 on server
         pageSize: this.pageLimit,
-        brandIdFilter: this.selectedBrandIds ?? [],
-        typeIdFilter: this.selectedTypeIds ?? [],
+        brandIdFilter: this.selectedBrandIds ?? DEFAULT_IDS,
+        typeIdFilter: this.selectedTypeIds ?? DEFAULT_IDS,
       });
 
       this.products = result.data;
@@ -114,7 +136,6 @@ export default class ProductsStore {
     }
 
     this.isLoading = false;
-    this.lastState = state ?? undefined;
   };
 
   public changePage = (page: number): void => {

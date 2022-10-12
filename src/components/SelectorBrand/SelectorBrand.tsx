@@ -11,12 +11,15 @@ import {
   Select,
   SelectChangeEvent,
 } from '@mui/material';
+import { useInjection } from 'inversify-react';
 import { observer } from 'mobx-react';
 import { ReactElement, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 
+import { IoCTypes } from 'ioc';
 import { Brand } from 'models';
+import { ProductsStore } from 'stores';
 
 interface Properties {
   label: string;
@@ -41,6 +44,7 @@ const MenuProps = {
 
 const SelectorBrand = observer(
   ({ label, items, selectedBrandId, onChange, minWidth = 150 }: Properties): ReactElement => {
+    const store = useInjection<ProductsStore>(IoCTypes.productsStore);
     const navigate = useNavigate();
     const { t } = useTranslation(['products']);
 
@@ -62,6 +66,8 @@ const SelectorBrand = observer(
 
         navigate('?' + urlParameters.toString(), { replace: false, preventScrollReset: true });
 
+        store.changeBrandIds([]);
+
         return;
       }
 
@@ -69,7 +75,9 @@ const SelectorBrand = observer(
 
       setBrandsValue(newValue); // on autofill we get a stringified value
 
-      if (onChange !== undefined) onChange(newValue.map(Number));
+      const parsedValue = newValue ? newValue.map(Number) : [];
+
+      if (onChange !== undefined) onChange(parsedValue);
 
       const urlParameters = new URLSearchParams(window.location.search);
 
@@ -80,6 +88,8 @@ const SelectorBrand = observer(
       } else {
         urlParameters.delete('brands');
       }
+
+      store.changeBrandIds(parsedValue);
 
       navigate('?' + urlParameters.toString(), { replace: false, preventScrollReset: true });
     };
