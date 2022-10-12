@@ -4,6 +4,7 @@ import { Link, Paper, Stack, Typography } from '@mui/material';
 import { observer } from 'mobx-react';
 
 import { LanguageChangerButton } from 'components/LanguageChangerButton';
+import { LimitChangerButton } from 'components/LimitChangerButton';
 import { ThemeChangerButton } from 'components/ThemeChangerButton';
 
 const Copyright = (): JSX.Element => {
@@ -46,6 +47,7 @@ const Footer = observer((): JSX.Element => {
         >
           <LanguageChangerButton height={40} width={40} borderRadius={90} />
           <ThemeChangerButton />
+          <LimitChangerButton />
         </Stack>
         <Stack
           mt={1}

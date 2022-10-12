@@ -28,7 +28,6 @@ import { Product } from 'models';
 
 interface Properties {
   product: Product;
-  count: number;
 }
 
 const ProductCard = observer((properties: Properties) => {
@@ -45,7 +44,6 @@ const ProductCard = observer((properties: Properties) => {
   };
 
   const { id, name, price, description, pictureUrl, catalogBrand, catalogType } = properties.product;
-  const count = properties.count;
 
   return (
     <Card className="productCard" sx={{ width: 250, maxWidth: 250, padding: 1 }}>
@@ -248,7 +246,7 @@ const ProductCard = observer((properties: Properties) => {
         }}
       >
         <Stack>
-          <BuyButtonProduct count={count} productId={id} />
+          <BuyButtonProduct productId={id} />
         </Stack>
         <Tooltip
           title={t('tooltips.description')}

@@ -1,45 +1,41 @@
 import 'reflect-metadata';
 
-import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
-import { Box, Button, ButtonGroup, Stack, TextField } from '@mui/material';
+import Button from '@mui/material/Button';
 import { observer } from 'mobx-react';
-import { useTranslation } from 'react-i18next';
-
-import { IoCTypes, useInjection } from 'ioc';
 import { useState } from 'react';
-import { CartStore } from 'stores';
 
-interface Properties {
-  productId: number;
-  productCount: number;
-}
+import { ButtonGroup, TextField } from '@mui/material';
+import { Box, Stack } from '@mui/system';
+import { useInjection } from 'inversify-react';
+import { IoCTypes } from 'ioc';
+import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
+import { ProductsStore } from 'stores';
 
-const BuyButtonCart = observer(({ productId, productCount }: Properties) => {
-  const store = useInjection<CartStore>(IoCTypes.cartStore);
-  const { t } = useTranslation(['cart']);
+const LimitChangerButton = observer(() => {
+  const store = useInjection<ProductsStore>(IoCTypes.productsStore);
+  const navigate = useNavigate();
+  const { t } = useTranslation(['products']);
 
-  const [count, setCount] = useState<string>(productCount.toString());
+  const defaultValue = store.pageLimit;
+  const [limit, setLimit] = useState<string>(defaultValue.toString());
+
+  const handleChange = (value: number | string): void => {
+    const numericValue = typeof value === 'string' ? Number.parseInt(value) : value;
+    store.changeLimit(numericValue);
+
+    setLimit(value.toString());
+
+    const urlParameters = new URLSearchParams(window.location.search);
+
+    urlParameters.delete('page');
+    urlParameters.set('limit', value.toString());
+
+    navigate('?' + urlParameters.toString(), { replace: false, preventScrollReset: true });
+  };
 
   return (
     <Stack direction="row">
-      <ButtonGroup size="small" sx={{ marginRight: 1 }}>
-        <Button
-          sx={{
-            fontSize: '1.0rem',
-            margin: 0,
-            padding: 0,
-            minHeight: '30px !important',
-            minWidth: '30px !important',
-          }}
-          size="small"
-          variant="outlined"
-          onClick={async (): Promise<void> => {
-            await store.clearItem(productId);
-          }}
-        >
-          <DeleteForeverIcon />
-        </Button>
-      </ButtonGroup>
       <ButtonGroup size="small">
         <Button
           sx={{
@@ -51,8 +47,9 @@ const BuyButtonCart = observer(({ productId, productCount }: Properties) => {
           }}
           size="small"
           variant="outlined"
-          onClick={async (): Promise<void> => {
-            await store.removeItem(productId);
+          onClick={(): void => {
+            const newValue = Number.parseInt(limit) - 1;
+            handleChange(newValue);
           }}
         >
           <span>{t('values.remove')}</span>
@@ -65,17 +62,19 @@ const BuyButtonCart = observer(({ productId, productCount }: Properties) => {
               const regex = new RegExp(/^\d*$/);
 
               if (regex.test(newValue)) {
-                setCount(newValue);
+                setLimit(newValue);
               }
             }}
-            onBlur={async (ev): Promise<void> => {
+            onBlur={(ev): void => {
               ev.preventDefault();
-              await store.setCount(productId, count);
+              const newValue = Number.parseInt(limit);
+              handleChange(newValue);
             }}
-            onKeyDown={async (ev): Promise<void> => {
+            onKeyDown={(ev): void => {
               if (ev.key === 'Enter') {
                 ev.preventDefault();
-                await store.setCount(productId, count);
+                const newValue = Number.parseInt(limit);
+                handleChange(newValue);
               }
             }}
             InputProps={{
@@ -103,8 +102,8 @@ const BuyButtonCart = observer(({ productId, productCount }: Properties) => {
               },
             }}
             variant="outlined"
-            defaultValue={count}
-            value={count}
+            defaultValue={limit}
+            value={limit}
             size="small"
             margin="none"
             type="text"
@@ -120,8 +119,9 @@ const BuyButtonCart = observer(({ productId, productCount }: Properties) => {
           }}
           size="small"
           variant="outlined"
-          onClick={async (): Promise<void> => {
-            await store.addItem(productId);
+          onClick={(): void => {
+            const newValue = Number.parseInt(limit) + 1;
+            handleChange(newValue);
           }}
         >
           <span>{t('values.add')}</span>
@@ -131,4 +131,4 @@ const BuyButtonCart = observer(({ productId, productCount }: Properties) => {
   );
 });
 
-export default BuyButtonCart;
+export default LimitChangerButton;

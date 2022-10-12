@@ -47,10 +47,10 @@ export default class CartStore {
     return 0;
   };
 
-  public setCount = async (id: number, count?: string): Promise<void> => {
+  public setCount = async (id: number, count?: string | number): Promise<void> => {
     try {
       const item = this.cart.items?.find((ci) => ci.id === id);
-      const parsedCount = count ? Number.parseInt(count) : this.currentCount;
+      const parsedCount = count ? (typeof count === 'string' ? Number.parseInt(count) : count) : this.currentCount;
 
       if (item && parsedCount !== undefined && parsedCount > 0) {
         item.count = parsedCount;
@@ -60,7 +60,7 @@ export default class CartStore {
       } else if (item && parsedCount !== undefined && parsedCount < 1) {
         await this.clearItem(id);
       } else {
-        console.error(`There is no item with id: ${id} in your cart to set the count!`);
+        console.error(`There is no item with id ${id} in your cart to set the count!`);
       }
 
       this.currentCount = undefined;
@@ -114,7 +114,7 @@ export default class CartStore {
 
         await this.updateCart();
       } else {
-        console.error(`There is no item with id: ${id} in your cart to remove!`);
+        console.error(`There is no item with id ${id} in your cart to remove!`);
       }
     } catch (error: unknown) {
       if (error instanceof Error) {
@@ -134,7 +134,7 @@ export default class CartStore {
 
         await this.updateCart();
       } else {
-        console.error(`There is no item with id: ${id} in your cart to remove!`);
+        console.error(`There is no item with id ${id} in your cart to remove!`);
       }
     } catch (error: unknown) {
       if (error instanceof Error) {

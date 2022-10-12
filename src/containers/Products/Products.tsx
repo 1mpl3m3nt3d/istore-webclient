@@ -12,11 +12,10 @@ import { ProductCard } from 'components/ProductCard';
 import { SelectorBrand } from 'components/SelectorBrand';
 import { SelectorType } from 'components/SelectorType';
 import { IoCTypes, useInjection } from 'ioc';
-import { CartStore, ProductsStore } from 'stores';
+import { ProductsStore } from 'stores';
 
 const Products = observer(() => {
   const store = useInjection<ProductsStore>(IoCTypes.productsStore);
-  const cartStore = useInjection<CartStore>(IoCTypes.cartStore);
   const location = useLocation();
   const { t } = useTranslation(['products']);
 
@@ -33,57 +32,55 @@ const Products = observer(() => {
         console.log(error);
       }
     });
-  }, [store, store.currentPage, store.selectedBrandIds, store.selectedTypeIds, location]);
+  }, [store, store.currentPage, store.pageLimit, store.selectedBrandIds, store.selectedTypeIds, location]);
 
   return (
-    <>
-      <Grid key={Math.random() * 12_345} container justifyContent="center" marginY={4} marginX={0.5}>
-        <Grid key={Math.random() * 12_345} container justifyContent="center">
-          <Grid key={Math.random() * 12_345} item mb={4} ml={2} mr={2}>
-            <SelectorBrand
-              label={t('selectors.brands')}
-              items={store.brands}
-              selectedBrandId={store.selectedBrandIds}
-              minWidth={250}
-              onChange={store.changeBrandIds}
-            />
-          </Grid>
-          <Grid key={Math.random() * 12_345} item mb={4} ml={2} mr={2}>
-            <SelectorType
-              label={t('selectors.types')}
-              items={store.types}
-              selectedTypeId={store.selectedTypeIds}
-              minWidth={250}
-              onChange={store.changeTypeIds}
-            />
-          </Grid>
+    <Grid key={Math.random() * 12_345} container justifyContent="center" marginY={4} marginX={0.5}>
+      <Grid key={Math.random() * 12_345} container justifyContent="center">
+        <Grid key={Math.random() * 12_345} item mb={4} ml={2} mr={2}>
+          <SelectorBrand
+            label={t('selectors.brands')}
+            items={store.brands}
+            selectedBrandId={store.selectedBrandIds}
+            minWidth={250}
+            onChange={store.changeBrandIds}
+          />
         </Grid>
-        {store.isLoading ? (
-          <LoadingSpinner />
-        ) : (
-          <Grid key={Math.random() * 12_345} container justifyContent="center">
-            {store.products.length > 0 ? (
-              store.products?.map((product) => (
-                <Grid key={Math.random() * 12_345} item mb={4} ml={2} mr={2}>
-                  <ProductCard count={cartStore.getCount(product.id)} product={product} />
-                </Grid>
-              ))
-            ) : (
-              <Typography whiteSpace="pre-line">{t('placeholder.empty')}</Typography>
-            )}
-          </Grid>
-        )}
-        <Grid container justifyContent="center">
-          <Pagination
-            totalCount={store.totalPages}
-            currentPage={store.currentPage}
-            onChange={(event: ChangeEvent<unknown>, value: number): void => {
-              store.changePage(value);
-            }}
+        <Grid key={Math.random() * 12_345} item mb={4} ml={2} mr={2}>
+          <SelectorType
+            label={t('selectors.types')}
+            items={store.types}
+            selectedTypeId={store.selectedTypeIds}
+            minWidth={250}
+            onChange={store.changeTypeIds}
           />
         </Grid>
       </Grid>
-    </>
+      {store.isLoading ? (
+        <LoadingSpinner />
+      ) : (
+        <Grid key={Math.random() * 12_345} container justifyContent="center">
+          {store.products.length > 0 ? (
+            store.products?.map((product) => (
+              <Grid key={Math.random() * 12_345} item mb={4} ml={2} mr={2}>
+                <ProductCard product={product} />
+              </Grid>
+            ))
+          ) : (
+            <Typography whiteSpace="pre-line">{t('placeholder.empty')}</Typography>
+          )}
+        </Grid>
+      )}
+      <Grid container justifyContent="center">
+        <Pagination
+          totalCount={store.totalPages}
+          currentPage={store.currentPage}
+          onChange={(event: ChangeEvent<unknown>, value: number): void => {
+            store.changePage(value);
+          }}
+        />
+      </Grid>
+    </Grid>
   );
 });
 

@@ -86,7 +86,7 @@ const CartCard = observer((properties: Properties) => {
                   paddingBottom: '0px !important',
                 }}
               >
-                <BuyButtonCart count={count} productId={id} />
+                <BuyButtonCart productCount={count} productId={id} />
               </CardContent>
             </Stack>
             <Stack justifyContent="center">

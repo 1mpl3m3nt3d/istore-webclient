@@ -7,20 +7,31 @@ import { observer } from 'mobx-react';
 import { useTranslation } from 'react-i18next';
 
 import { IoCTypes, useInjection } from 'ioc';
+import { useState } from 'react';
 import { CartStore } from 'stores';
 
 interface Properties {
   productId: number;
-  count: number;
 }
 
-const BuyButtonProduct = observer(({ productId, count }: Properties) => {
-  const cartStore = useInjection<CartStore>(IoCTypes.cartStore);
+const BuyButtonProduct = observer(({ productId }: Properties) => {
+  const store = useInjection<CartStore>(IoCTypes.cartStore);
   const { t } = useTranslation(['products']);
+
+  let item = store.cart.items.find((p) => p.id === productId);
+  let itemCount = item ? item.count : 0;
+
+  const [count, setCount] = useState<string>(itemCount.toString());
+
+  const handleChange = (): void => {
+    item = store.cart.items.find((p) => p.id === productId);
+    itemCount = item ? item.count : 0;
+    setCount(itemCount.toString());
+  };
 
   return (
     <Stack direction="row">
-      {count <= 0 && (
+      {itemCount <= 0 && (
         <Tooltip
           title={t('tooltips.cart_add')}
           placement="bottom"
@@ -32,7 +43,8 @@ const BuyButtonProduct = observer(({ productId, count }: Properties) => {
           <Stack>
             <IconButton
               onClick={async (): Promise<void> => {
-                await cartStore.addItem(productId);
+                await store.addItem(productId);
+                handleChange();
               }}
             >
               <AddShoppingCartIcon />
@@ -40,7 +52,7 @@ const BuyButtonProduct = observer(({ productId, count }: Properties) => {
           </Stack>
         </Tooltip>
       )}
-      {count > 0 && (
+      {itemCount > 0 && (
         <>
           <ButtonGroup size="small" sx={{ marginRight: 1 }}>
             <Button
@@ -54,7 +66,8 @@ const BuyButtonProduct = observer(({ productId, count }: Properties) => {
               size="small"
               variant="outlined"
               onClick={async (): Promise<void> => {
-                await cartStore.clearItem(productId);
+                await store.clearItem(productId);
+                handleChange();
               }}
             >
               <DeleteForeverIcon />
@@ -72,7 +85,8 @@ const BuyButtonProduct = observer(({ productId, count }: Properties) => {
               size="small"
               variant="outlined"
               onClick={async (): Promise<void> => {
-                await cartStore.removeItem(productId);
+                await store.removeItem(productId);
+                handleChange();
               }}
             >
               <span>{t('values.remove')}</span>
@@ -81,16 +95,23 @@ const BuyButtonProduct = observer(({ productId, count }: Properties) => {
               <TextField
                 onChange={(ev): void => {
                   ev.preventDefault();
-                  cartStore.changeCount(ev.target.value);
+                  const newValue = ev.target.value;
+                  const regex = new RegExp(/^\d*$/);
+
+                  if (regex.test(newValue)) {
+                    setCount(newValue);
+                  }
                 }}
                 onBlur={async (ev): Promise<void> => {
                   ev.preventDefault();
-                  await cartStore.setCount(productId);
+                  await store.setCount(productId, count);
+                  handleChange();
                 }}
                 onKeyDown={async (ev): Promise<void> => {
                   if (ev.key === 'Enter') {
                     ev.preventDefault();
-                    await cartStore.setCount(productId);
+                    await store.setCount(productId, count);
+                    handleChange();
                   }
                 }}
                 InputProps={{
@@ -106,7 +127,7 @@ const BuyButtonProduct = observer(({ productId, count }: Properties) => {
                 }}
                 inputProps={{
                   inputMode: 'numeric',
-                  pattern: '[0-9]*',
+                  pattern: '^\\d*$',
                   sx: {
                     fontSize: '1.0rem',
                     margin: 0,
@@ -119,6 +140,7 @@ const BuyButtonProduct = observer(({ productId, count }: Properties) => {
                 }}
                 variant="outlined"
                 defaultValue={count}
+                value={count}
                 size="small"
                 margin="none"
                 type="text"
@@ -135,7 +157,8 @@ const BuyButtonProduct = observer(({ productId, count }: Properties) => {
               size="small"
               variant="outlined"
               onClick={async (): Promise<void> => {
-                await cartStore.addItem(productId);
+                await store.addItem(productId);
+                handleChange();
               }}
             >
               <span>{t('values.add')}</span>
