@@ -30,7 +30,7 @@ const Pagination = observer(({ totalCount, currentPage, onChange }: Properties):
     navigate('?' + urlParameters.toString(), { replace: false, preventScrollReset: true });
   };
 
-  return <MUIPagination count={totalCount} page={page} onChange={handleChange} />;
+  return totalCount > 0 ? <MUIPagination count={totalCount} page={page} onChange={handleChange} /> : <></>;
 });
 
 export default Pagination;

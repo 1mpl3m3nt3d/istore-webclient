@@ -1,15 +1,15 @@
 import 'reflect-metadata';
 
-import Button from '@mui/material/Button';
-import { observer } from 'mobx-react';
-import { useState } from 'react';
-
 import { ButtonGroup, TextField } from '@mui/material';
+import Button from '@mui/material/Button';
 import { Box, Stack } from '@mui/system';
 import { useInjection } from 'inversify-react';
-import { IoCTypes } from 'ioc';
+import { observer } from 'mobx-react';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
+
+import { IoCTypes } from 'ioc';
 import { ProductsStore } from 'stores';
 
 const LimitChangerButton = observer(() => {
