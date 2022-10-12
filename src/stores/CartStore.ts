@@ -29,7 +29,7 @@ export default class CartStore {
     this.cartDto = { data: '{}' };
     this.cart = { items: [], totalCount: 0, totalPrice: 0 };
     this.currentCount = undefined;
-    this.isLoading = false;
+    this.isLoading = true;
     makeAutoObservable(this);
   }
 

@@ -12,7 +12,6 @@ import { Product } from 'models';
 
 interface Properties {
   product: Product;
-  count: number;
 }
 
 const ProductDetails = observer((properties: Properties) => {
@@ -24,7 +23,6 @@ const ProductDetails = observer((properties: Properties) => {
   }
 
   const { id, name, price, description, pictureUrl, catalogBrand, catalogType } = properties.product;
-  const count = properties.count;
 
   return (
     <Stack
@@ -126,7 +124,7 @@ const ProductDetails = observer((properties: Properties) => {
         </CardContent>
         <CardActions sx={{ justifyContent: 'center', padding: 0, margin: 1 }}>
           <Stack>
-            <BuyButtonProduct count={count} productId={id} />
+            <BuyButtonProduct productId={id} />
           </Stack>
         </CardActions>
       </Card>
