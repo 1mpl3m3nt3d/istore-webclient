@@ -18,20 +18,24 @@ export default class ProductsStore {
 
   public currentPage = DEFAULT_PAGE;
   public pageLimit = DEFAULT_LIMIT;
+  public selectedBrandIds: number[] = DEFAULT_IDS;
+  public selectedTypeIds: number[] = DEFAULT_IDS;
   public totalPages = 0;
   public products: Product[] = [];
   public brands: Brand[] = [];
   public types: Type[] = [];
-  public selectedBrandIds: number[] = [];
-  public selectedTypeIds: number[] = [];
   public isLoading = false;
 
   constructor() {
     const urlParameters = new URLSearchParams(window.location.search);
     const page = urlParameters.get('page');
     const limit = urlParameters.get('limit');
+    const brands = urlParameters.get('brands');
+    const types = urlParameters.get('types');
     this.currentPage = page ? Number.parseInt(page) : DEFAULT_PAGE;
     this.pageLimit = limit ? Number.parseInt(limit) : DEFAULT_LIMIT;
+    this.selectedBrandIds = brands ? brands.split(',').map(Number) : DEFAULT_IDS;
+    this.selectedTypeIds = types ? types.split(',').map(Number) : DEFAULT_IDS;
     this.totalPages = 0;
     this.brands = [];
     this.types = [];
@@ -86,36 +90,28 @@ export default class ProductsStore {
       const brands = urlParameters.get('brands');
       const types = urlParameters.get('types');
 
-      if (page) {
-        this.currentPage = page ? Number.parseInt(page) : DEFAULT_PAGE;
-      } else {
-        this.currentPage = DEFAULT_PAGE;
-      }
+      this.currentPage = page ? Number.parseInt(page) : DEFAULT_PAGE;
 
-      if (limit) {
-        this.pageLimit = limit ? Number.parseInt(limit) : DEFAULT_LIMIT;
-      } else {
-        this.pageLimit = DEFAULT_LIMIT;
-      }
+      this.pageLimit = limit ? Number.parseInt(limit) : DEFAULT_LIMIT;
 
-      if (brands) {
-        const selectedBrandIdsTemp = brands ? brands.split(',').map(Number) : DEFAULT_IDS;
-        const selectedBrandIdsChecked = selectedBrandIdsTemp.filter((id) =>
-          this.brands.map((brand) => brand.id).includes(id)
-        );
+      const selectedBrandIdsTemp = brands ? brands.split(',').map(Number) : DEFAULT_IDS;
+      const selectedBrandIdsChecked =
+        selectedBrandIdsTemp.length === 0
+          ? DEFAULT_IDS
+          : selectedBrandIdsTemp.filter((id) => this.brands.map((brand) => brand.id).includes(id));
+
+      if (this.selectedBrandIds.toString() !== selectedBrandIdsChecked.toString()) {
         this.selectedBrandIds = selectedBrandIdsChecked;
-      } else {
-        this.selectedBrandIds = DEFAULT_IDS;
       }
 
-      if (types) {
-        const selectedTypeIdsTemp = types ? types.split(',').map(Number) : DEFAULT_IDS;
-        const selectedTypeIdsChecked = selectedTypeIdsTemp.filter((id) =>
-          this.types.map((type) => type.id).includes(id)
-        );
+      const selectedTypeIdsTemp = types ? types.split(',').map(Number) : DEFAULT_IDS;
+      const selectedTypeIdsChecked =
+        selectedTypeIdsTemp.length === 0
+          ? DEFAULT_IDS
+          : selectedTypeIdsTemp.filter((id) => this.types.map((type) => type.id).includes(id));
+
+      if (this.selectedTypeIds.toString() !== selectedTypeIdsChecked.toString()) {
         this.selectedTypeIds = selectedTypeIdsChecked;
-      } else {
-        this.selectedTypeIds = DEFAULT_IDS;
       }
 
       const result = await this.productsService.getItems({
@@ -146,11 +142,13 @@ export default class ProductsStore {
     this.pageLimit = limit;
   };
 
-  public changeBrandIds = (brand: number[]): void => {
-    this.selectedBrandIds = brand;
+  public changeBrandIds = (brand: number[] | string[]): void => {
+    const parsedValue = brand.map(Number);
+    this.selectedBrandIds = parsedValue;
   };
 
-  public changeTypeIds = (type: number[]): void => {
-    this.selectedTypeIds = type;
+  public changeTypeIds = (type: number[] | string[]): void => {
+    const parsedValue = type.map(Number);
+    this.selectedTypeIds = parsedValue;
   };
 }

@@ -621,6 +621,7 @@ module.exports = {
         '@typescript-eslint/require-await': 'warn',
         '@typescript-eslint/restrict-template-expressions': 'off',
         '@typescript-eslint/triple-slash-reference': 'off',
+        '@typescript-eslint/ban-types': 'warn',
       },
     },
     {

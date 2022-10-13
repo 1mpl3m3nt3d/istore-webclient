@@ -2,22 +2,19 @@ import 'reflect-metadata';
 
 import { Box, Checkbox, FormControl, InputLabel, ListItemText, MenuItem, OutlinedInput, Select } from '@mui/material';
 import { SelectChangeEvent } from '@mui/material/Select';
-import { useInjection } from 'inversify-react';
 import { observer } from 'mobx-react';
 import { ReactElement, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 
-import { IoCTypes } from 'ioc';
 import { Type } from 'models';
-import { ProductsStore } from 'stores';
 
 interface Properties {
   label: string;
   items: Type[];
-  selectedTypeId: number[];
+  selectedTypeIds: number[];
   minWidth?: number;
-  onChange?: (types: number[]) => void;
+  onChange?: (types: number[] | string[]) => void;
 }
 
 const RESET_INDEX = -1;
@@ -34,12 +31,12 @@ const MenuProps = {
 };
 
 const SelectorType = observer(
-  ({ label, items, selectedTypeId, onChange, minWidth = 150 }: Properties): ReactElement => {
-    const store = useInjection<ProductsStore>(IoCTypes.productsStore);
+  ({ label, items, selectedTypeIds, onChange, minWidth = 150 }: Properties): ReactElement => {
+    //const store = useInjection<ProductsStore>(IoCTypes.productsStore);
     const navigate = useNavigate();
     const { t } = useTranslation(['products']);
 
-    const defaultValue = selectedTypeId ? selectedTypeId.map(String) : [];
+    const defaultValue = selectedTypeIds ? selectedTypeIds.map(String) : [];
     const [typesValue, setTypesValue] = useState<string[]>(defaultValue);
 
     const handleChange = (event: SelectChangeEvent<typeof typesValue>): void => {
@@ -47,30 +44,15 @@ const SelectorType = observer(
         target: { value },
       } = event;
 
-      if (value.includes(RESET_INDEX.toString())) {
-        setTypesValue([]);
-
-        const urlParameters = new URLSearchParams(window.location.search);
-
-        urlParameters.delete('page');
-        urlParameters.delete('types');
-
-        navigate('?' + urlParameters.toString(), { replace: false, preventScrollReset: true });
-
-        store.changeTypeIds([]);
-
-        return;
-      }
-
-      const newValue = typeof value === 'string' ? value.split(',') : value;
-
-      setTypesValue(newValue); // on autofill we get a stringified value
-
-      const parsedValue = newValue ? newValue.map(Number) : [];
-
-      if (onChange !== undefined) onChange(parsedValue);
-
       const urlParameters = new URLSearchParams(window.location.search);
+
+      const newValue = value.includes(RESET_INDEX.toString())
+        ? []
+        : typeof value === 'string'
+        ? value.split(',')
+        : value;
+
+      setTypesValue(newValue);
 
       urlParameters.delete('page');
 
@@ -80,7 +62,9 @@ const SelectorType = observer(
         urlParameters.delete('types');
       }
 
-      store.changeTypeIds(parsedValue);
+      if (onChange !== undefined) onChange(newValue);
+
+      //store.changeTypeIds(newValue);
 
       navigate('?' + urlParameters.toString(), { replace: false, preventScrollReset: true });
     };

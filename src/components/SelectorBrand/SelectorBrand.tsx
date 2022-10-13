@@ -11,22 +11,19 @@ import {
   Select,
   SelectChangeEvent,
 } from '@mui/material';
-import { useInjection } from 'inversify-react';
 import { observer } from 'mobx-react';
 import { ReactElement, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 
-import { IoCTypes } from 'ioc';
 import { Brand } from 'models';
-import { ProductsStore } from 'stores';
 
 interface Properties {
   label: string;
   items: Brand[];
-  selectedBrandId: number[];
+  selectedBrandIds: number[];
   minWidth?: number;
-  onChange?: (brands: number[]) => void;
+  onChange?: (brands: number[] | string[]) => void;
 }
 
 const RESET_INDEX = -1;
@@ -43,12 +40,12 @@ const MenuProps = {
 };
 
 const SelectorBrand = observer(
-  ({ label, items, selectedBrandId, onChange, minWidth = 150 }: Properties): ReactElement => {
-    const store = useInjection<ProductsStore>(IoCTypes.productsStore);
+  ({ label, items, selectedBrandIds, onChange, minWidth = 150 }: Properties): ReactElement => {
+    //const store = useInjection<ProductsStore>(IoCTypes.productsStore);
     const navigate = useNavigate();
     const { t } = useTranslation(['products']);
 
-    const defaultValue = selectedBrandId ? selectedBrandId.map(String) : [];
+    const defaultValue = selectedBrandIds ? selectedBrandIds.map(String) : [];
     const [brandsValue, setBrandsValue] = useState<string[]>(defaultValue);
 
     const handleChange = (event: SelectChangeEvent<typeof brandsValue>): void => {
@@ -56,30 +53,15 @@ const SelectorBrand = observer(
         target: { value },
       } = event;
 
-      if (value.includes(RESET_INDEX.toString())) {
-        setBrandsValue([]);
-
-        const urlParameters = new URLSearchParams(window.location.search);
-
-        urlParameters.delete('page');
-        urlParameters.delete('brands');
-
-        navigate('?' + urlParameters.toString(), { replace: false, preventScrollReset: true });
-
-        store.changeBrandIds([]);
-
-        return;
-      }
-
-      const newValue = typeof value === 'string' ? value.split(',') : value;
-
-      setBrandsValue(newValue); // on autofill we get a stringified value
-
-      const parsedValue = newValue ? newValue.map(Number) : [];
-
-      if (onChange !== undefined) onChange(parsedValue);
-
       const urlParameters = new URLSearchParams(window.location.search);
+
+      const newValue = value.includes(RESET_INDEX.toString())
+        ? []
+        : typeof value === 'string'
+        ? value.split(',')
+        : value;
+
+      setBrandsValue(newValue);
 
       urlParameters.delete('page');
 
@@ -89,7 +71,9 @@ const SelectorBrand = observer(
         urlParameters.delete('brands');
       }
 
-      store.changeBrandIds(parsedValue);
+      if (onChange !== undefined) onChange(newValue);
+
+      //store.changeBrandIds(newValue);
 
       navigate('?' + urlParameters.toString(), { replace: false, preventScrollReset: true });
     };

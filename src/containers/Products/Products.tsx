@@ -40,7 +40,7 @@ const Products = observer(() => {
           <SelectorBrand
             label={t('selectors.brands')}
             items={store.brands}
-            selectedBrandId={store.selectedBrandIds}
+            selectedBrandIds={store.selectedBrandIds}
             minWidth={250}
             onChange={store.changeBrandIds}
           />
@@ -49,7 +49,7 @@ const Products = observer(() => {
           <SelectorType
             label={t('selectors.types')}
             items={store.types}
-            selectedTypeId={store.selectedTypeIds}
+            selectedTypeIds={store.selectedTypeIds}
             minWidth={250}
             onChange={store.changeTypeIds}
           />
