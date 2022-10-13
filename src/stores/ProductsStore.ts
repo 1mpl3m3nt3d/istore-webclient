@@ -92,23 +92,17 @@ export default class ProductsStore {
 
       this.currentPage = page ? Number.parseInt(page) : DEFAULT_PAGE;
 
-      this.pageLimit = limit ? Number.parseInt(limit) : DEFAULT_LIMIT;
+      if (limit) this.pageLimit = Number.parseInt(limit);
 
       const selectedBrandIdsTemp = brands ? brands.split(',').map(Number) : DEFAULT_IDS;
-      const selectedBrandIdsChecked =
-        selectedBrandIdsTemp.length === 0
-          ? DEFAULT_IDS
-          : selectedBrandIdsTemp.filter((id) => this.brands.map((brand) => brand.id).includes(id));
+      const selectedTypeIdsTemp = types ? types.split(',').map(Number) : DEFAULT_IDS;
+
+      const selectedBrandIdsChecked = selectedBrandIdsTemp.filter((id) => this.brands.map((b) => b.id).includes(id));
+      const selectedTypeIdsChecked = selectedTypeIdsTemp.filter((id) => this.types.map((t) => t.id).includes(id));
 
       if (this.selectedBrandIds.toString() !== selectedBrandIdsChecked.toString()) {
         this.selectedBrandIds = selectedBrandIdsChecked;
       }
-
-      const selectedTypeIdsTemp = types ? types.split(',').map(Number) : DEFAULT_IDS;
-      const selectedTypeIdsChecked =
-        selectedTypeIdsTemp.length === 0
-          ? DEFAULT_IDS
-          : selectedTypeIdsTemp.filter((id) => this.types.map((type) => type.id).includes(id));
 
       if (this.selectedTypeIds.toString() !== selectedTypeIdsChecked.toString()) {
         this.selectedTypeIds = selectedTypeIdsChecked;

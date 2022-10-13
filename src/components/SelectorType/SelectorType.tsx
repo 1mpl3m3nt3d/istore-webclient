@@ -86,11 +86,13 @@ const SelectorType = observer(
             MenuProps={MenuProps}
           >
             <MenuItem key={RESET_INDEX.toString()} value={RESET_INDEX.toString()}>
-              <em>{t('selectors.all')}</em>
+              <em>
+                <ListItemText primary={t('selectors.all')} />
+              </em>
             </MenuItem>
             {items &&
               items?.map((item) => (
-                <MenuItem key={item.id} value={item.id}>
+                <MenuItem key={item.id.toString()} value={item.id.toString()}>
                   <Checkbox checked={typesValue?.includes(item.id.toString())} />
                   <ListItemText primary={item.type} />
                 </MenuItem>

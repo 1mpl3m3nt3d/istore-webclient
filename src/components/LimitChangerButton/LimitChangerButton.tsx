@@ -22,7 +22,6 @@ const LimitChangerButton = observer(() => {
 
   const handleChange = (value: number | string): void => {
     const numericValue = typeof value === 'string' ? Number.parseInt(value) : value;
-    store.changeLimit(numericValue);
 
     setLimit(value.toString());
 
@@ -30,6 +29,8 @@ const LimitChangerButton = observer(() => {
 
     urlParameters.delete('page');
     urlParameters.set('limit', value.toString());
+
+    store.changeLimit(numericValue);
 
     navigate('?' + urlParameters.toString(), { replace: false, preventScrollReset: true });
   };
@@ -48,7 +49,7 @@ const LimitChangerButton = observer(() => {
           size="small"
           variant="outlined"
           onClick={(): void => {
-            const newValue = Number.parseInt(limit) - 1;
+            const newValue = Number.parseInt(limit) - 2;
             handleChange(newValue);
           }}
         >
@@ -120,7 +121,7 @@ const LimitChangerButton = observer(() => {
           size="small"
           variant="outlined"
           onClick={(): void => {
-            const newValue = Number.parseInt(limit) + 1;
+            const newValue = Number.parseInt(limit) + 2;
             handleChange(newValue);
           }}
         >
