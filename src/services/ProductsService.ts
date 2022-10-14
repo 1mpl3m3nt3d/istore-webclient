@@ -55,7 +55,7 @@ export default class DefaultProductsService implements ProductsService {
 
   public async getItems(request: PaginatedItemsRequest): Promise<PaginatedItems> {
     const result = await this.httpService.sendAsync<PaginatedItemsDto>(
-      `${this.catalogRoute}/getcatalogitems/`,
+      `${this.catalogRoute}/getcatalogitems`,
       MethodType.POST,
       { ...this.headers, contentType: ContentType.Json },
       request
