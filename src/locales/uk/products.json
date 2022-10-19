@@ -13,6 +13,7 @@
     "name": "Модель",
     "type": "Тип",
     "price": "Ціна",
+    "warranty": "Гарантія (місяців)",
     "description": "Опис"
   },
   "selectors": {

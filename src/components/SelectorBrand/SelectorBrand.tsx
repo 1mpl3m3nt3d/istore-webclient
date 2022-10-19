@@ -12,7 +12,7 @@ import {
   SelectChangeEvent,
 } from '@mui/material';
 import { observer } from 'mobx-react';
-import { ReactElement, useState } from 'react';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 
@@ -40,7 +40,7 @@ const MenuProps = {
 };
 
 const SelectorBrand = observer(
-  ({ label, items, selectedBrandIds, onChange, minWidth = 150 }: Properties): ReactElement => {
+  ({ label, items, selectedBrandIds, onChange, minWidth = 150 }: Properties): JSX.Element => {
     //const store = useInjection<ProductsStore>(IoCTypes.productsStore);
     const navigate = useNavigate();
     const { t } = useTranslation(['products']);
@@ -103,7 +103,7 @@ const SelectorBrand = observer(
               items?.map((item) => (
                 <MenuItem key={item.id.toString()} value={item.id.toString()}>
                   <Checkbox checked={brandsValue?.includes(item.id.toString())} />
-                  <ListItemText primary={item.brand} />
+                  <ListItemText primary={item.name} />
                 </MenuItem>
               ))}
           </Select>

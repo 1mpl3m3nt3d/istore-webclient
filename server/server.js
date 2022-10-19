@@ -18,7 +18,7 @@ const PORT =
     : process.env.PORT || 8080;
 
 const whitelist = new Set([
-  process.env.REACT_APP_BASE_API_URL,
+  process.env.REACT_APP_BASE_URL,
   process.env.REACT_APP_BASKET_API_URL,
   process.env.REACT_APP_CATALOG_API_URL,
   process.env.REACT_APP_IDENTITY_URL,

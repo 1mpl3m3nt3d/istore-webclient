@@ -22,7 +22,7 @@ const ProductDetails = observer((properties: Properties) => {
     return null;
   }
 
-  const { id, name, price, description, pictureUrl, catalogBrand, catalogType } = properties.product;
+  const { id, name, price, warranty, description, pictureUrl, catalogBrand, catalogType } = properties.product;
 
   return (
     <Stack
@@ -68,7 +68,7 @@ const ProductDetails = observer((properties: Properties) => {
             }}
             component="img"
             image={pictureUrl}
-            alt={`${catalogBrand.brand} ${name}`}
+            alt={`${catalogBrand.name} ${name}`}
             onClick={(): void => {
               navigate(`/products/${id}`, { replace: false });
             }}
@@ -79,19 +79,25 @@ const ProductDetails = observer((properties: Properties) => {
             <Typography textAlign="left" marginRight={6}>
               <strong>{t('properties.type')}:</strong>
             </Typography>
-            <Typography textAlign="right">{catalogType.type}</Typography>
+            <Typography textAlign="right">{catalogType.name}</Typography>
           </Stack>
           <Stack direction="row" justifyContent="space-between">
             <Typography textAlign="left" marginRight={6}>
               <strong>{t('properties.brand')}:</strong>
             </Typography>
-            <Typography textAlign="right">{catalogBrand.brand}</Typography>
+            <Typography textAlign="right">{catalogBrand.name}</Typography>
           </Stack>
           <Stack direction="row" justifyContent="space-between">
             <Typography textAlign="left" marginRight={6}>
               <strong>{t('properties.name')}:</strong>
             </Typography>
             <Typography textAlign="right">{name}</Typography>
+          </Stack>
+          <Stack direction="row" justifyContent="space-between">
+            <Typography textAlign="left" marginRight={6}>
+              <strong>{t('properties.warranty')}:</strong>
+            </Typography>
+            <Typography textAlign="right">{warranty}</Typography>
           </Stack>
           <Stack direction="row" justifyContent="space-between">
             <Typography textAlign="left" marginRight={6}>
@@ -110,7 +116,14 @@ const ProductDetails = observer((properties: Properties) => {
             focused
             sx={{ fontSize: '1.0rem' }}
             InputProps={{
-              sx: { fontSize: '1.0rem' },
+              sx: {
+                fontSize: '1.0rem',
+              },
+              inputProps: {
+                style: {
+                  textAlign: 'center',
+                },
+              },
               readOnly: true,
             }}
             InputLabelProps={{

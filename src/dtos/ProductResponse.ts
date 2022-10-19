@@ -1,16 +1,17 @@
 export interface ProductResponse {
   id: number;
   name: string;
+  availableStock: number;
   price: number;
-  availableStock?: number;
+  warranty: number;
   description?: string;
   pictureUrl?: string;
   catalogBrand: {
     id: number;
-    brand: string;
+    name: string;
   };
   catalogType: {
     id: number;
-    type: string;
+    name: string;
   };
 }

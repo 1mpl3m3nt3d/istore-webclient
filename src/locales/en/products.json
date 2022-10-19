@@ -13,6 +13,7 @@
     "name": "Model",
     "type": "Type",
     "price": "Price",
+    "warranty": "Warranty (months)",
     "description": "Description"
   },
   "selectors": {

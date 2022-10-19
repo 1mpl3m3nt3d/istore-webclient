@@ -92,14 +92,14 @@ const ProductCard = observer((properties: Properties) => {
                 }}
               >
                 <Tooltip
-                  title={catalogBrand.brand}
+                  title={catalogBrand.name}
                   placement="top"
                   enterDelay={600}
                   leaveDelay={200}
                   TransitionComponent={Zoom}
                   TransitionProps={{ timeout: 300 }}
                 >
-                  <strong>{catalogBrand.brand}</strong>
+                  <strong>{catalogBrand.name}</strong>
                 </Tooltip>
               </Typography>
               <Typography
@@ -159,7 +159,7 @@ const ProductCard = observer((properties: Properties) => {
         <CardMedia
           component="img"
           image={pictureUrl}
-          alt={`${catalogBrand.brand} ${name}`}
+          alt={`${catalogBrand.name} ${name}`}
           sx={{
             display: 'grid',
             alignContent: 'center',
@@ -193,14 +193,14 @@ const ProductCard = observer((properties: Properties) => {
             }}
           >
             <Tooltip
-              title={catalogType.type}
+              title={catalogType.name}
               placement="top"
               enterDelay={600}
               leaveDelay={200}
               TransitionComponent={Zoom}
               TransitionProps={{ timeout: 300 }}
             >
-              <span>{catalogType.type}</span>
+              <span>{catalogType.name}</span>
             </Tooltip>
           </Typography>
         </Stack>

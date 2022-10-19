@@ -37,7 +37,7 @@ export default class DefaultProductsService implements ProductsService {
 
   public async getById(id: number): Promise<Product | undefined> {
     const result = await this.httpService.sendAsync<ProductDto>(
-      `${this.catalogRoute}/getcatalogitembyid?id=${id}`,
+      `${this.catalogRoute}${process.env.REACT_APP_CATALOG_GET_ITEM_BY_ID_ROUTE}?id=${id}`,
       MethodType.POST,
       this.headers
     );
@@ -55,7 +55,7 @@ export default class DefaultProductsService implements ProductsService {
 
   public async getItems(request: PaginatedItemsRequest): Promise<PaginatedItems> {
     const result = await this.httpService.sendAsync<PaginatedItemsDto>(
-      `${this.catalogRoute}/getcatalogitems`,
+      `${this.catalogRoute}${process.env.REACT_APP_CATALOG_GET_ITEMS_ROUTE}`,
       MethodType.POST,
       { ...this.headers, contentType: ContentType.Json },
       request
@@ -75,7 +75,7 @@ export default class DefaultProductsService implements ProductsService {
 
   public async getBrands(): Promise<Brand[]> {
     const result = await this.httpService.sendAsync<BrandDto[]>(
-      `${this.catalogRoute}/getbrands`,
+      `${this.catalogRoute}${process.env.REACT_APP_CATALOG_GET_BRANDS_ROUTE}`,
       MethodType.POST,
       this.headers
     );
@@ -91,7 +91,7 @@ export default class DefaultProductsService implements ProductsService {
 
   public async getTypes(): Promise<Type[]> {
     const result = await this.httpService.sendAsync<TypeDto[]>(
-      `${this.catalogRoute}/gettypes`,
+      `${this.catalogRoute}${process.env.REACT_APP_CATALOG_GET_TYPES_ROUTE}`,
       MethodType.POST,
       this.headers
     );

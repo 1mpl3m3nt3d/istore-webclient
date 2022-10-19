@@ -278,8 +278,8 @@ export default class CartStore {
       if (product) {
         this.cart.items.push({
           count: 1,
-          brand: product.catalogBrand.brand,
-          type: product.catalogType.type,
+          brand: product.catalogBrand.name,
+          type: product.catalogType.name,
           id: product.id,
           picture: product.pictureUrl,
           price: product.price,

@@ -1,4 +1,4 @@
 export interface BrandDto {
   id: number;
-  brand: string;
+  name: string;
 }

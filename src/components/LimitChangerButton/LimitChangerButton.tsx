@@ -12,7 +12,7 @@ import { useNavigate } from 'react-router-dom';
 import { IoCTypes } from 'ioc';
 import { ProductsStore } from 'stores';
 
-const LimitChangerButton = observer(() => {
+const LimitChangerButton = observer((): JSX.Element => {
   const store = useInjection<ProductsStore>(IoCTypes.productsStore);
   const navigate = useNavigate();
   const { t } = useTranslation(['products']);
@@ -59,6 +59,7 @@ const LimitChangerButton = observer(() => {
           <TextField
             onChange={(ev): void => {
               ev.preventDefault();
+              ev.stopPropagation();
               const newValue = ev.target.value;
               const regex = new RegExp(/^\d*$/);
 
@@ -68,14 +69,21 @@ const LimitChangerButton = observer(() => {
             }}
             onBlur={(ev): void => {
               ev.preventDefault();
-              const newValue = Number.parseInt(limit);
-              handleChange(newValue);
+              ev.stopPropagation();
+              setLimit(defaultValue.toString());
             }}
             onKeyDown={(ev): void => {
               if (ev.key === 'Enter') {
                 ev.preventDefault();
+                ev.stopPropagation();
                 const newValue = Number.parseInt(limit);
                 handleChange(newValue);
+              }
+
+              if (ev.key === 'Escape') {
+                ev.preventDefault();
+                ev.stopPropagation();
+                setLimit(defaultValue.toString());
               }
             }}
             InputProps={{
@@ -103,7 +111,6 @@ const LimitChangerButton = observer(() => {
               },
             }}
             variant="outlined"
-            defaultValue={limit}
             value={limit}
             size="small"
             margin="none"

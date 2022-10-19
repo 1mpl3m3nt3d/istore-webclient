@@ -14,7 +14,7 @@ interface Properties {
   productCount: number;
 }
 
-const BuyButtonCart = observer(({ productId, productCount }: Properties) => {
+const BuyButtonCart = observer(({ productId, productCount }: Properties): JSX.Element => {
   const store = useInjection<CartStore>(IoCTypes.cartStore);
   const { t } = useTranslation(['cart']);
 
@@ -61,6 +61,7 @@ const BuyButtonCart = observer(({ productId, productCount }: Properties) => {
           <TextField
             onChange={(ev): void => {
               ev.preventDefault();
+              ev.stopPropagation();
               const newValue = ev.target.value;
               const regex = new RegExp(/^\d*$/);
 
@@ -70,11 +71,13 @@ const BuyButtonCart = observer(({ productId, productCount }: Properties) => {
             }}
             onBlur={async (ev): Promise<void> => {
               ev.preventDefault();
+              ev.stopPropagation();
               await store.setCount(productId, count);
             }}
             onKeyDown={async (ev): Promise<void> => {
               if (ev.key === 'Enter') {
                 ev.preventDefault();
+                ev.stopPropagation();
                 await store.setCount(productId, count);
               }
             }}
@@ -103,7 +106,6 @@ const BuyButtonCart = observer(({ productId, productCount }: Properties) => {
               },
             }}
             variant="outlined"
-            defaultValue={count}
             value={count}
             size="small"
             margin="none"

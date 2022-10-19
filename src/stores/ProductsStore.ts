@@ -73,7 +73,7 @@ export default class ProductsStore {
   };
 
   public getItems = async (): Promise<void> => {
-    this.isLoading = true;
+    //this.isLoading = true;
 
     if (this.brands.length === 0) {
       await this.getBrands();
